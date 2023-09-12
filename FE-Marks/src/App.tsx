@@ -24,6 +24,7 @@ import { useMediaQuery } from "@mui/material";
 import "./index.css";
 import NotLoggedIn from "./components/login/NotLoggedIn.tsx";
 import Footer from "./components/Footer.tsx";
+import HomeNoUser from "./components/HomeNoUser.tsx";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -70,7 +71,12 @@ const App = () => {
           <Routes>
             <Route path="/login" element={<NotLoggedIn />} />
             <Route path="/users/:id" element={<User />} />
-            <Route path="/" element={<Home />} />
+            {user === null ? (
+              <Route path="/" element={<HomeNoUser />} />
+            ) : (
+              <Route path="/" element={<Home />} />
+            )}
+
             <Route path="/users" element={<UserInformation />} />
             {user === null ? (
               <>

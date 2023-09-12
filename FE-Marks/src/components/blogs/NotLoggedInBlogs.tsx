@@ -41,10 +41,10 @@ const NotLoggedInBlogs = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "flex-start",
               gap: {
                 xs: "1rem",
               },
+              marginLeft: "2rem",
             }}
           >
             {[...blogs]
@@ -54,6 +54,8 @@ const NotLoggedInBlogs = () => {
                   aria-label="button to access blogs"
                   sx={{
                     marginLeft: "2rem",
+                    display: "flex",
+                    justifyContent: "flex-start",
                   }}
                   className={classes.listItem}
                   key={blog.id}

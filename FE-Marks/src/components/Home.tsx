@@ -18,6 +18,7 @@ const Home = () => {
         flexDirection: "column",
         alignItems: "center",
       }}
+      component="article"
     >
       <Paper
         sx={{
@@ -25,62 +26,56 @@ const Home = () => {
           padding: "2rem",
         }}
       >
-        {user === null ? (
-          <Typography>Proper home page</Typography>
-        ) : (
-          <>
-            <Box
+        <Box
+          sx={{
+            gap: "1rem",
+            display: "flex",
+            flexDirection: "column",
+          }}
+          component="section"
+        >
+          <Typography className={classes.h2} component="h2" variant="h5">
+            <Paper
               sx={{
-                gap: "1rem",
                 display: "flex",
-                flexDirection: "column",
+                padding: "1rem",
+                justifyContent: "center",
               }}
-              component="article"
             >
-              <Typography className={classes.h2} component="h2" variant="h5">
-                <Paper
-                  sx={{
-                    display: "flex",
-                    padding: "1rem",
-                    justifyContent: "center",
-                  }}
-                >
-                  <strong> {user.username} is logged in</strong>
-                </Paper>
+              <strong> {user.username} is logged in</strong>
+            </Paper>
+          </Typography>
+          <Typography className={classes.h3} component="h3" variant="h6">
+            My blogs:
+          </Typography>
+        </Box>
+        {[...blogs]
+          .sort((a: BlogT, b: BlogT) => b.likes! - a.likes!)
+          .filter((blog: BlogT) => blog.user.username === user.username)
+          .map((blog: BlogT) => (
+            <Button
+              sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+              }}
+              key={blog.id}
+              to={`/blog/${blog.id}`}
+              component={RouterLink}
+              state={blog}
+            >
+              <Icon
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <ArticleIcon fontSize="small" />
+              </Icon>
+              <Typography className={classes.otherTxt}>
+                {blog.title} by {blog.author}
               </Typography>
-              <Typography className={classes.h3} component="h3" variant="h6">
-                My blogs:
-              </Typography>
-            </Box>
-            {[...blogs]
-              .sort((a: BlogT, b: BlogT) => b.likes! - a.likes!)
-              .filter((blog: BlogT) => blog.user.username === user.username)
-              .map((blog: BlogT) => (
-                <Button
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                  }}
-                  key={blog.id}
-                  to={`/blog/${blog.id}`}
-                  component={RouterLink}
-                  state={blog}
-                >
-                  <Icon
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <ArticleIcon fontSize="small" />
-                  </Icon>
-                  <Typography className={classes.otherTxt}>
-                    {blog.title} by {blog.author}
-                  </Typography>
-                </Button>
-              ))}
-          </>
-        )}
+            </Button>
+          ))}
       </Paper>
     </Box>
   );
