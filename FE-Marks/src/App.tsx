@@ -25,6 +25,7 @@ import "./index.css";
 import NotLoggedIn from "./components/login/NotLoggedIn.tsx";
 import Footer from "./components/Footer.tsx";
 import HomeNoUser from "./components/HomeNoUser.tsx";
+import { amber, blueGrey, grey, red, teal } from "@mui/material/colors";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -38,8 +39,23 @@ const App = () => {
         palette: {
           mode: prefersDarkMode ? "dark" : "light",
           background: {
-            default: "#43464B",
-            paper: "#2D3033",
+            default: blueGrey[900],
+            paper: grey[900],
+          },
+          primary: {
+            main: blueGrey.A400,
+          },
+          text: {
+            primary: blueGrey.A400,
+          },
+          success: {
+            main: teal.A700,
+          },
+          error: {
+            main: red.A400,
+          },
+          secondary: {
+            main: amber.A700,
           },
         },
       }),
@@ -67,7 +83,7 @@ const App = () => {
       <>
         <Notification />
         <Menu />
-        <main>
+        <main className="main">
           <Routes>
             <Route path="/login" element={<NotLoggedIn />} />
             <Route path="/users/:id" element={<User />} />
