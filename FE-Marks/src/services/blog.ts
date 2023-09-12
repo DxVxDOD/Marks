@@ -1,6 +1,6 @@
 import axios from "axios";
 const baseUrl = "/api/blog";
-import { BlogT } from "../types/blog";
+import { BlogT } from "../types/mark";
 
 let token: string;
 
