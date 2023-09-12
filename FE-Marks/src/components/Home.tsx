@@ -4,19 +4,25 @@ import { BlogT } from "../types/blog";
 import { Box, Button, Icon, Paper, Typography } from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 import blogList from "../theme/BlogList";
+import useHome from "../theme/Home";
+import AccountPage from "./users/AccountPage";
+import Togglable, { VisibilityHandle } from "./Togglable";
+import { useRef } from "react";
 
 const Home = () => {
   const user = useAppSelector((state) => state.user);
   const blogs = useAppSelector((state) => state.blog);
   const { classes } = blogList();
+  const button = useHome().classes;
+  const accountRef = useRef<VisibilityHandle>();
 
   return (
     <Box
       sx={{
-        marginTop: "2rem",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        gap: "2rem",
       }}
       component="article"
     >
@@ -46,7 +52,7 @@ const Home = () => {
             </Paper>
           </Typography>
           <Typography className={classes.h3} component="h3" variant="h6">
-            My blogs:
+            My marks:
           </Typography>
         </Box>
         {[...blogs]
@@ -71,12 +77,15 @@ const Home = () => {
               >
                 <ArticleIcon fontSize="small" />
               </Icon>
-              <Typography className={classes.otherTxt}>
+              <Typography className={button.bttnTxt}>
                 {blog.title} by {blog.author}
               </Typography>
             </Button>
           ))}
       </Paper>
+      <Togglable buttonLabel="Account settings" ref={accountRef}>
+        <AccountPage />
+      </Togglable>
     </Box>
   );
 };

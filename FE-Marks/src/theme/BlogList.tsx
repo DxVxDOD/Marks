@@ -4,7 +4,7 @@ const blogList = makeStyles()((theme) => {
   return {
     h2: {
       [theme.breakpoints.down("sm")]: {
-        fontSize: "1.2rem",
+        fontSize: "1rem",
       },
     },
     h3: {
