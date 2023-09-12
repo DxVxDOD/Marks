@@ -1,6 +1,6 @@
 import { Link as RouterLink } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
-import { BlogT } from "../types/blog";
+import { BlogT } from "../types/mark";
 import { Box, Button, Icon, Paper, Typography } from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 import blogList from "../theme/BlogList";

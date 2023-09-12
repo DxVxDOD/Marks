@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import Blog from "./Blogs.tsx";
+import Blog from "./Mark.tsx";
 
 describe("Blog tests", () => {
   const blog = {

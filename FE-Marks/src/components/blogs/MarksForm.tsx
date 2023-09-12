@@ -1,16 +1,16 @@
 import { FormEvent } from "react";
 import { VisibilityHandle } from "../Togglable";
 import { useAppDispatch } from "../../app/hooks";
-import { createBlog, initializeBlogs } from "../../reducers/blogReducer";
+import { createMark, initializeMarks } from "../../reducers/markReducer";
 import { AxiosError } from "axios";
 import { dispalyError } from "../../reducers/notificationReducer";
 import { useForm } from "../../hooks/useForm";
 import { Box, Button, Paper, Stack, TextField } from "@mui/material";
 
-const BlogsForm = ({
-  blogFormRef,
+const MarkForm = ({
+  markFormRef: markFormRef,
 }: {
-  blogFormRef: React.MutableRefObject<VisibilityHandle | undefined>;
+  markFormRef: React.MutableRefObject<VisibilityHandle | undefined>;
 }) => {
   const { reset: resetAuthor, ...author } = useForm("text");
   const { reset: resetTitle, ...title } = useForm("text");
@@ -18,20 +18,20 @@ const BlogsForm = ({
 
   const dispatch = useAppDispatch();
 
-  const handleNewBlog = async (e: FormEvent) => {
+  const handleNewMark = async (e: FormEvent) => {
     e.preventDefault();
 
-    blogFormRef.current?.toggleVisibility();
+    markFormRef.current?.toggleVisibility();
 
-    const blogObject = {
+    const markObject = {
       title: title.value,
       author: author.value,
       url: url.value,
     };
 
     try {
-      dispatch(createBlog(blogObject));
-      dispatch(initializeBlogs());
+      dispatch(createMark(markObject));
+      dispatch(initializeMarks());
       resetAuthor();
       resetTitle();
       resetUrl();
@@ -60,7 +60,7 @@ const BlogsForm = ({
           gap: "1rem",
           alignItems: "center",
         }}
-        onSubmit={handleNewBlog}
+        onSubmit={handleNewMark}
       >
         <Stack
           sx={{
@@ -107,11 +107,11 @@ const BlogsForm = ({
           variant="outlined"
           size="small"
         >
-          Add blog
+          Add mark
         </Button>
       </Box>
     </Paper>
   );
 };
 
-export default BlogsForm;
+export default MarkForm;

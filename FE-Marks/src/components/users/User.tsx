@@ -1,5 +1,5 @@
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { BlogT } from "../../types/blog";
+import { BlogT } from "../../types/mark";
 import { Box, Button, Icon, Paper, Typography } from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 

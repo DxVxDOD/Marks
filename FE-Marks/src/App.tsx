@@ -1,15 +1,15 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import blogService from "./services/blog.ts";
 import Notification from "./components/Notifications.tsx";
 import { useAppDispatch, useAppSelector } from "./app/hooks.ts";
-import { initializeBlogs } from "./reducers/blogReducer.ts";
+import { initializeMarks } from "./reducers/markReducer.ts";
 import { setUser } from "./reducers/userReducer.ts";
 import { initializeUsers } from "./reducers/userArrayReducer.ts";
 import { Route, Routes } from "react-router-dom";
 import User from "./components/users/User.tsx";
-import Blog from "./components/blogs/Blogs.tsx";
-import NotLoggedInBlogs from "./components/blogs/NotLoggedInBlogs.tsx";
-import LoggedInBlogs from "./components/blogs/LoggedInBlogs.tsx";
+import Blog from "./components/blogs/Mark.tsx";
+import NotLoggedInBlogs from "./components/blogs/NotLoggedInMarks.tsx";
+import LoggedInBlogs from "./components/blogs/LoggedInMarks.tsx";
 import Menu from "./components/Menu.tsx";
 import UserInformation from "./components/users/UserInformation.tsx";
 import Home from "./components/Home.tsx";
@@ -18,52 +18,20 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useMediaQuery } from "@mui/material";
 import "./index.css";
 import NotLoggedIn from "./components/login/NotLoggedIn.tsx";
 import Footer from "./components/Footer.tsx";
 import HomeNoUser from "./components/HomeNoUser.tsx";
-import { amber, blueGrey, grey, red, teal } from "@mui/material/colors";
+import theme from "./theme/Theme.tsx";
 
 const App = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
 
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-
-  const theme = useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: prefersDarkMode ? "dark" : "light",
-          background: {
-            default: blueGrey[900],
-            paper: grey[900],
-          },
-          primary: {
-            main: blueGrey.A400,
-          },
-          text: {
-            primary: blueGrey.A400,
-          },
-          success: {
-            main: teal.A700,
-          },
-          error: {
-            main: red.A400,
-          },
-          secondary: {
-            main: amber.A700,
-          },
-        },
-      }),
-    [prefersDarkMode],
-  );
-
   useEffect(() => {
-    dispatch(initializeBlogs());
+    dispatch(initializeMarks());
     dispatch(initializeComments());
   }, []);
 
