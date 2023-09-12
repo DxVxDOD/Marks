@@ -15,6 +15,7 @@ const Footer = () => {
       component="footer"
     >
       <Button
+        href="https://twitter.com/OrbanDavid24"
         aria-label="Twitter/X button"
         style={{ backgroundColor: "transparent" }}
         sx={{
@@ -24,6 +25,7 @@ const Footer = () => {
         <TwitterIcon />
       </Button>
       <Button
+        href="https://github.com/DxVxDOD"
         aria-label="Github button"
         style={{ backgroundColor: "transparent" }}
         sx={{
@@ -32,8 +34,8 @@ const Footer = () => {
       >
         <GitHubIcon />
       </Button>
-
       <Button
+        href="https://www.linkedin.com/in/david-orbang/"
         aria-label="LinkedIn button"
         style={{ backgroundColor: "transparent" }}
         sx={{

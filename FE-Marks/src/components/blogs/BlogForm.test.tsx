@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
-import BlogsForm from "./BlogsForm";
+import BlogsForm from "./MarksForm";
 
 describe("Blog form tests", () => {
   test("update blog state and clicks onSubmit", async () => {

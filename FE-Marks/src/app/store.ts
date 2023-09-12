@@ -5,7 +5,6 @@ import {
   combineReducers,
 } from "@reduxjs/toolkit";
 import notificationReducer from "../reducers/notificationReducer";
-import blogReducer from "../reducers/blogReducer";
 import userReducer from "../reducers/userReducer";
 import userArrayReducer from "../reducers/userArrayReducer";
 import commentReducer from "../reducers/commentReducer";
@@ -20,6 +19,7 @@ import {
   persistReducer,
 } from "redux-persist";
 import persistStore from "redux-persist/es/persistStore";
+import markReducer from "../reducers/markReducer";
 
 const persistConfig = {
   key: "root",
@@ -28,7 +28,7 @@ const persistConfig = {
 
 const reducers = combineReducers({
   notification: notificationReducer,
-  blog: blogReducer,
+  mark: markReducer,
   user: userReducer,
   userArray: userArrayReducer,
   comments: commentReducer,

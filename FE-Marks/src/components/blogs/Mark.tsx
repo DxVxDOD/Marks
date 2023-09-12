@@ -1,9 +1,4 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  addUpdatedBlog,
-  deleteBlog,
-  initializeBlogs,
-} from "../../reducers/blogReducer";
 import { AxiosError } from "axios";
 import {
   dispalyError,
@@ -21,24 +16,29 @@ import {
 } from "@mui/material";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import useBlog from "../../theme/Blog";
 import { useEffect } from "react";
+import useBlog from "../../theme/Blog";
+import {
+  deleteMark,
+  initializeMarks,
+  updateMark,
+} from "../../reducers/markReducer";
 
-const Blog = () => {
+const mark = () => {
   const { state } = useLocation();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-  const blogs = useAppSelector((state) => state.blog);
+  const marks = useAppSelector((state) => state.mark);
   const { classes } = useBlog();
-  const blog = blogs.filter((blog) => blog.id === state.id)[0];
+  const mark = marks.filter((mark) => mark.id === state.id)[0];
 
   useEffect(() => {
-    dispatch(initializeBlogs());
+    dispatch(initializeMarks());
   }, []);
 
   const updateLikes = async () => {
     try {
-      dispatch(addUpdatedBlog(blog));
+      dispatch(updateMark(mark));
     } catch (exception: unknown) {
       if (exception instanceof AxiosError && exception.response) {
         dispatch(dispalyError(exception.response.data.error, 5000));
@@ -46,11 +46,11 @@ const Blog = () => {
     }
   };
 
-  const removeBlog = async () => {
-    if (blog && window.confirm(`Would you like to remove ${blog.title} ?`)) {
+  const removemark = async () => {
+    if (mark && window.confirm(`Would you like to remove ${mark.title} ?`)) {
       try {
-        dispatch(deleteBlog(blog.id!));
-        dispatch(dispalySuccess(`${blog.title} has been removed`, 5000));
+        dispatch(deleteMark(mark.id!));
+        dispatch(dispalySuccess(`${mark.title} has been removed`, 5000));
       } catch (exception: unknown) {
         if (exception instanceof AxiosError && exception.response) {
           dispatch(dispalyError(exception.response.data.error, 5000));
@@ -82,28 +82,28 @@ const Blog = () => {
       >
         <Box component="section">
           <Typography className={classes.title} component="h2" variant="h5">
-            Title: {blog.title}
+            Title: {mark.title}
           </Typography>
           <Typography className={classes.author} component="h3" variant="h5">
-            Author: {blog.author}
+            Author: {mark.author}
           </Typography>
         </Box>
-        <Link href={blog.url}>
+        <Link href={mark.url}>
           <Typography className={classes.otherTxt}>
-            \\ {blog.title} \\
+            \\ {mark.title} \\
           </Typography>
         </Link>
         <Typography className={classes.otherTxt} component="p">
-          {blog.user.username}
+          {mark.user.username}
         </Typography>
         {user === null ? (
           <Typography className={classes.otherTxt} component="p" id="likes">
-            Likes: {blog.likes}
+            Likes: {mark.likes}
           </Typography>
         ) : (
           <>
             <Typography className={classes.otherTxt}>
-              Likes: {blog.likes}
+              Likes: {mark.likes}
             </Typography>
 
             <ButtonGroup aria-label="alignment button group" size="small">
@@ -120,7 +120,7 @@ const Blog = () => {
                 className={classes.button}
                 aria-label="delete button"
                 startIcon={<DeleteOutlinedIcon />}
-                onClick={removeBlog}
+                onClick={removemark}
               >
                 Remove
               </Button>
@@ -128,9 +128,9 @@ const Blog = () => {
           </>
         )}
       </Paper>
-      <Comments blogId={`${blog.id}`} />
+      <Comments markId={`${mark.id}`} />
     </Box>
   );
 };
 
-export default Blog;
+export default mark;

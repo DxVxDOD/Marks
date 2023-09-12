@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import useBlog from "../theme/Blog";
 
-const Comments = ({ blogId }: { blogId: string }) => {
+const Comments = ({ markId }: { markId: string }) => {
   const comments = useAppSelector((state) => state.comments);
   const dispatch = useAppDispatch();
 
@@ -30,7 +30,7 @@ const Comments = ({ blogId }: { blogId: string }) => {
       dispatch(
         createComment({
           content: comment.value,
-          blogId: blogId,
+          markId: markId,
         }),
       );
       resetComment();
@@ -68,7 +68,7 @@ const Comments = ({ blogId }: { blogId: string }) => {
           <>
             <List>
               {comments
-                .filter((comment) => comment.blogId === blogId)
+                .filter((comment) => comment.markId === markId)
                 .map((comment) => (
                   <ListItemText key={comment.id}>
                     <Typography className={classes.otherTxt}>

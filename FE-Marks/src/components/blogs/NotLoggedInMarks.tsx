@@ -5,8 +5,8 @@ import { Box, Button, Icon, Paper, Typography } from "@mui/material";
 import blogList from "../../theme/BlogList.js";
 import useHome from "../../theme/Home.js";
 
-const NotLoggedInBlogs = () => {
-  const blogs = useAppSelector((state) => state.blog);
+const NotLoggedInMarks = () => {
+  const marks = useAppSelector((state) => state.mark);
   const { classes } = blogList();
   const button = useHome().classes;
 
@@ -19,7 +19,7 @@ const NotLoggedInBlogs = () => {
       }}
       component="article"
     >
-      {blogs.length < 1 ? (
+      {marks.length < 1 ? (
         <section>
           <Typography>There are no blogs posted yet...</Typography>
         </section>
@@ -49,9 +49,9 @@ const NotLoggedInBlogs = () => {
               marginLeft: "1rem",
             }}
           >
-            {[...blogs]
+            {[...marks]
               .sort((a, b) => b.likes! - a.likes!)
-              .map((blog) => (
+              .map((mark) => (
                 <Button
                   aria-label="button to access blogs"
                   sx={{
@@ -59,10 +59,10 @@ const NotLoggedInBlogs = () => {
                     justifyContent: "flex-start",
                   }}
                   className={classes.listItem}
-                  key={blog.id}
+                  key={mark.id}
                   component={RouterLink}
-                  to={`/blog/${blog.id}`}
-                  state={blog}
+                  to={`/blog/${mark.id}`}
+                  state={mark}
                 >
                   <Icon
                     fontSize="small"
@@ -76,7 +76,7 @@ const NotLoggedInBlogs = () => {
                     <ArticleIcon fontSize="small" />
                   </Icon>
                   <Typography className={button.bttnTxt}>
-                    {blog.title}
+                    {mark.title}
                   </Typography>
                 </Button>
               ))}
@@ -87,4 +87,4 @@ const NotLoggedInBlogs = () => {
   );
 };
 
-export default NotLoggedInBlogs;
+export default NotLoggedInMarks;

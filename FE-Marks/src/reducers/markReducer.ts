@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { BlogT } from "../types/blog";
-import blogService from "../services/blog";
+import { MarkT } from "../types/mark";
+import markService from "../services/blog";
 import { AppThunk } from "../app/store";
 import { dispalySuccess } from "./notificationReducer";
 
-const initialState = [] as BlogT[];
+const initialState = [] as MarkT[];
 
 const slice = createSlice({
   name: "blog",
@@ -18,9 +18,9 @@ const slice = createSlice({
       state.push(action.payload);
     },
     like(state, action) {
-      const blog = action.payload;
-      const blogToUpdate = state.find((state) => state.id === blog.id)!;
-      const updated = { ...blogToUpdate, likes: blogToUpdate?.likes! + 1 };
+      const mark = action.payload;
+      const markToUpdate = state.find((state) => state.id === mark.id)!;
+      const updated = { ...markToUpdate, likes: markToUpdate?.likes! + 1 };
       return state.map((s) => (s.id === updated.id ? updated : s));
     },
   },
@@ -28,27 +28,27 @@ const slice = createSlice({
 
 const { set, create, like } = slice.actions;
 
-export const initializeBlogs = (): AppThunk => {
+export const initializeMarks = (): AppThunk => {
   return async (dispatch) => {
-    const blogs = await blogService.getAll();
-    dispatch(set(blogs));
+    const marks = await markService.getAll();
+    dispatch(set(marks));
   };
 };
 
-export const createBlog = (blog: BlogT): AppThunk => {
+export const createMark = (mark: MarkT): AppThunk => {
   return async (dispatch) => {
-    const newBlog = await blogService.create(blog);
-    dispatch(create(newBlog));
+    const newMark = await markService.create(mark);
+    dispatch(create(newMark));
     dispatch(
-      dispalySuccess(`New blog: ${newBlog.title} by ${newBlog.author}!`, 5000),
+      dispalySuccess(`New blog: ${newMark.title} by ${newMark.author}!`, 5000),
     );
   };
 };
 
-export const addUpdatedBlog = (blog: BlogT): AppThunk => {
+export const updateMark = (blog: MarkT): AppThunk => {
   return async (dispatch) => {
     const updatedBlog = { ...blog, likes: blog.likes! + 1 };
-    const response = await blogService.update(updatedBlog.id!, updatedBlog);
+    const response = await markService.update(updatedBlog.id!, updatedBlog);
 
     dispatch(like(response));
     dispatch(
@@ -60,10 +60,10 @@ export const addUpdatedBlog = (blog: BlogT): AppThunk => {
   };
 };
 
-export const deleteBlog = (id: string): AppThunk => {
+export const deleteMark = (id: string): AppThunk => {
   return async (dispatch) => {
-    await blogService.remove(id);
-    const blogs = await blogService.getAll();
+    await markService.remove(id);
+    const blogs = await markService.getAll();
     dispatch(set(blogs));
   };
 };
