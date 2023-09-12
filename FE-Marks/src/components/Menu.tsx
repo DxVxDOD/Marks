@@ -27,7 +27,6 @@ const Menu = () => {
       sx={{
         display: "flex",
         width: "100%",
-        bgcolor: "#2E3033",
         alignItems: "center",
         padding: "0.5em",
       }}
@@ -75,10 +74,8 @@ const Menu = () => {
           width: "33.33%",
           display: "flex",
           justifyContent: "center",
-          color: "#BFC8D6",
           alignItems: "center",
         }}
-        color="black"
         variant="h3"
         component="h1"
       >
@@ -118,7 +115,7 @@ const Menu = () => {
           <Button
             size="small"
             className={classes.button}
-            variant="contained"
+            variant="outlined"
             color="error"
             onClick={handleLogout}
           >

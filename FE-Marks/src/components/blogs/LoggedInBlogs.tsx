@@ -7,6 +7,7 @@ import Togglable, { VisibilityHandle } from "../Togglable.js";
 import { Box, Button, Icon, Paper, Typography } from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 import blogList from "../../theme/BlogList.js";
+import useHome from "../../theme/Home.js";
 
 const LoggedInBlogs = () => {
   const blogs = useAppSelector((state) => state.blog);
@@ -14,6 +15,7 @@ const LoggedInBlogs = () => {
 
   const blogFormRef = useRef<VisibilityHandle>();
   const { classes } = blogList();
+  const button = useHome().classes;
 
   return (
     <>
@@ -75,7 +77,7 @@ const LoggedInBlogs = () => {
                         fontSize="small"
                       />
                     </Icon>
-                    <Typography className={classes.listItem}>
+                    <Typography className={button.bttnTxt}>
                       {blog.title}
                     </Typography>
                   </Button>
@@ -125,7 +127,7 @@ const LoggedInBlogs = () => {
                       fontSize="small"
                     />
                   </Icon>
-                  <Typography className={classes.listItem}>
+                  <Typography className={button.bttnTxt}>
                     {blog.title}
                   </Typography>
                 </Button>

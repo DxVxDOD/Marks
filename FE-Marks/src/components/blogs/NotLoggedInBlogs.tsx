@@ -3,10 +3,12 @@ import { useAppSelector } from "../../app/hooks.js";
 import ArticleIcon from "@mui/icons-material/Article";
 import { Box, Button, Icon, Paper, Typography } from "@mui/material";
 import blogList from "../../theme/BlogList.js";
+import useHome from "../../theme/Home.js";
 
 const NotLoggedInBlogs = () => {
   const blogs = useAppSelector((state) => state.blog);
   const { classes } = blogList();
+  const button = useHome().classes;
 
   return (
     <Box
@@ -44,7 +46,7 @@ const NotLoggedInBlogs = () => {
               gap: {
                 xs: "1rem",
               },
-              marginLeft: "2rem",
+              marginLeft: "1rem",
             }}
           >
             {[...blogs]
@@ -53,7 +55,6 @@ const NotLoggedInBlogs = () => {
                 <Button
                   aria-label="button to access blogs"
                   sx={{
-                    marginLeft: "2rem",
                     display: "flex",
                     justifyContent: "flex-start",
                   }}
@@ -64,6 +65,7 @@ const NotLoggedInBlogs = () => {
                   state={blog}
                 >
                   <Icon
+                    fontSize="small"
                     sx={{
                       display: "flex",
                       justifyContent: "center",
@@ -73,7 +75,9 @@ const NotLoggedInBlogs = () => {
                   >
                     <ArticleIcon fontSize="small" />
                   </Icon>
-                  <Typography>{blog.title}</Typography>
+                  <Typography className={button.bttnTxt}>
+                    {blog.title}
+                  </Typography>
                 </Button>
               ))}
           </Box>
