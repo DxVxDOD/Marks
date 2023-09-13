@@ -1,5 +1,5 @@
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { BlogT } from "../../types/mark";
+import { MarkT } from "../../types/mark";
 import { Box, Button, Icon, Paper, Typography } from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 
@@ -24,25 +24,25 @@ const User = () => {
         component="section"
       >
         <Typography component="h2" variant="h5">
-          {state.user.username}s blogs:
+          {state.user.name}s marks:
         </Typography>
-        {state.blogs.length < 1 ? (
+        {state.user.marks.length < 1 ? (
           <Typography component="h2" variant="h5">
-            You haven't posted any blogs yet
+            You haven't posted any marks yet
           </Typography>
         ) : (
-          state.blogs
-            .sort((a: BlogT, b: BlogT) => b.likes! - a.likes!)
-            .map((blog: BlogT) => (
+          state.user.marks
+            .sort((a: MarkT, b: MarkT) => b.likes! - a.likes!)
+            .map((mark: MarkT) => (
               <Button
                 sx={{
                   display: "flex",
                   justifyContent: "flex-start",
                 }}
-                key={blog.id}
+                key={mark.id}
                 component={RouterLink}
-                to={`/blog/${blog.id}`}
-                state={blog}
+                to={`/blog/${mark.id}`}
+                state={mark}
               >
                 <Icon>
                   <ArticleIcon
@@ -51,7 +51,7 @@ const User = () => {
                     }}
                   />
                 </Icon>
-                {blog.title}
+                {mark.title}
               </Button>
             ))
         )}

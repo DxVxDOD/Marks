@@ -5,7 +5,7 @@ import User from "../models/user.js";
 const userRouter = express.Router();
 
 userRouter.get("/", async (request, response) => {
-  const users = await User.find({}).populate("blogs", {
+  const users = await User.find({}).populate("marks", {
     author: 1,
     title: 1,
     url: 1,
@@ -41,21 +41,17 @@ userRouter.post("/", async (request, response) => {
   }
 
   if (username.length < 3) {
-    return response
-      .status(400)
-      .json({
-        error:
-          "Username is under 3 characters. Please provide a longer username.",
-      });
+    return response.status(400).json({
+      error:
+        "Username is under 3 characters. Please provide a longer username.",
+    });
   }
 
   if (password.length < 3) {
-    return response
-      .status(400)
-      .json({
-        error:
-          "Password is under 3 characters. Please provide a longer username.",
-      });
+    return response.status(400).json({
+      error:
+        "Password is under 3 characters. Please provide a longer username.",
+    });
   }
 
   const checkUniqueUser = users.find((user) => user === username);

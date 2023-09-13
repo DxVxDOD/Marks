@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { MarkT } from "../types/mark";
-import markService from "../services/blog";
+import markService from "../services/marks";
 import { AppThunk } from "../app/store";
 import { dispalySuccess } from "./notificationReducer";
 

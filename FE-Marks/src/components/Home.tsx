@@ -1,6 +1,6 @@
 import { Link as RouterLink } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
-import { BlogT } from "../types/mark";
+import { MarkT } from "../types/mark";
 import { Box, Button, Icon, Paper, Typography } from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 import blogList from "../theme/BlogList";
@@ -11,7 +11,7 @@ import { useRef } from "react";
 
 const Home = () => {
   const user = useAppSelector((state) => state.user);
-  const blogs = useAppSelector((state) => state.blog);
+  const marks = useAppSelector((state) => state.mark);
   const { classes } = blogList();
   const button = useHome().classes;
   const accountRef = useRef<VisibilityHandle>();
@@ -55,19 +55,19 @@ const Home = () => {
             My marks:
           </Typography>
         </Box>
-        {[...blogs]
-          .sort((a: BlogT, b: BlogT) => b.likes! - a.likes!)
-          .filter((blog: BlogT) => blog.user.username === user.username)
-          .map((blog: BlogT) => (
+        {[...marks]
+          .sort((a: MarkT, b: MarkT) => b.likes! - a.likes!)
+          .filter((mark: MarkT) => mark.user.username === user.username)
+          .map((mark: MarkT) => (
             <Button
               sx={{
                 display: "flex",
                 justifyContent: "flex-start",
               }}
-              key={blog.id}
-              to={`/blog/${blog.id}`}
+              key={mark.id}
+              to={`/blog/${mark.id}`}
               component={RouterLink}
-              state={blog}
+              state={mark}
             >
               <Icon
                 sx={{
@@ -78,7 +78,7 @@ const Home = () => {
                 <ArticleIcon fontSize="small" />
               </Icon>
               <Typography className={button.bttnTxt}>
-                {blog.title} by {blog.author}
+                {mark.title} by {mark.author}
               </Typography>
             </Button>
           ))}

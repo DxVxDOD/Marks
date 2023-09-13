@@ -77,7 +77,7 @@ const CreateUserForm = ({
           <TextField
             size="small"
             required
-            label="name"
+            label="Name"
             placeholder="Name"
             variant="standard"
             {...name}

@@ -51,7 +51,7 @@ const Menu = () => {
               component={RouterLink}
               to={"/blogs"}
             >
-              Blogs
+              Marks
             </Button>
             {user === null ? null : (
               <Button
@@ -79,7 +79,7 @@ const Menu = () => {
         variant="h3"
         component="h1"
       >
-        Blogs
+        Marks
         <NewspaperIcon fontSize="inherit" />
       </Typography>
       {user === null ? (

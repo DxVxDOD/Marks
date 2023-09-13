@@ -1,4 +1,4 @@
-type BlogType = {
+type MarkT = {
   id: string;
   title: string;
   author: string;
@@ -7,4 +7,4 @@ type BlogType = {
   userId: string;
 };
 
-export default BlogType;
+export default MarkT;
