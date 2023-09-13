@@ -32,7 +32,7 @@ const LoggedInMarks = () => {
       >
         {marks.length < 1 ? (
           <Typography component="h2" variant="h4">
-            You haven't posted any blogs yet
+            You haven't posted any marks yet
           </Typography>
         ) : (
           <Paper
@@ -44,7 +44,7 @@ const LoggedInMarks = () => {
             }}
           >
             <Typography className={classes.h2} variant="h5" component="h2">
-              {user.username} blogs
+              {user.username}s marks
             </Typography>
             <Box
               sx={{
@@ -94,7 +94,7 @@ const LoggedInMarks = () => {
           }}
         >
           <Typography className={classes.h2} variant="h5" component="h2">
-            Other blogs
+            Other marks
           </Typography>
           <Box
             sx={{

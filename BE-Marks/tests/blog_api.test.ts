@@ -2,15 +2,15 @@ import mongoose from "mongoose";
 import supertest from "supertest";
 import helper from "./blog_test_helper.js";
 import app from "../app.js";
-import Blog from "../models/blog.js";
-import type BlogType from "../types/blogType.type.js";
+import Mark from "../models/marks.js";
+import type MarkT from "../types/mark.js";
 
 const api = supertest(app);
 
 beforeEach(async () => {
-  await Blog.deleteMany({});
+  await Mark.deleteMany({});
 
-  const blogObject = helper.bigBlogs.map((blog) => new Blog(blog));
+  const blogObject = helper.bigBlogs.map((blog) => new Mark(blog));
   const promiseArray = blogObject.map(async (blog) => blog.save());
   await Promise.all(promiseArray);
 });
@@ -32,9 +32,9 @@ describe("Checking how blogs are returned", () => {
   test("a specific blog is returned", async () => {
     const response = await api.get("/api/blog");
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-    const id: string = await response.body.map((resp: BlogType) => resp.id)[0];
+    const id: string = await response.body.map((resp: MarkT) => resp.id)[0];
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-    const authors = await response.body.map((resp: BlogType) => resp.author);
+    const authors = await response.body.map((resp: MarkT) => resp.author);
 
     const specificBlog = await api.get(`/api/blog/${id}`);
     expect(authors).toContain(specificBlog.body.author);
@@ -94,7 +94,7 @@ describe("Checking proper property name", () => {
   test("checks if the identifier property is named id", async () => {
     const response = await api.get("/api/blog");
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-    const id = response.body.map((blog: BlogType) => blog.id);
+    const id = response.body.map((blog: MarkT) => blog.id);
 
     expect(id).toBeDefined();
   });
