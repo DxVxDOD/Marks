@@ -25,6 +25,8 @@ const Menu = () => {
     <Paper
       component="header"
       sx={{
+        borderBottom: "solid 0.075rem #78909c",
+        borderRadius: 0,
         display: "flex",
         width: "100%",
         alignItems: "center",
@@ -89,7 +91,6 @@ const Menu = () => {
             width: "33.33%",
             display: "flex",
             justifyContent: "flex-end",
-            marginRight: "4rem",
           }}
         >
           <Button

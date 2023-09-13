@@ -57,6 +57,8 @@ const Comments = ({ markId }: { markId: string }) => {
           flexDirection: "column",
           maxWidth: "75%",
           minWidth: "75%",
+          border: "solid 0.02rem #6E6E6E",
+          borderRadius: 0,
         }}
       >
         <Typography className={classes.title} component="h3" variant="h5">

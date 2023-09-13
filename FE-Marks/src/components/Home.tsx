@@ -30,6 +30,8 @@ const Home = () => {
         sx={{
           minWidth: "75%",
           padding: "2rem",
+          border: "solid 0.05rem #6E6E6E",
+          borderRadius: 0,
         }}
       >
         <Box
@@ -46,6 +48,8 @@ const Home = () => {
                 display: "flex",
                 padding: "1rem",
                 justifyContent: "center",
+                border: "solid 0.02rem #6E6E6E",
+                borderRadius: 0,
               }}
             >
               <strong> {user.username} is logged in</strong>

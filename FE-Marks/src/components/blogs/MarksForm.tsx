@@ -50,6 +50,8 @@ const MarkForm = ({
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        border: "solid 0.02rem #6E6E6E",
+        borderRadius: 0,
       }}
     >
       <Box

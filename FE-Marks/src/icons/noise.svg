@@ -1,0 +1,18 @@
+<!-- <svg width='500' heigth='500' viewBox='0 0 2500 2500'>
+  <filter id='grainy' >
+    <feTurbulence type='fractalNoise' baseFrequency='0.8'/>
+    <feComposite operator='in' in2='SourceGraphic' result='monoNoise' />
+    </filter>
+  <path xmlns="http://www.w3.org/2000/svg" d="M362 1068C221.5 1104 167 994 262 890C357 786 1160.5 1295 362 637C-436.5 -21.0005 320 230.5 451.5 76.4997C583 -77.5004 416.5 671.499 943 333.999C1469.5 -3.5 1017 690.5 849 637C681 583.5 771.912 957.224 1046.5 846C1321.09 734.775 1485.12 281.211 1610 99.4999C1927.5 -362.5 1833.96 943.46 1512.5 1172C1384.5 1263 857.999 1318 1753 1757C2648 2196 969 2256.5 943 1927.5C917 1598.5 1435.5 574.5 660 1741.5C-115.5 2908.5 777 1006 498.5 1385.5C220 1765 502.5 1032 362 1068Z"  filter='url(#grainy)' />
+</svg> -->
+
+
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1500" viewBox="0 0 2500 2500" fill="#1F2022">
+    <filter id='grainy' >
+        <feTurbulence type='fractalNoise' baseFrequency='0.6' stitchTiles='stitch' xresult="colorNoise" />
+        <feColorMatrix in="colorNoise" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" />
+        <feComposite operator="in" in2="SourceGraphic" result="monoNoise"/>
+        <feBlend in="SourceGraphic" in2="monoNoise" mode="hard-light" />
+    </filter>
+    <path d="M362 1068C221.5 1104 167 994 262 890C357 786 1160.5 1295 362 637C-436.5 -21.0005 320 230.5 451.5 76.4997C583 -77.5004 416.5 671.499 943 333.999C1469.5 -3.5 1017 690.5 849 637C681 583.5 771.912 957.224 1046.5 846C1321.09 734.775 1485.12 281.211 1610 99.4999C1927.5 -362.5 1833.96 943.46 1512.5 1172C1384.5 1263 857.999 1318 1753 1757C2648 2196 969 2256.5 943 1927.5C917 1598.5 1435.5 574.5 660 1741.5C-115.5 2908.5 777 1006 498.5 1385.5C220 1765 502.5 1032 362 1068Z" filter='url(#grainy)' />
+</svg>

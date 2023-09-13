@@ -22,7 +22,6 @@ const LoggedInMarks = () => {
       <Box
         component="section"
         sx={{
-          marginTop: "2rem",
           width: "100%",
           display: "flex",
           flexDirection: "column",
@@ -41,6 +40,8 @@ const LoggedInMarks = () => {
               width: "75%",
               display: "flex",
               flexDirection: "column",
+              border: "solid 0.02rem #6E6E6E",
+              borderRadius: 0,
             }}
           >
             <Typography className={classes.h2} variant="h5" component="h2">
@@ -91,6 +92,8 @@ const LoggedInMarks = () => {
             padding: "1rem",
             width: "75%",
             flexDirection: "column",
+            border: "solid 0.02rem #6E6E6E",
+            borderRadius: 0,
           }}
         >
           <Typography className={classes.h2} variant="h5" component="h2">
