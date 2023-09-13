@@ -11,6 +11,8 @@ const Footer = () => {
         justifyContent: "center",
         gap: "1rem",
         marginTop: "auto",
+        borderTop: "solid 0.075rem #78909c",
+        borderRadius: 0,
       }}
       component="footer"
     >

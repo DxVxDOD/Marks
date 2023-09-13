@@ -24,13 +24,16 @@ import {
   updateMark,
 } from "../../reducers/markReducer";
 
-const mark = () => {
+const Mark = () => {
   const { state } = useLocation();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const marks = useAppSelector((state) => state.mark);
   const { classes } = useBlog();
   const mark = marks.filter((mark) => mark.id === state.id)[0];
+  console.log("userId", user.username);
+  console.log(mark.id);
+  console.log(user.username === mark.user.username);
 
   useEffect(() => {
     dispatch(initializeMarks());
@@ -77,6 +80,8 @@ const mark = () => {
           margin: "2rem",
           display: "flex",
           flexDirection: "column",
+          border: "solid 0.02rem #6E6E6E",
+          borderRadius: 0,
         }}
         component="section"
       >
@@ -116,14 +121,16 @@ const mark = () => {
               >
                 Like
               </Button>
-              <Button
-                className={classes.button}
-                aria-label="delete button"
-                startIcon={<DeleteOutlinedIcon />}
-                onClick={removemark}
-              >
-                Remove
-              </Button>
+              {mark.user.username === user.username ? (
+                <Button
+                  className={classes.button}
+                  aria-label="delete button"
+                  startIcon={<DeleteOutlinedIcon />}
+                  onClick={removemark}
+                >
+                  Remove
+                </Button>
+              ) : null}
             </ButtonGroup>
           </>
         )}
@@ -133,4 +140,4 @@ const mark = () => {
   );
 };
 
-export default mark;
+export default Mark;
