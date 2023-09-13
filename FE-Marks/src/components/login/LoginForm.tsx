@@ -1,21 +1,24 @@
 import { FormEvent } from "react";
 import loginService from "../../services/login.js";
-import blogService from "../../services/blog.js";
+import blogService from "../../services/marks.js";
 import { AxiosError } from "axios";
 import { useAppDispatch } from "../../app/hooks.js";
 import { dispalyError } from "../../reducers/notificationReducer.js";
 import { setUser } from "../../reducers/userReducer.js";
 import { useForm } from "../../hooks/useForm.js";
 import { Box, Button, Paper, Stack, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const { reset: usernameReset, ...username } = useForm("text");
   const { reset: passwordReset, ...password } = useForm("password");
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
+    navigate("/");
 
     try {
       const user = await loginService.login({

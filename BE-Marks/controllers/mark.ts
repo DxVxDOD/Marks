@@ -1,24 +1,24 @@
 import express from "express";
-import Blog from "../models/blog.js";
-import type BlogType from "../types/blogType.type.js";
+import Mark from "../models/marks.js";
+import type MarkT from "../types/mark.js";
 import User from "../models/user.js";
 import middleware from "../utils/middleware.js";
 
-const blogRouter = express.Router();
+const markRouter = express.Router();
 
 const { userExtractor } = middleware;
 
-blogRouter.get("/", async (request, response) => {
-  const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
-  response.json(blogs);
+markRouter.get("/", async (request, response) => {
+  const marks = await Mark.find({}).populate("user", { username: 1, name: 1 });
+  response.json(marks);
 });
 
-blogRouter.get("/:id", async (request, response) => {
-  const blog = await Blog.findById(request.params.id);
-  response.json(blog);
+markRouter.get("/:id", async (request, response) => {
+  const mark = await Mark.findById(request.params.id);
+  response.json(mark);
 });
 
-blogRouter.post("/", userExtractor, async (request, response, next) => {
+markRouter.post("/", userExtractor, async (request, response, next) => {
   if (request.body === undefined) {
     return response.status(400).json({ error: "content is missing" });
   }
@@ -40,11 +40,11 @@ blogRouter.post("/", userExtractor, async (request, response, next) => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { body }: { body: BlogType } = request;
+  const { body }: { body: MarkT } = request;
 
   const { user } = response.locals;
 
-  const blog = new Blog({
+  const mark = new Mark({
     title: body.title,
     author: body.author,
     url: body.url,
@@ -53,25 +53,25 @@ blogRouter.post("/", userExtractor, async (request, response, next) => {
     user: user._id,
   });
 
-  const savedBlog = await blog.save();
+  const svaedMark = await mark.save();
   if (!user) {
     return response.status(401).json({ error: "token is invalid" });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-  user.blogs = user.blogs.concat(savedBlog._id);
+  user.marks = user.marks.concat(svaedMark._id);
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   await user.save();
 
-  response.status(201).json(savedBlog);
+  response.status(201).json(svaedMark);
 });
 
-blogRouter.delete("/:id", userExtractor, async (request, response, next) => {
+markRouter.delete("/:id", userExtractor, async (request, response, next) => {
   const user = await User.findById(response.locals.user.id);
-  const blog = await Blog.findById(request.params.id);
+  const mark = await Mark.findById(request.params.id);
 
-  if (!blog) {
+  if (!mark) {
     return response.status(401).json({ error: "Blog problem" });
   }
 
@@ -80,8 +80,8 @@ blogRouter.delete("/:id", userExtractor, async (request, response, next) => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-base-to-string
-  if (blog.user.toString() === user._id.toString()) {
-    await Blog.findByIdAndRemove(request.params.id);
+  if (mark.user.toString() === user._id.toString()) {
+    await Mark.findByIdAndRemove(request.params.id);
   } else {
     return response
       .status(401)
@@ -91,16 +91,16 @@ blogRouter.delete("/:id", userExtractor, async (request, response, next) => {
   response.status(204).end();
 });
 
-blogRouter.put("/:id", userExtractor, async (request, response, next) => {
+markRouter.put("/:id", userExtractor, async (request, response, next) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { body }: { body: BlogType } = request;
+  const { body }: { body: MarkT } = request;
   const { user } = response.locals;
 
   if (!user) {
     return response.status(401).json({ error: "token is invalid" });
   }
 
-  const blog = {
+  const mark = {
     title: body.title,
     author: body.author,
     url: body.url,
@@ -109,10 +109,10 @@ blogRouter.put("/:id", userExtractor, async (request, response, next) => {
     user: user._id,
   };
 
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {
+  const updatedMark = await Mark.findByIdAndUpdate(request.params.id, mark, {
     new: true,
   });
-  response.json(updatedBlog);
+  response.json(updatedMark);
 });
 
-export default blogRouter;
+export default markRouter;

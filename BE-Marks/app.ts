@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import config from "./utils/config.js";
 import express from "express";
-import blogRouter from "./controllers/blog.js";
+import markRouter from "./controllers/mark.js";
 import logger from "./utils/logger.js";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -34,7 +34,7 @@ app.use(express.static("dist"));
 app.use(express.json());
 app.use(middleware.requestLogger);
 
-app.use("/api/blog", blogRouter);
+app.use("/api/marks", markRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/comments", commentRouter);

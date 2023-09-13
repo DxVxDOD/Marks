@@ -1,4 +1,4 @@
-import Blog from "../models/blog.js";
+import Mark from "../models/marks.js";
 
 const bigBlogs = [
   {
@@ -48,7 +48,7 @@ const noUrlBlog = {
 };
 
 const nonExistingId = async () => {
-  const blog = new Blog({
+  const blog = new Mark({
     title: "React patterns",
     author: "Michael Chan",
     url: "https://reactpatterns.com/",
@@ -63,7 +63,7 @@ const nonExistingId = async () => {
 };
 
 const blogsInDb = async () => {
-  const blogs = await Blog.find({});
+  const blogs = await Mark.find({});
   return blogs.map((blog) => blog.toJSON());
 };
 

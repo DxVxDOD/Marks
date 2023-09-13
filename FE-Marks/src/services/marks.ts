@@ -1,6 +1,6 @@
 import axios from "axios";
-const baseUrl = "/api/blog";
-import { BlogT } from "../types/mark";
+const baseUrl = "/api/marks";
+import { MarkT } from "../types/mark";
 
 let token: string;
 
@@ -12,20 +12,20 @@ const getAll = async () => {
   return response.data;
 };
 
-const create = async (newBlog: BlogT) => {
+const create = async (newMark: MarkT) => {
   const config = {
     headers: { Authorization: token },
   };
 
-  const response = await axios.post(baseUrl, newBlog, config);
+  const response = await axios.post(baseUrl, newMark, config);
   return response.data;
 };
 
-const update = async (id: string, updatedBlog: BlogT) => {
+const update = async (id: string, updatedMark: MarkT) => {
   const config = {
     headers: { Authorization: token },
   };
-  const response = await axios.put(`${baseUrl}/${id}`, updatedBlog, config);
+  const response = await axios.put(`${baseUrl}/${id}`, updatedMark, config);
   return response.data;
 };
 

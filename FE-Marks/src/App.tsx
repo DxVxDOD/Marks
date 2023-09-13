@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import blogService from "./services/blog.ts";
+import blogService from "./services/marks.ts";
 import Notification from "./components/Notifications.tsx";
 import { useAppDispatch, useAppSelector } from "./app/hooks.ts";
 import { initializeMarks } from "./reducers/markReducer.ts";

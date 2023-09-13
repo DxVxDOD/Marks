@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import config from "../utils/config.js";
 
-type IBlog = {
+type MarksT = {
   title: string;
   author: string;
   url: string;
@@ -28,7 +28,7 @@ mongoose
     console.log("error connecting to MongoDB:", err.message);
   });
 
-const blogSchema = new mongoose.Schema({
+const marksSchema = new mongoose.Schema({
   title: String,
   author: String,
   url: String,
@@ -39,7 +39,7 @@ const blogSchema = new mongoose.Schema({
   },
 });
 
-blogSchema.set("toJSON", {
+marksSchema.set("toJSON", {
   transform(document, returnedObject) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     returnedObject.id = returnedObject._id.toString();
@@ -48,6 +48,6 @@ blogSchema.set("toJSON", {
   },
 });
 
-const Blog = mongoose.model<IBlog>("Blog", blogSchema);
+const Mark = mongoose.model<MarksT>("Mark", marksSchema);
 
-export default Blog;
+export default Mark;

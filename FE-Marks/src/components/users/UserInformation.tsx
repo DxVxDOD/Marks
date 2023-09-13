@@ -18,7 +18,7 @@ import useBlog from "../../theme/Blog";
 
 const UserInformation = () => {
   const users = useAppSelector((state) => state.userArray);
-  const blogs = useAppSelector((state) => state.blog);
+  const marks = useAppSelector((state) => state.mark);
   const dispatch = useAppDispatch();
   const { classes } = useBlog();
 
@@ -47,7 +47,7 @@ const UserInformation = () => {
             <TableHead>
               <TableRow>
                 <TableCell className={classes.title}>User</TableCell>
-                <TableCell className={classes.title}>Blog count</TableCell>
+                <TableCell className={classes.title}>Mark count</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -59,12 +59,12 @@ const UserInformation = () => {
                       component={RouterLink}
                       size="small"
                       to={`/users/${user.id}`}
-                      state={{ user, blogs }}
+                      state={{ user, marks: marks }}
                     >
                       {user.username}
                     </Button>
                   </TableCell>
-                  <TableCell>{user.blogs!.length}</TableCell>
+                  <TableCell>{user.marks.length}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
