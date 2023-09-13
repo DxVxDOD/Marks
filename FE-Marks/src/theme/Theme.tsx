@@ -5,7 +5,7 @@ const theme = createTheme({
   palette: {
     mode: "dark",
     background: {
-      default: blueGrey[900],
+      default: "#1F2022",
       paper: grey[900],
     },
     primary: {
@@ -23,6 +23,9 @@ const theme = createTheme({
     secondary: {
       main: amber.A700,
     },
+  },
+  typography: {
+    fontFamily: "monospace",
   },
 });
 

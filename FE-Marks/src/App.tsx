@@ -52,25 +52,27 @@ const App = () => {
         <Notification />
         <Menu />
         <main className="main">
-          <Routes>
-            <Route path="/login" element={<NotLoggedIn />} />
-            <Route path="/users/:id" element={<User />} />
-            {user === null ? (
-              <Route path="/" element={<HomeNoUser />} />
-            ) : (
-              <Route path="/" element={<Home />} />
-            )}
+          <div className="svgBg">
+            <Routes>
+              <Route path="/login" element={<NotLoggedIn />} />
+              <Route path="/users/:id" element={<User />} />
+              {user === null ? (
+                <Route path="/" element={<HomeNoUser />} />
+              ) : (
+                <Route path="/" element={<Home />} />
+              )}
 
-            <Route path="/users" element={<UserInformation />} />
-            {user === null ? (
-              <>
-                <Route path="/blogs" element={<NotLoggedInBlogs />} />
-              </>
-            ) : (
-              <Route path="/blogs" element={<LoggedInBlogs />} />
-            )}
-            <Route path="/blog/:id" element={<Blog />} />
-          </Routes>
+              <Route path="/users" element={<UserInformation />} />
+              {user === null ? (
+                <>
+                  <Route path="/blogs" element={<NotLoggedInBlogs />} />
+                </>
+              ) : (
+                <Route path="/blogs" element={<LoggedInBlogs />} />
+              )}
+              <Route path="/blog/:id" element={<Blog />} />
+            </Routes>
+          </div>
         </main>
         <Footer />
       </>
