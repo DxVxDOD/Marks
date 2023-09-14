@@ -3,28 +3,37 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    background-repeat: no-repeat;
-    background-position-x: center;
-    background-position-y: center;
-    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-	background-size: 400% 400%;
-	animation: gradient 15s ease infinite;
+     --blue: #2445C8;
+    --orange: #CF9862;
+    --black: #000000;
+    --green: #436354;
+    --orange2: #CC9B68;
 }
 
 .main {
     padding: 2rem;
     height: 100%;
     flex: auto;
-    background: url(./icons/noise.svg);
-}
+} 
 
-.svgBg{
 
+
+.background{
+    position: absolute;
+    z-index: -1;
+    background-position-y: center;
+    background-position-x: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 80%;
+    width: 90%;
+	animation: gradient 15s ease infinite;
 }
 
 @keyframes gradient {
 	0% {
-		background-position: 0% 50%;
+		background-position: var(--blue);
 	}
 	50% {
 		background-position: 100% 50%;
@@ -33,3 +42,16 @@
 		background-position: 0% 50%;
 	}
 }
+
+.gr1 {
+  position: absolute;
+  z-index: 1;
+}
+
+.gr2 {
+  position: relative;
+  top: -4.5em;
+  z-index: 0;
+}
+
+
