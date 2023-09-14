@@ -7,7 +7,7 @@
 </svg> -->
 
 
-<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1500" viewBox="0 0 2500 2500" fill="#1F2022">
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 2500 2500" fill="#1F2022">
     <filter id='grainy' >
         <feTurbulence type='fractalNoise' baseFrequency='0.6' stitchTiles='stitch' xresult="colorNoise" />
         <feColorMatrix in="colorNoise" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0" />
