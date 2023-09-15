@@ -1,45 +1,126 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../index.css";
 
+type TRandomColor = {
+  r: number;
+  g: number;
+  b: number;
+};
+
 const Background = () => {
-  const startTime = new Date().getTime();
+  const random = (min: number, max: number) =>
+    Math.round(min + Math.random() * (max - min));
 
-  const color = () => {
-    let currentTime = new Date().getTime();
-    let elapsedTime = currentTime - startTime / 1000;
-    console.log(elapsedTime);
+  const randomcolor = () => {
+    return {
+      r: random(0, 255),
+      g: random(0, 255),
+      b: random(0, 255),
+    };
+  };
 
-    const answ: number[] = [];
+  const [currentColor, setCurrentColor] = useState<TRandomColor>(randomcolor());
+  const [targetColor, setTargetColor] = useState<TRandomColor>(randomcolor());
 
-    const num = 14;
+  let increment: TRandomColor = null as unknown as TRandomColor;
 
-    ((num) => {
-      let x = 0;
-      let y = 1;
-      let z = 0;
+  const resetTransition = () => {
+    setTargetColor(randomcolor());
+    increment = {
+      r: 1,
+      g: 1,
+      b: 1,
+    };
+  };
 
-      answ.push(x);
-      answ.push(y);
-
-      let i = 2;
-      while (i < num) {
-        z = x + y;
-        x = y;
-        y = z;
-
-        answ.push(z);
-        i++;
+  const transition = () => {
+    if (currentColor.r > targetColor.r) {
+      setCurrentColor({ ...currentColor, r: currentColor.r - targetColor.r });
+      if (currentColor.r <= targetColor.r) {
+        increment.r = 0;
       }
-    })(num);
+    } else if (currentColor.r < targetColor.r) {
+      setCurrentColor({ ...currentColor, r: currentColor.r + targetColor.r });
+      if (currentColor.r >= targetColor.r) {
+        increment.r = 0;
+      }
+    } else if (currentColor.b === targetColor.b) {
+      increment.r = 0;
+    }
 
-    console.log(answ);
+    if (currentColor.g > targetColor.g) {
+      setCurrentColor({ ...currentColor, g: currentColor.g - targetColor.g });
+      if (currentColor.g <= targetColor.g) {
+        increment.g = 0;
+      }
+    } else if (currentColor.g < targetColor.g) {
+      setCurrentColor({ ...currentColor, g: currentColor.g + targetColor.g });
+      if (currentColor.g >= targetColor.g) {
+        increment.g = 0;
+      }
+    } else if (currentColor.b == targetColor.b) {
+      increment.g = 0;
+    }
 
-    return answ;
+    if (currentColor.b > targetColor.b) {
+      setCurrentColor({ ...currentColor, b: currentColor.b - targetColor.b });
+      if (currentColor.b <= targetColor.b) {
+        increment.b = 0;
+      }
+    } else if (currentColor.b < targetColor.b) {
+      setCurrentColor({ ...currentColor, b: currentColor.b + targetColor.b });
+      if (currentColor.b >= targetColor.b) {
+        increment.b = 0;
+      }
+    } else if (currentColor.b == targetColor.b) {
+      increment.b = 0;
+    }
+
+    if (increment.r === 0 && increment.g === 0 && increment.b === 0) {
+      resetTransition();
+    }
   };
 
   useEffect(() => {
-    console.log(color());
+    resetTransition();
+    let animationFrameId: number;
+    const animate = () => {
+      transition();
+      animationFrameId = requestAnimationFrame(animate);
+    };
+    animationFrameId = requestAnimationFrame(animate);
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
   }, []);
+
+  useEffect(() => {
+    const gradient = document.getElementById("gradient");
+    const gradient2 = document.getElementById("gradient2");
+    if (gradient && gradient2) {
+      gradient.children[0].setAttribute(
+        "stop-color",
+        `rgb(${currentColor.r},${currentColor.g},${currentColor.b})`,
+      );
+      gradient.children[1].setAttribute(
+        "stop-color",
+        `rgb(${targetColor.r},${targetColor.g},${targetColor.b})`,
+      );
+
+      gradient2.children[0].setAttribute(
+        "stop-color",
+        `rgb(${currentColor.r + 50},${currentColor.g + 50},${
+          currentColor.b + 50
+        })`,
+      );
+      gradient2.children[1].setAttribute(
+        "stop-color",
+        `rgb(${targetColor.r + 50},${targetColor.g + 50},${
+          targetColor.b + 50
+        })`,
+      );
+    }
+  }, [currentColor, targetColor]);
 
   return (
     <div className="background">
