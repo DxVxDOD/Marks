@@ -28,20 +28,9 @@
     align-items: center;
     height: 80%;
     width: 90%;
-	animation: gradient 15s ease infinite;
 }
 
-@keyframes gradient {
-	0% {
-		background-position: var(--blue);
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
-}
+
 
 .gr1 {
   position: absolute;
