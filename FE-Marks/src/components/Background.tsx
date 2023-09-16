@@ -34,47 +34,51 @@ const Background = () => {
   };
 
   const transition = () => {
-    if (currentColor.r > targetColor.r) {
-      setCurrentColor({ ...currentColor, r: currentColor.r - targetColor.r });
-      if (currentColor.r <= targetColor.r) {
+    let newColor = { ...currentColor };
+
+    if (newColor.r > targetColor.r) {
+      newColor.r = newColor.r - targetColor.r;
+      if (newColor.r <= targetColor.r) {
         increment.r = 0;
       }
-    } else if (currentColor.r < targetColor.r) {
-      setCurrentColor({ ...currentColor, r: currentColor.r + targetColor.r });
-      if (currentColor.r >= targetColor.r) {
+    } else if (newColor.r < targetColor.r) {
+      newColor.r = newColor.r + targetColor.r;
+      if (newColor.r >= targetColor.r) {
         increment.r = 0;
       }
-    } else if (currentColor.b === targetColor.b) {
+    } else if (newColor.b === targetColor.b) {
       increment.r = 0;
     }
 
-    if (currentColor.g > targetColor.g) {
-      setCurrentColor({ ...currentColor, g: currentColor.g - targetColor.g });
-      if (currentColor.g <= targetColor.g) {
+    if (newColor.g > targetColor.g) {
+      newColor.g = newColor.g - targetColor.g;
+      if (newColor.g <= targetColor.g) {
         increment.g = 0;
       }
-    } else if (currentColor.g < targetColor.g) {
-      setCurrentColor({ ...currentColor, g: currentColor.g + targetColor.g });
-      if (currentColor.g >= targetColor.g) {
+    } else if (newColor.g < targetColor.g) {
+      newColor.g = newColor.g + targetColor.g;
+      if (newColor.g >= targetColor.g) {
         increment.g = 0;
       }
-    } else if (currentColor.b == targetColor.b) {
+    } else if (newColor.b == targetColor.b) {
       increment.g = 0;
     }
 
-    if (currentColor.b > targetColor.b) {
-      setCurrentColor({ ...currentColor, b: currentColor.b - targetColor.b });
-      if (currentColor.b <= targetColor.b) {
+    if (newColor.b > targetColor.b) {
+      newColor.b = newColor.b - targetColor.b;
+      if (newColor.b <= targetColor.b) {
         increment.b = 0;
       }
-    } else if (currentColor.b < targetColor.b) {
-      setCurrentColor({ ...currentColor, b: currentColor.b + targetColor.b });
-      if (currentColor.b >= targetColor.b) {
+    } else if (newColor.b < targetColor.b) {
+      newColor.b = newColor.b + targetColor.b;
+      if (newColor.b >= targetColor.b) {
         increment.b = 0;
       }
-    } else if (currentColor.b == targetColor.b) {
+    } else if (newColor.b == targetColor.b) {
       increment.b = 0;
     }
+
+    setCurrentColor(newColor);
 
     if (increment.r === 0 && increment.g === 0 && increment.b === 0) {
       resetTransition();
@@ -86,7 +90,9 @@ const Background = () => {
     let animationFrameId: number;
     const animate = () => {
       transition();
-      animationFrameId = requestAnimationFrame(animate);
+      setTimeout(() => {
+        animationFrameId = requestAnimationFrame(animate);
+      }, 500);
     };
     animationFrameId = requestAnimationFrame(animate);
     return () => {
@@ -109,15 +115,11 @@ const Background = () => {
 
       gradient2.children[0].setAttribute(
         "stop-color",
-        `rgb(${currentColor.r + 50},${currentColor.g + 50},${
-          currentColor.b + 50
-        })`,
+        `rgb(${currentColor.r},${currentColor.g},${currentColor.b})`,
       );
       gradient2.children[1].setAttribute(
         "stop-color",
-        `rgb(${targetColor.r + 50},${targetColor.g + 50},${
-          targetColor.b + 50
-        })`,
+        `rgb(${targetColor.r + 50},${targetColor.g + 200},${targetColor.b})`,
       );
     }
   }, [currentColor, targetColor]);
