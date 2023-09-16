@@ -1,88 +1,126 @@
 import { useEffect, useState } from "react";
 import "../index.css";
 
-type TRandomColor = {
-  r: number;
-  g: number;
-  b: number;
-};
-
 const Background = () => {
   const random = (min: number, max: number) =>
     Math.round(min + Math.random() * (max - min));
 
   const randomcolor = () => {
-    return {
-      r: random(0, 255),
-      g: random(0, 255),
-      b: random(0, 255),
+    let color = [];
+    for (let i = 0; i < 3; i++) {
+      let num = random(0, 255);
+      color.push(num);
+    }
+    return color;
+  };
+
+  const [currentColor, setCurrentColor] = useState(randomcolor());
+  const [targetColor, setTargetColor] = useState(randomcolor());
+  let fps = 30;
+  let duration = 3;
+
+  const startTransition = () => {
+    let distance = calculateDistance(currentColor, targetColor);
+    let increment = calculateIncrement(distance, fps, duration);
+
+    const transition = () => {
+      let newColor = { ...currentColor };
+
+      if (newColor[0] > targetColor[0]) {
+        newColor[0] = newColor[0] - targetColor[0];
+        if (newColor[0] <= targetColor[0] && Array.isArray(increment)) {
+          increment[0] = 0;
+        }
+      } else if (newColor[0] < targetColor.r) {
+        newColor.r = newColor.r + targetColor.r;
+        if (newColor.r >= targetColor.r) {
+          increment.r = 0;
+        }
+      } else if (newColor.b === targetColor.b) {
+        increment.r = 0;
+      }
+
+      if (newColor.g > targetColor.g) {
+        newColor.g = newColor.g - targetColor.g;
+        if (newColor.g <= targetColor.g) {
+          increment.g = 0;
+        }
+      } else if (newColor.g < targetColor.g) {
+        newColor.g = newColor.g + targetColor.g;
+        if (newColor.g >= targetColor.g) {
+          increment.g = 0;
+        }
+      } else if (newColor.b == targetColor.b) {
+        increment.g = 0;
+      }
+
+      if (newColor.b > targetColor.b) {
+        newColor.b = newColor.b - targetColor.b;
+        if (newColor.b <= targetColor.b) {
+          increment.b = 0;
+        }
+      } else if (newColor.b < targetColor.b) {
+        newColor.b = newColor.b + targetColor.b;
+        if (newColor.b >= targetColor.b) {
+          increment.b = 0;
+        }
+      } else if (newColor.b == targetColor.b) {
+        increment.b = 0;
+      }
+
+      setCurrentColor(newColor);
+
+      if (increment.r === 0 && increment.g === 0 && increment.b === 0) {
+        resetTransition();
+      }
     };
   };
 
-  const [currentColor, setCurrentColor] = useState<TRandomColor>(randomcolor());
-  const [targetColor, setTargetColor] = useState<TRandomColor>(randomcolor());
-
-  let increment: TRandomColor = null as unknown as TRandomColor;
-
-  const resetTransition = () => {
-    setTargetColor(randomcolor());
-    increment = {
-      r: 1,
-      g: 1,
-      b: 1,
-    };
+  // Calculates the distance between the RGB
+  // valuses so the increment values can be
+  // calculated for the R, G and B values
+  const calculateDistance = (colorArray1: number[], colorArray2: number[]) => {
+    let distance = [];
+    for (let i = 0; i < colorArray1.length; i++) {
+      distance.push(Math.abs(colorArray1[i] - colorArray2[i]));
+    }
+    return distance;
   };
 
-  const transition = () => {
-    let newColor = { ...currentColor };
+  // Calculates the increment values for R, G, and B using distance, fps, and duration.
+  // This calculation can be made in many different ways.
+  const calculateIncrement = (
+    disyanceArray: number[],
+    fps: number,
+    duration: number,
+  ) => {
+    fps === undefined ? 30 : fps;
+    duration === undefined ? 1 : duration;
 
-    if (newColor.r > targetColor.r) {
-      newColor.r = newColor.r - targetColor.r;
-      if (newColor.r <= targetColor.r) {
-        increment.r = 0;
+    let increment: number[] = [];
+
+    for (let i = 0; i < disyanceArray.length; i++) {
+      let inc = Math.abs(Math.floor(disyanceArray[i] / (fps * duration)));
+      if (inc == 0) {
+        inc = 1;
       }
-    } else if (newColor.r < targetColor.r) {
-      newColor.r = newColor.r + targetColor.r;
-      if (newColor.r >= targetColor.r) {
-        increment.r = 0;
-      }
-    } else if (newColor.b === targetColor.b) {
-      increment.r = 0;
+      return increment.push(inc);
     }
+    return increment;
+  };
 
-    if (newColor.g > targetColor.g) {
-      newColor.g = newColor.g - targetColor.g;
-      if (newColor.g <= targetColor.g) {
-        increment.g = 0;
+  // Converts RGB array [32,64,128] to HEX string #204080
+  // It's easier to apply HEX color than RGB color.
+  const rgb2Hex = (colorArray: number[]) => {
+    let color = [];
+    for (let i = 0; i < colorArray.length; i++) {
+      let hex = colorArray[i].toString(16);
+      if (hex.length < 2) {
+        hex = "0" + hex;
       }
-    } else if (newColor.g < targetColor.g) {
-      newColor.g = newColor.g + targetColor.g;
-      if (newColor.g >= targetColor.g) {
-        increment.g = 0;
-      }
-    } else if (newColor.b == targetColor.b) {
-      increment.g = 0;
+      color.push(hex);
     }
-
-    if (newColor.b > targetColor.b) {
-      newColor.b = newColor.b - targetColor.b;
-      if (newColor.b <= targetColor.b) {
-        increment.b = 0;
-      }
-    } else if (newColor.b < targetColor.b) {
-      newColor.b = newColor.b + targetColor.b;
-      if (newColor.b >= targetColor.b) {
-        increment.b = 0;
-      }
-    } else if (newColor.b == targetColor.b) {
-      increment.b = 0;
-    }
-
-    setCurrentColor(newColor);
-
-    if (increment.r === 0 && increment.g === 0 && increment.b === 0) {
-      resetTransition();
-    }
+    return "#" + color.join("");
   };
 
   useEffect(() => {
@@ -92,7 +130,7 @@ const Background = () => {
       transition();
       setTimeout(() => {
         animationFrameId = requestAnimationFrame(animate);
-      }, 500);
+      }, 1000);
     };
     animationFrameId = requestAnimationFrame(animate);
     return () => {
