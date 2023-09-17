@@ -5,7 +5,7 @@ const Background = () => {
   const random = (min: number, max: number) =>
     Math.round(min + Math.random() * (max - min));
 
-  const randomcolor = () => {
+  const randomcolorInRgb = () => {
     let color = [];
     for (let i = 0; i < 3; i++) {
       let num = random(0, 255);
@@ -14,66 +14,18 @@ const Background = () => {
     return color;
   };
 
-  const [currentColor, setCurrentColor] = useState(randomcolor());
-  const [targetColor, setTargetColor] = useState(randomcolor());
-  let fps = 30;
-  let duration = 3;
-
-  const startTransition = () => {
-    let distance = calculateDistance(currentColor, targetColor);
-    let increment = calculateIncrement(distance, fps, duration);
-
-    const transition = () => {
-      let newColor = { ...currentColor };
-
-      if (newColor[0] > targetColor[0]) {
-        newColor[0] = newColor[0] - targetColor[0];
-        if (newColor[0] <= targetColor[0] && Array.isArray(increment)) {
-          increment[0] = 0;
-        }
-      } else if (newColor[0] < targetColor.r) {
-        newColor.r = newColor.r + targetColor.r;
-        if (newColor.r >= targetColor.r) {
-          increment.r = 0;
-        }
-      } else if (newColor.b === targetColor.b) {
-        increment.r = 0;
+  // Converts RGB array [32,64,128] to HEX string #204080
+  // It's easier to apply HEX color than RGB color.
+  const rgb2Hex = (colorArray: number[]) => {
+    let color = [];
+    for (let i = 0; i < colorArray.length; i++) {
+      let hex = colorArray[i].toString(16);
+      if (hex.length < 2) {
+        hex = "0" + hex;
       }
-
-      if (newColor.g > targetColor.g) {
-        newColor.g = newColor.g - targetColor.g;
-        if (newColor.g <= targetColor.g) {
-          increment.g = 0;
-        }
-      } else if (newColor.g < targetColor.g) {
-        newColor.g = newColor.g + targetColor.g;
-        if (newColor.g >= targetColor.g) {
-          increment.g = 0;
-        }
-      } else if (newColor.b == targetColor.b) {
-        increment.g = 0;
-      }
-
-      if (newColor.b > targetColor.b) {
-        newColor.b = newColor.b - targetColor.b;
-        if (newColor.b <= targetColor.b) {
-          increment.b = 0;
-        }
-      } else if (newColor.b < targetColor.b) {
-        newColor.b = newColor.b + targetColor.b;
-        if (newColor.b >= targetColor.b) {
-          increment.b = 0;
-        }
-      } else if (newColor.b == targetColor.b) {
-        increment.b = 0;
-      }
-
-      setCurrentColor(newColor);
-
-      if (increment.r === 0 && increment.g === 0 && increment.b === 0) {
-        resetTransition();
-      }
-    };
+      color.push(hex);
+    }
+    return "#" + color.join("");
   };
 
   // Calculates the distance between the RGB
@@ -93,7 +45,7 @@ const Background = () => {
     disyanceArray: number[],
     fps: number,
     duration: number,
-  ) => {
+  ): number[] => {
     fps === undefined ? 30 : fps;
     duration === undefined ? 1 : duration;
 
@@ -104,63 +56,166 @@ const Background = () => {
       if (inc == 0) {
         inc = 1;
       }
-      return increment.push(inc);
+
+      increment.push(inc);
+
+      return increment;
     }
     return increment;
   };
 
-  // Converts RGB array [32,64,128] to HEX string #204080
-  // It's easier to apply HEX color than RGB color.
-  const rgb2Hex = (colorArray: number[]) => {
-    let color = [];
-    for (let i = 0; i < colorArray.length; i++) {
-      let hex = colorArray[i].toString(16);
-      if (hex.length < 2) {
-        hex = "0" + hex;
+  const [currentColor, setCurrentColor] = useState(randomcolorInRgb());
+  const [targetColor, setTargetColor] = useState(randomcolorInRgb());
+  const [increment, setIncrement] = useState([0, 0, 0]);
+  let fps = 30;
+  let duration = 3;
+  let transitionHandler: ReturnType<typeof setTimeout>;
+
+  const transition = () => {
+    let newColor = { ...currentColor };
+    let newIncrement = [...increment];
+
+    if (newColor[0] > targetColor[0]) {
+      newColor[0] = newColor[0] - targetColor[0];
+      if (newColor[0] <= targetColor[0]) {
+        newIncrement[0] = 0;
       }
-      color.push(hex);
+    } else if (newColor[0] < targetColor[0]) {
+      newColor[0] = newColor[0] + targetColor[0];
+      if (newColor[0] >= targetColor[0]) {
+        newIncrement[0] = 0;
+      }
+    } else if (newColor[2] === targetColor[2]) {
+      newIncrement[0] = 0;
     }
-    return "#" + color.join("");
+
+    if (newColor[1] > targetColor[1]) {
+      newColor[1] = newColor[1] - targetColor[1];
+      if (newColor[1] <= targetColor[1]) {
+        newIncrement[1] = 0;
+      }
+    } else if (newColor[1] < targetColor[1]) {
+      newColor[1] = newColor[1] + targetColor[1];
+      if (newColor[1] >= targetColor[1]) {
+        newIncrement[1] = 0;
+      }
+    } else if (newColor[2] === targetColor[2]) {
+      newIncrement[1] = 0;
+    }
+
+    if (newColor[2] > targetColor[2]) {
+      newColor[2] = newColor[2] - targetColor[2];
+      if (newColor[2] <= targetColor[2]) {
+        newIncrement[2] = 0;
+      }
+    } else if (newColor[2] < targetColor[2]) {
+      newColor[2] = newColor[2] + targetColor[2];
+      if (newColor[2] >= targetColor[2]) {
+        newIncrement[2] = 0;
+      }
+    } else if (newColor[2] === targetColor[2]) {
+      newIncrement[2] = 0;
+    }
+
+    setCurrentColor(newColor);
+    setIncrement(newIncrement);
+
+    if (
+      Array.isArray(increment) &&
+      increment[0] === 0 &&
+      increment[1] === 0 &&
+      increment[2] === 0
+    ) {
+      startTransition();
+    }
   };
 
-  useEffect(() => {
-    resetTransition();
-    let animationFrameId: number;
-    const animate = () => {
+  const startTransition = () => {
+    clearInterval(transitionHandler);
+
+    setTargetColor(randomcolorInRgb());
+    const distance = calculateDistance(currentColor, targetColor);
+    const newIncrement = calculateIncrement(distance, fps, duration);
+
+    setIncrement(newIncrement);
+
+    transitionHandler = setInterval(() => {
       transition();
-      setTimeout(() => {
-        animationFrameId = requestAnimationFrame(animate);
-      }, 1000);
-    };
-    animationFrameId = requestAnimationFrame(animate);
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
+    }, 1000 / 2);
+  };
+
+  // useEffect(() => {
+  //   startTransition();
+  //   return () => {
+  //     clearInterval(transitionHandler);
+  //   };
+  // }, []);
 
   useEffect(() => {
-    const gradient = document.getElementById("gradient");
-    const gradient2 = document.getElementById("gradient2");
-    if (gradient && gradient2) {
-      gradient.children[0].setAttribute(
-        "stop-color",
-        `rgb(${currentColor.r},${currentColor.g},${currentColor.b})`,
-      );
-      gradient.children[1].setAttribute(
-        "stop-color",
-        `rgb(${targetColor.r},${targetColor.g},${targetColor.b})`,
-      );
+    const randomColor = () => {
+      // Generate random values for each of the R, G, and B components
+      const r = Math.floor(Math.random() * 256); // Random number between 0 and 255
+      const g = Math.floor(Math.random() * 256);
+      const b = Math.floor(Math.random() * 256);
 
-      gradient2.children[0].setAttribute(
-        "stop-color",
-        `rgb(${currentColor.r},${currentColor.g},${currentColor.b})`,
-      );
-      gradient2.children[1].setAttribute(
-        "stop-color",
-        `rgb(${targetColor.r + 50},${targetColor.g + 200},${targetColor.b})`,
-      );
-    }
-  }, [currentColor, targetColor]);
+      // Convert the decimal values to hex and ensure they have two digits
+      const rHex = r.toString(16).padStart(2, "0");
+      const gHex = g.toString(16).padStart(2, "0");
+      const bHex = b.toString(16).padStart(2, "0");
+
+      // Concatenate the hex values to form a valid hex color string
+      return `#${rHex}${gHex}${bHex}`;
+    };
+    const changeColor = () => {
+      document.body.style.backgroundColor = randomColor();
+    };
+
+    const hexToRgb = (hex: string) => {
+      hex.toLowerCase();
+      let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return {
+        r: parseInt(result![1], 16),
+        g: parseInt(result![2], 16),
+        b: parseInt(result![3], 16),
+      };
+    };
+
+    console.log(hexToRgb(randomColor()));
+
+    console.log(randomColor());
+
+    // const gradient = document.getElementById("gradient");
+    // const gradient2 = document.getElementById("gradient2");
+    // if (gradient && gradient2) {
+    //   gradient.children[0].setAttribute(
+    //     "stop-color",
+    //     `rgb(${targetColor[0]},${targetColor[1]},${targetColor[2]})`,
+    //   );
+    // gradient.children[1].setAttribute(
+    //   "stop-color",
+    //   `rgb(${targetColor[0]},${targetColor[1]},${targetColor[2]})`,
+    // );
+    // gradient2.children[0].setAttribute(
+    //   "stop-color",
+    //   `rgb(${currentColor[0]},${currentColor[1]},${currentColor[2]})`,
+    // );
+    // gradient2.children[1].setAttribute(
+    //   "stop-color",
+    //   `rgb(${targetColor[0]},${targetColor[1]},${targetColor[2]})`,
+    // );
+    // }
+
+    setInterval(() => {
+      changeColor();
+    }, 5000);
+
+    // start color animation as soon as document is ready
+    document.onreadystatechange = () => {
+      if (document.readyState === "complete") {
+        changeColor();
+      }
+    };
+  });
 
   return (
     <div className="background">
@@ -200,7 +255,7 @@ const Background = () => {
           <feComposite operator="atop" in2="SourceGraphic" />
         </filter>
 
-        <linearGradient id="gradient">
+        <linearGradient color="black" id="gradient">
           <stop stopColor="var(--orange)" offset="30%" />
           <stop stopColor="var(--blue)" offset="100%" />
         </linearGradient>
