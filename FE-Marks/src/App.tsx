@@ -37,9 +37,9 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const loggesUserJSON = window.localStorage.getItem("loggedBlogappUser");
-    if (loggesUserJSON !== null) {
-      const loggedUser = JSON.parse(loggesUserJSON);
+    const loggerUserJSON = window.localStorage.getItem("loggedBlogappUser");
+    if (loggerUserJSON !== null) {
+      const loggedUser = JSON.parse(loggerUserJSON);
       blogService.setToken(loggedUser.token);
       dispatch(initializeUsers());
       dispatch(setUser(loggedUser));
@@ -53,7 +53,6 @@ const App = () => {
         <Notification />
         <Menu />
         <main className="main">
-          <Background />
           <Routes>
             <Route path="/login" element={<NotLoggedIn />} />
             <Route path="/users/:id" element={<User />} />

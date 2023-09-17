@@ -6,7 +6,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import blogList from "../theme/BlogList";
 import useHome from "../theme/Home";
 import AccountPage from "./users/AccountPage";
-import Togglable, { VisibilityHandle } from "./Togglable";
+import Toggleable, { VisibilityHandle } from "./Togglable";
 import { useRef } from "react";
 
 const Home = () => {
@@ -87,9 +87,9 @@ const Home = () => {
             </Button>
           ))}
       </Paper>
-      <Togglable buttonLabel="Account settings" ref={accountRef}>
+      <Toggleable buttonLabel="Account settings" ref={accountRef}>
         <AccountPage />
-      </Togglable>
+      </Toggleable>
     </Box>
   );
 };
