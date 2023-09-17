@@ -5,7 +5,7 @@ const Background = () => {
   const random = (min: number, max: number) =>
     Math.round(min + Math.random() * (max - min));
 
-  const randomcolorInRgb = () => {
+  const randomizerInRgb = () => {
     let color = [];
     for (let i = 0; i < 3; i++) {
       let num = random(0, 255);
@@ -29,7 +29,7 @@ const Background = () => {
   };
 
   // Calculates the distance between the RGB
-  // valuses so the increment values can be
+  // values so the increment values can be
   // calculated for the R, G and B values
   const calculateDistance = (colorArray1: number[], colorArray2: number[]) => {
     let distance = [];
@@ -42,7 +42,7 @@ const Background = () => {
   // Calculates the increment values for R, G, and B using distance, fps, and duration.
   // This calculation can be made in many different ways.
   const calculateIncrement = (
-    disyanceArray: number[],
+    distanceArray: number[],
     fps: number,
     duration: number,
   ): number[] => {
@@ -51,8 +51,8 @@ const Background = () => {
 
     let increment: number[] = [];
 
-    for (let i = 0; i < disyanceArray.length; i++) {
-      let inc = Math.abs(Math.floor(disyanceArray[i] / (fps * duration)));
+    for (let i = 0; i < distanceArray.length; i++) {
+      let inc = Math.abs(Math.floor(distanceArray[i] / (fps * duration)));
       if (inc == 0) {
         inc = 1;
       }
@@ -64,8 +64,8 @@ const Background = () => {
     return increment;
   };
 
-  const [currentColor, setCurrentColor] = useState(randomcolorInRgb());
-  const [targetColor, setTargetColor] = useState(randomcolorInRgb());
+  const [currentColor, setCurrentColor] = useState(randomizerInRgb());
+  const [targetColor, setTargetColor] = useState(randomizerInRgb());
   const [increment, setIncrement] = useState([0, 0, 0]);
   let fps = 30;
   let duration = 3;
@@ -133,7 +133,7 @@ const Background = () => {
   const startTransition = () => {
     clearInterval(transitionHandler);
 
-    setTargetColor(randomcolorInRgb());
+    setTargetColor(randomizerInRgb());
     const distance = calculateDistance(currentColor, targetColor);
     const newIncrement = calculateIncrement(distance, fps, duration);
 
@@ -151,71 +151,71 @@ const Background = () => {
   //   };
   // }, []);
 
-  useEffect(() => {
-    const randomColor = () => {
-      // Generate random values for each of the R, G, and B components
-      const r = Math.floor(Math.random() * 256); // Random number between 0 and 255
-      const g = Math.floor(Math.random() * 256);
-      const b = Math.floor(Math.random() * 256);
-
-      // Convert the decimal values to hex and ensure they have two digits
-      const rHex = r.toString(16).padStart(2, "0");
-      const gHex = g.toString(16).padStart(2, "0");
-      const bHex = b.toString(16).padStart(2, "0");
-
-      // Concatenate the hex values to form a valid hex color string
-      return `#${rHex}${gHex}${bHex}`;
-    };
-    const changeColor = () => {
-      document.body.style.backgroundColor = randomColor();
-    };
-
-    const hexToRgb = (hex: string) => {
-      hex.toLowerCase();
-      let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      return {
-        r: parseInt(result![1], 16),
-        g: parseInt(result![2], 16),
-        b: parseInt(result![3], 16),
-      };
-    };
-
-    console.log(hexToRgb(randomColor()));
-
-    console.log(randomColor());
-
-    // const gradient = document.getElementById("gradient");
-    // const gradient2 = document.getElementById("gradient2");
-    // if (gradient && gradient2) {
-    //   gradient.children[0].setAttribute(
-    //     "stop-color",
-    //     `rgb(${targetColor[0]},${targetColor[1]},${targetColor[2]})`,
-    //   );
-    // gradient.children[1].setAttribute(
-    //   "stop-color",
-    //   `rgb(${targetColor[0]},${targetColor[1]},${targetColor[2]})`,
-    // );
-    // gradient2.children[0].setAttribute(
-    //   "stop-color",
-    //   `rgb(${currentColor[0]},${currentColor[1]},${currentColor[2]})`,
-    // );
-    // gradient2.children[1].setAttribute(
-    //   "stop-color",
-    //   `rgb(${targetColor[0]},${targetColor[1]},${targetColor[2]})`,
-    // );
-    // }
-
-    setInterval(() => {
-      changeColor();
-    }, 5000);
-
-    // start color animation as soon as document is ready
-    document.onreadystatechange = () => {
-      if (document.readyState === "complete") {
-        changeColor();
-      }
-    };
-  });
+  // useEffect(() => {
+  //   const randomColor = () => {
+  //     // Generate random values for each of the R, G, and B components
+  //     const r = Math.floor(Math.random() * 256); // Random number between 0 and 255
+  //     const g = Math.floor(Math.random() * 256);
+  //     const b = Math.floor(Math.random() * 256);
+  //
+  //     // Convert the decimal values to hex and ensure they have two digits
+  //     const rHex = r.toString(16).padStart(2, "0");
+  //     const gHex = g.toString(16).padStart(2, "0");
+  //     const bHex = b.toString(16).padStart(2, "0");
+  //
+  //     // Concatenate the hex values to form a valid hex color string
+  //     return `#${rHex}${gHex}${bHex}`;
+  //   };
+  //   const changeColor = () => {
+  //     document.body.style.backgroundColor = randomColor();
+  //   };
+  //
+  //   const hexToRgb = (hex: string) => {
+  //     hex.toLowerCase();
+  //     let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  //     return {
+  //       r: parseInt(result![1], 16),
+  //       g: parseInt(result![2], 16),
+  //       b: parseInt(result![3], 16),
+  //     };
+  //   };
+  //
+  //   console.log(hexToRgb(randomColor()));
+  //
+  //   console.log(randomColor());
+  //
+  //   // const gradient = document.getElementById("gradient");
+  //   // const gradient2 = document.getElementById("gradient2");
+  //   // if (gradient && gradient2) {
+  //   //   gradient.children[0].setAttribute(
+  //   //     "stop-color",
+  //   //     `rgb(${targetColor[0]},${targetColor[1]},${targetColor[2]})`,
+  //   //   );
+  //   // gradient.children[1].setAttribute(
+  //   //   "stop-color",
+  //   //   `rgb(${targetColor[0]},${targetColor[1]},${targetColor[2]})`,
+  //   // );
+  //   // gradient2.children[0].setAttribute(
+  //   //   "stop-color",
+  //   //   `rgb(${currentColor[0]},${currentColor[1]},${currentColor[2]})`,
+  //   // );
+  //   // gradient2.children[1].setAttribute(
+  //   //   "stop-color",
+  //   //   `rgb(${targetColor[0]},${targetColor[1]},${targetColor[2]})`,
+  //   // );
+  //   // }
+  //
+  //   setInterval(() => {
+  //     changeColor();
+  //   }, 5000);
+  //
+  //   // start color animation as soon as document is ready
+  //   document.onreadystatechange = () => {
+  //     if (document.readyState === "complete") {
+  //       changeColor();
+  //     }
+  //   };
+  // }, [document.readyState]);
 
   return (
     <div className="background">
@@ -261,6 +261,7 @@ const Background = () => {
         </linearGradient>
 
         <path
+            className='.path'
           filter="url(#grain) url(#innershadow)"
           d="M422.387 198.227L422.391 198.219L422.396 198.211C502.319 60.8445 622.539 0.0311147 722.711 0.502722C772.8 0.738534 817.863 16.2941 850.397 45.241C882.924 74.1814 902.964 116.538 902.964 170.46C902.964 386.353 722.037 540.046 503.397 569.464C391.377 584.537 274.916 566.55 182.513 516.836C90.1201 467.127 21.7931 385.709 5.95884 273.89C-0.102654 231.085 -0.934731 202.296 2.56416 184.102C4.31299 175.009 7.13492 168.612 10.881 164.434C14.6125 160.271 19.2937 158.273 24.8606 158.03C30.4474 157.786 36.934 159.312 44.2331 162.232C51.5277 165.151 59.5994 169.448 68.3466 174.712C81.0437 182.352 95.1262 192.005 110.285 202.396C116.019 206.327 121.908 210.364 127.934 214.437C171.8 244.087 222.893 275.643 274.278 281.98C299.987 285.15 325.778 282.01 350.771 269.162C375.759 256.315 399.914 233.783 422.387 198.227Z"
         />
