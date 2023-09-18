@@ -33,23 +33,24 @@
 .background{
     position: absolute;
     z-index: -1;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding-top: 6rem;
-    padding-left: 4rem;
-    width: 100%;
+    top: 30%;
+    left: 40%;
 }
 
+
 .gr1 {
-  position: absolute;
-  z-index: 1;
+    position: absolute;
+    z-index: 1;
+    height: 20rem;
+    width: 20rem;
 }
 
 .gr2 {
-  position: relative;
-  top: -4.5em;
-  z-index: 0;
+    position: relative;
+    top: -4.5em;
+    z-index: 0;
+    height: 20rem;
+    width: 20rem;
 }
 
 
