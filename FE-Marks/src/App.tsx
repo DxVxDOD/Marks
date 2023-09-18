@@ -51,6 +51,7 @@ const App = () => {
       <CssBaseline />
       <>
         <Notification />
+        <Background/>
         <Menu />
         <main className="main">
           <Routes>
