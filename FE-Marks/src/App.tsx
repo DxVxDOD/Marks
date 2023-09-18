@@ -51,9 +51,9 @@ const App = () => {
       <CssBaseline />
       <>
         <Notification />
-        <Background/>
         <Menu />
         <main className="main">
+          <Background/>
           <Routes>
             <Route path="/login" element={<NotLoggedIn />} />
             <Route path="/users/:id" element={<User />} />
