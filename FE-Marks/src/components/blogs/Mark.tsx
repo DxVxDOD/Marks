@@ -31,9 +31,6 @@ const Mark = () => {
   const marks = useAppSelector((state) => state.mark);
   const { classes } = useBlog();
   const mark = marks.filter((mark) => mark.id === state.id)[0];
-  console.log("userId", user.username);
-  console.log(mark.id);
-  console.log(user.username === mark.user.username);
 
   useEffect(() => {
     dispatch(initializeMarks());
