@@ -12,7 +12,6 @@ const HomeNoUser = () => {
         flexDirection: "column",
         gap: "2rem",
         alignItems: "center",
-        marginTop: "2rem",
       }}
       component="section"
     >

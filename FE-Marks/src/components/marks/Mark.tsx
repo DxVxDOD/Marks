@@ -46,7 +46,7 @@ const Mark = () => {
     }
   };
 
-  const removemark = async () => {
+  const removeMark = async () => {
     if (mark && window.confirm(`Would you like to remove ${mark.title} ?`)) {
       try {
         dispatch(deleteMark(mark.id!));
@@ -123,7 +123,7 @@ const Mark = () => {
                   className={classes.button}
                   aria-label="delete button"
                   startIcon={<DeleteOutlinedIcon />}
-                  onClick={removemark}
+                  onClick={removeMark}
                 >
                   Remove
                 </Button>

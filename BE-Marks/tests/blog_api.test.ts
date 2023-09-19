@@ -15,15 +15,15 @@ beforeEach(async () => {
   await Promise.all(promiseArray);
 });
 
-describe("Checking how blogs are returned", () => {
-  test("blogs are returned as json", async () => {
+describe("Checking how marks are returned", () => {
+  test("marks are returned as json", async () => {
     await api
       .get("/api/blog")
       .expect(200)
       .expect("Content-Type", /application\/json/);
   });
 
-  test("all blogs are returned", async () => {
+  test("all marks are returned", async () => {
     const response = await api.get("/api/blog");
 
     expect(response.body).toHaveLength(helper.bigBlogs.length);
@@ -41,7 +41,7 @@ describe("Checking how blogs are returned", () => {
   });
 });
 
-describe("Checks how blogs are posted", () => {
+describe("Checks how marks are posted", () => {
   test("a valid note can be added", async () => {
     await api
       .post("/api/blog")

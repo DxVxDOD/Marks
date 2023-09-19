@@ -85,7 +85,7 @@ markRouter.delete("/:id", userExtractor, async (request, response, next) => {
   } else {
     return response
       .status(401)
-      .json({ error: "You do not have the permision to delete this blog!" });
+      .json({ error: "You do not have the permission to delete this blog!" });
   }
 
   response.status(204).end();

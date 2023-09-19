@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import config from "./utils/config.js";
 import express from "express";
 import markRouter from "./controllers/mark.js";
@@ -11,6 +10,7 @@ import userRouter from "./controllers/users.js";
 import loginRouter from "./controllers/login.js";
 import testingRouter from "./controllers/testing.js";
 import commentRouter from "./controllers/comment.js";
+import compression from 'compression'
 
 const app = express();
 
@@ -29,6 +29,7 @@ mongoose
     logger.error("error connecting to MongoDB", error.message);
   });
 
+app.use(compression())
 app.use(cors());
 app.use(express.static("dist"));
 app.use(express.json());

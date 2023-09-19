@@ -11,9 +11,13 @@ const Footer = () => {
         justifyContent: "center",
         gap: "1rem",
         marginTop: "auto",
-        borderTop: "solid 0.075rem #78909c",
         borderRadius: 0,
+          borderColor: '#8F9094',
+          borderBottom: 'none',
+          borderLeft: 'none',
+          borderRight: 'none'
       }}
+      variant="outlined"
       component="footer"
     >
       <Button

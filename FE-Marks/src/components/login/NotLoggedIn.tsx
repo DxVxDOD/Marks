@@ -1,4 +1,4 @@
-import Togglable, { VisibilityHandle } from "../Togglable.js";
+import Toggleable, { VisibilityHandle } from "../Togglable.js";
 import LoginForm from "./LoginForm.js";
 import CreateUserForm from "../users/CreateUserForm.js";
 import { useRef } from "react";
@@ -13,9 +13,9 @@ const NotLoggedIn = () => {
       flexDirection: 'column'
     }} component='article'>
       <LoginForm />
-      <Togglable buttonLabel="Sign up" ref={signUpRef}>
+      <Toggleable buttonLabel="Sign up" ref={signUpRef}>
         <CreateUserForm signUpRef={signUpRef} />
-      </Togglable>
+      </Toggleable>
     </Box>
   );
 };
