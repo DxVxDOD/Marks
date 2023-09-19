@@ -15,7 +15,6 @@ const NotLoggedInMarks = () => {
       sx={{
         display: "flex",
         justifyContent: "center",
-        marginTop: "2rem",
       }}
       component="article"
     >

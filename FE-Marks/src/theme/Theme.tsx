@@ -1,15 +1,15 @@
 import { createTheme } from "@mui/material";
-import { amber, blueGrey, grey, red, teal } from "@mui/material/colors";
+import { amber, blueGrey, red, teal } from "@mui/material/colors";
 
 const theme = createTheme({
   palette: {
     mode: "dark",
     background: {
-      default: "#1F2022",
-      paper: grey[900],
+      default: "#171717",
+      paper: "#121213",
     },
     primary: {
-      main: blueGrey.A400,
+      main: "#8F9094",
     },
     text: {
       primary: blueGrey.A400,

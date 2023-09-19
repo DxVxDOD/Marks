@@ -14,7 +14,7 @@ const useBlog = makeStyles()((theme) => {
     },
     button: {
       [theme.breakpoints.down("sm")]: {
-        fontSize: "0.6rem",
+        fontSize: "0.8rem",
       },
     },
     otherTxt: {

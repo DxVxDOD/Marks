@@ -25,13 +25,17 @@ const Menu = () => {
     <Paper
       component="header"
       sx={{
-        borderBottom: "solid 0.075rem #78909c",
         borderRadius: 0,
         display: "flex",
         width: "100%",
         alignItems: "center",
         padding: "0.5em",
+          borderColor: '#8F9094',
+          borderTop: 'none',
+          borderLeft: 'none',
+          borderRight: 'none'
       }}
+      variant='outlined'
     >
       <Box
         component="nav"
@@ -47,11 +51,11 @@ const Menu = () => {
           }}
           direction="column"
         >
-          <ButtonGroup variant="outlined" aria-label="alignment button group">
+          <ButtonGroup variant="outlined"  aria-label="alignment button group">
             <Button
               className={classes.button}
               component={RouterLink}
-              to={"/blogs"}
+              to={"/marks"}
             >
               Marks
             </Button>

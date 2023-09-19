@@ -10,6 +10,6 @@ type UserT = {
   id: string;
 };
 
-type User = Optional<UserT, "blogs", "id">;
+type User = Optional<UserT, "marks", "id">;
 
 export { User };
