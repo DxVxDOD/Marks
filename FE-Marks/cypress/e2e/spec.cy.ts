@@ -70,7 +70,7 @@ describe("Blog app", function () {
         cy.contains("1");
       });
 
-      it("Only users can like the blogs", function () {
+      it("Only users can like the marks", function () {
         cy.contains("Log out").click();
         cy.contains("view").click();
         cy.contains("like").click();
@@ -97,7 +97,7 @@ describe("Blog app", function () {
       });
     });
 
-    describe("Multiple blogs exist", function () {
+    describe("Multiple marks exist", function () {
       beforeEach(function () {
         cy.createBlog({
           author: "Testing author field",

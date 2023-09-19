@@ -9,7 +9,7 @@ const useHome = makeStyles()((theme) => {
     },
     bttnTxt: {
       [theme.breakpoints.down("sm")]: {
-        fontSize: "0.7rem",
+        fontSize: "0.8rem",
       },
     },
   };

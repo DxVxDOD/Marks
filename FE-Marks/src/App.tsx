@@ -7,9 +7,9 @@ import { setUser } from "./reducers/userReducer.ts";
 import { initializeUsers } from "./reducers/userArrayReducer.ts";
 import { Route, Routes } from "react-router-dom";
 import User from "./components/users/User.tsx";
-import Blog from "./components/blogs/Mark.tsx";
-import NotLoggedInBlogs from "./components/blogs/NotLoggedInMarks.tsx";
-import LoggedInBlogs from "./components/blogs/LoggedInMarks.tsx";
+import Blog from "./components/marks/Mark.tsx";
+import NotLoggedInMarks from "./components/marks/NotLoggedInMarks.tsx";
+import LoggedInMarks from "./components/marks/LoggedInMarks.tsx";
 import Menu from "./components/Menu.tsx";
 import UserInformation from "./components/users/UserInformation.tsx";
 import Home from "./components/Home.tsx";
@@ -25,7 +25,6 @@ import NotLoggedIn from "./components/login/NotLoggedIn.tsx";
 import Footer from "./components/Footer.tsx";
 import HomeNoUser from "./components/HomeNoUser.tsx";
 import theme from "./theme/Theme.tsx";
-import Background from "./components/Background.tsx";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -53,7 +52,6 @@ const App = () => {
         <Notification />
         <Menu />
         <main className="main">
-          <Background/>
           <Routes>
             <Route path="/login" element={<NotLoggedIn />} />
             <Route path="/users/:id" element={<User />} />
@@ -66,12 +64,12 @@ const App = () => {
             <Route path="/users" element={<UserInformation />} />
             {user === null ? (
               <>
-                <Route path="/blogs" element={<NotLoggedInBlogs />} />
+                <Route path="/marks" element={<NotLoggedInMarks />} />
               </>
             ) : (
-              <Route path="/blogs" element={<LoggedInBlogs />} />
+              <Route path="/marks" element={<LoggedInMarks />} />
             )}
-            <Route path="/blog/:id" element={<Blog />} />
+            <Route path="/marks/:id" element={<Blog />} />
           </Routes>
         </main>
 

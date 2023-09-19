@@ -40,7 +40,7 @@ describe("Favourite blog", () => {
 });
 
 describe("Most Blogs", () => {
-  test("author with the most blogs", () => {
+  test("author with the most marks", () => {
     const mostBlogs = lisHelper.mostBlogs(bigBlogs);
     expect(mostBlogs).toEqual({
       author: "Robert C. Martin",
