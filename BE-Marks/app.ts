@@ -11,6 +11,7 @@ import loginRouter from "./controllers/login.js";
 import testingRouter from "./controllers/testing.js";
 import commentRouter from "./controllers/comment.js";
 import compression from 'compression'
+import filterRouter from "./controllers/filter.js";
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use("/api/marks", markRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
 app.use("/api/comments", commentRouter);
+app.use('/api/filters', filterRouter);
 
 if (process.env.NODE_ENV === "test") {
   app.use("/api/testing", testingRouter);

@@ -1,29 +1,25 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import config from "../utils/config.js";
-import { TComment } from "../types/comment.js";
+import { TFilter } from "../types/filter.js";
 
 dotenv.config();
 
 const { MONGO_URI } = config;
 
 mongoose.set("strictQuery", false);
+
 mongoose
   .connect(MONGO_URI)
-  .then(() => {
-    console.log("connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log("error connecting to MongoDB", err.message);
-  });
+  .then(() => console.log("connected"))
+  .catch((err) => console.log("error connecting to MongoDB", err.message));
 
-const commentSchema = new mongoose.Schema({
-  content: String,
+const filterSchema = new mongoose.Schema({
+  filterName: String,
   markId: String,
 });
 
-commentSchema.set("toJSON", {
+filterSchema.set("toJSON", {
   transform(document, returnedObject) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     returnedObject.id = returnedObject._id.toString();
@@ -32,6 +28,6 @@ commentSchema.set("toJSON", {
   },
 });
 
-const Comment = mongoose.model<TComment>("Comment", commentSchema);
+const Filter = mongoose.model<TFilter>("Filter", filterSchema);
 
-export default Comment;
+export default Filter;

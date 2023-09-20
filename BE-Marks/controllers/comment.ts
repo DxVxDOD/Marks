@@ -1,10 +1,6 @@
 import express from "express";
 import Comment from "../models/comments.js";
-
-type TComment = {
-  content: string;
-  markId: string
-};
+import { TComment } from "../types/comment.js";
 
 const commentRouter = express.Router();
 
@@ -23,7 +19,7 @@ commentRouter.post("/", async (request, response) => {
 
   const comment = new Comment({
     content,
-    markId
+    markId,
   });
 
   const savedComment = await comment.save();
