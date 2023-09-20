@@ -1,6 +1,6 @@
 import { FormEvent } from "react";
 import loginService from "../../services/login.js";
-import blogService from "../../services/marks.js";
+import markService from "../../services/marks.js";
 import { AxiosError } from "axios";
 import { useAppDispatch } from "../../app/hooks.js";
 import { dispalyError } from "../../reducers/notificationReducer.js";
@@ -27,7 +27,7 @@ const LoginForm = () => {
       });
 
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      blogService.setToken(user.token);
+      markService.setToken(user.token);
       dispatch(setUser(user));
       usernameReset();
       passwordReset();

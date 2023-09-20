@@ -1,4 +1,4 @@
-import { FormEvent } from "react";
+import React, { FormEvent } from "react";
 import { VisibilityHandle } from "../Togglable";
 import { useAppDispatch } from "../../app/hooks";
 import { createMark, initializeMarks } from "../../reducers/markReducer";
