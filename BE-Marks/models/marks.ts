@@ -2,17 +2,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import config from "../utils/config.js";
-
-type MarksT = {
-  title: string;
-  author: string;
-  url: string;
-  likes: number;
-  user: {
-    type: mongoose.Schema.Types.ObjectId;
-    ref: "User";
-  };
-} & mongoose.Document;
+import { TMark } from "../types/mark.js";
 
 dotenv.config();
 
@@ -30,7 +20,7 @@ mongoose
 
 const marksSchema = new mongoose.Schema({
   title: String,
-  author: String,
+  tag: String,
   url: String,
   likes: Number,
   user: {
@@ -48,6 +38,6 @@ marksSchema.set("toJSON", {
   },
 });
 
-const Mark = mongoose.model<MarksT>("Mark", marksSchema);
+const Mark = mongoose.model<TMark>("Mark", marksSchema);
 
 export default Mark;

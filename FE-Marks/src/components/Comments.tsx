@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { useForm } from "../hooks/useForm";
 import { createComment } from "../reducers/commentReducer";
 import { AxiosError } from "axios";
-import { dispalyError } from "../reducers/notificationReducer";
+import { displayError } from "../reducers/notificationReducer";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import {
   Box,
@@ -20,9 +20,6 @@ import useBlog from "../theme/Blog";
 const Comments = ({ markId }: { markId: string }) => {
   const comments = useAppSelector((state) => state.comments);
   const dispatch = useAppDispatch();
-  console.log(comments)
-    console.log('markId', markId)
-    console.log(comments.filter(comment => markId === comment.id))
 
   const { classes } = useBlog();
   const { reset: resetComment, ...comment } = useForm("text");
@@ -39,7 +36,7 @@ const Comments = ({ markId }: { markId: string }) => {
       resetComment();
     } catch (exception: unknown) {
       if (exception instanceof AxiosError && exception.response) {
-        dispatch(dispalyError(exception.response.data.error, 5000));
+        dispatch(displayError(exception.response.data.error, 5000));
       }
     }
   };
