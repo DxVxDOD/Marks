@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { MarkT } from "../types/mark";
 import markService from "../services/marks";
 import { AppThunk } from "../app/store";
-import { dispalySuccess } from "./notificationReducer";
+import { displaySuccess } from "./notificationReducer";
 
 const initialState = [] as MarkT[];
 
@@ -40,7 +40,7 @@ export const createMark = (mark: MarkT): AppThunk => {
     const newMark = await markService.create(mark);
     dispatch(create(newMark));
     dispatch(
-      dispalySuccess(`New blog: ${newMark.title} by ${newMark.author}!`, 5000),
+      displaySuccess(`New mark: ${newMark.title}!`, 5000),
     );
   };
 };
@@ -49,22 +49,15 @@ export const updateMark = (blog: MarkT): AppThunk => {
   return async (dispatch) => {
     const updatedBlog = { ...blog, likes: blog.likes! + 1 };
     const response = await markService.update(updatedBlog.id!, updatedBlog);
-
     dispatch(like(response));
-    dispatch(
-      dispalySuccess(
-        `${response.title} by ${response.author} has been updated!`,
-        5000,
-      ),
-    );
   };
 };
 
 export const deleteMark = (id: string): AppThunk => {
   return async (dispatch) => {
     await markService.remove(id);
-    const blogs = await markService.getAll();
-    dispatch(set(blogs));
+    const mark = await markService.getAll();
+    dispatch(set(mark));
   };
 };
 

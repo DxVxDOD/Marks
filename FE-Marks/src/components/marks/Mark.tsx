@@ -1,8 +1,8 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { AxiosError } from "axios";
 import {
-  dispalyError,
-  dispalySuccess,
+  displayError,
+  displaySuccess,
 } from "../../reducers/notificationReducer";
 import { useLocation } from "react-router-dom";
 import Comments from "../Comments";
@@ -41,7 +41,7 @@ const Mark = () => {
       dispatch(updateMark(mark));
     } catch (exception: unknown) {
       if (exception instanceof AxiosError && exception.response) {
-        dispatch(dispalyError(exception.response.data.error, 5000));
+        dispatch(displayError(exception.response.data.error, 5000));
       }
     }
   };
@@ -50,10 +50,10 @@ const Mark = () => {
     if (mark && window.confirm(`Would you like to remove ${mark.title} ?`)) {
       try {
         dispatch(deleteMark(mark.id!));
-        dispatch(dispalySuccess(`${mark.title} has been removed`, 5000));
+        dispatch(displaySuccess(`${mark.title} has been removed`, 5000));
       } catch (exception: unknown) {
         if (exception instanceof AxiosError && exception.response) {
-          dispatch(dispalyError(exception.response.data.error, 5000));
+          dispatch(displayError(exception.response.data.error, 5000));
         }
       }
     }
@@ -87,7 +87,7 @@ const Mark = () => {
             Title: {mark.title}
           </Typography>
           <Typography className={classes.author} component="h3" variant="h5">
-            Author: {mark.author}
+            Author: {mark.tag}
           </Typography>
         </Box>
         <Link href={mark.url}>

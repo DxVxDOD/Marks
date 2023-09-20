@@ -26,7 +26,6 @@ const { set, create } = slice.actions
 export const initializeComments = (): AppThunk => {
     return async dispatch => {
         const comments = await genericService.getAll(baseUrl);
-        console.log('reducer',comments)
         dispatch(set(comments))
     }
 }

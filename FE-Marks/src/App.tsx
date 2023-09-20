@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import blogService from "./services/marks.ts";
-import Notification from "./components/Notifications.tsx";
 import { useAppDispatch, useAppSelector } from "./app/hooks.ts";
 import { initializeMarks } from "./reducers/markReducer.ts";
 import { setUser } from "./reducers/userReducer.ts";
@@ -49,7 +48,6 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <>
-        <Notification />
         <Menu />
         <main className="main">
           <Routes>

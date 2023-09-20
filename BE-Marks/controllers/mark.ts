@@ -1,8 +1,8 @@
 import express from "express";
 import Mark from "../models/marks.js";
-import type MarkT from "../types/mark.js";
 import User from "../models/user.js";
 import middleware from "../utils/middleware.js";
+import { TMark } from "../types/mark.js";
 
 const markRouter = express.Router();
 
@@ -27,8 +27,8 @@ markRouter.post("/", userExtractor, async (request, response, next) => {
     Object.assign(request.body, { likes: 0 });
   }
 
-  if (!request.body.author) {
-    return response.status(400).json({ error: "author is missing" });
+  if (!request.body.tag) {
+    return response.status(400).json({ error: "tag is missing" });
   }
 
   if (!request.body.title) {
@@ -40,31 +40,31 @@ markRouter.post("/", userExtractor, async (request, response, next) => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { body }: { body: MarkT } = request;
+  const { body }: { body: TMark } = request;
 
   const { user } = response.locals;
 
   const mark = new Mark({
     title: body.title,
-    author: body.author,
+    tag: body.tag,
     url: body.url,
     likes: body.likes,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     user: user._id,
   });
 
-  const svaedMark = await mark.save();
+  const savedMark = await mark.save();
   if (!user) {
     return response.status(401).json({ error: "token is invalid" });
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-  user.marks = user.marks.concat(svaedMark._id);
+  user.marks = user.marks.concat(savedMark._id);
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   await user.save();
 
-  response.status(201).json(svaedMark);
+  response.status(201).json(savedMark);
 });
 
 markRouter.delete("/:id", userExtractor, async (request, response, next) => {
@@ -93,7 +93,7 @@ markRouter.delete("/:id", userExtractor, async (request, response, next) => {
 
 markRouter.put("/:id", userExtractor, async (request, response, next) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { body }: { body: MarkT } = request;
+  const { body }: { body: TMark } = request;
   const { user } = response.locals;
 
   if (!user) {
@@ -102,7 +102,7 @@ markRouter.put("/:id", userExtractor, async (request, response, next) => {
 
   const mark = {
     title: body.title,
-    author: body.author,
+    tag: body.tag,
     url: body.url,
     likes: body.likes,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

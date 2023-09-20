@@ -1,10 +1,12 @@
-type MarkT = {
-  id: string;
+import mongoose from "mongoose";
+
+export type TMark = {
   title: string;
-  author: string;
+  tag: string;
   url: string;
   likes: number;
-  userId: string;
-};
-
-export default MarkT;
+  user: {
+    type: mongoose.Schema.Types.ObjectId;
+    ref: "User";
+  };
+} & mongoose.Document;

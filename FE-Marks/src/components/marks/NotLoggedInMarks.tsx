@@ -1,7 +1,15 @@
 import { Link as RouterLink } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks.js";
 import ArticleIcon from "@mui/icons-material/Article";
-import { Box, Button, Icon, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  Typography,
+} from "@mui/material";
 import blogList from "../../theme/BlogList.js";
 import useHome from "../../theme/Home.js";
 
@@ -26,8 +34,6 @@ const NotLoggedInMarks = () => {
         <Paper
           sx={{
             padding: "2rem",
-            minWidth: "75%",
-            maxWidth: "75%",
             display: "flex",
             gap: "1rem",
             flexDirection: "column",
@@ -45,40 +51,40 @@ const NotLoggedInMarks = () => {
               gap: {
                 xs: "1rem",
               },
-              marginLeft: "1rem",
             }}
           >
-            {[...marks]
-              .sort((a, b) => b.likes! - a.likes!)
-              .map((mark) => (
-                <Button
-                  aria-label="button to access blogs"
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-start",
-                  }}
-                  className={classes.listItem}
-                  key={mark.id}
-                  component={RouterLink}
-                  to={`/blog/${mark.id}`}
-                  state={mark}
-                >
-                  <Icon
-                    fontSize="small"
+            <List>
+              {[...marks]
+                .sort((a, b) => b.likes! - a.likes!)
+                .map((mark) => (
+                  <ListItemButton
+                    aria-label="button to access blogs"
                     sx={{
                       display: "flex",
-                      justifyContent: "center",
-                      flexDirection: "column",
+                      justifyContent: "flex-start",
                     }}
-                    className={classes.icon}
+                    className={classes.listItem}
+                    key={mark.id}
+                    component={RouterLink}
+                    to={`/marks/${mark.id}`}
+                    state={mark}
                   >
-                    <ArticleIcon fontSize="small" />
-                  </Icon>
-                  <Typography className={button.bttnTxt}>
-                    {mark.title}
-                  </Typography>
-                </Button>
-              ))}
+                    <ListItemIcon
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        flexDirection: "column",
+                      }}
+                      className={classes.icon}
+                    >
+                      <ArticleIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText className={button.bttnTxt}>
+                      {mark.title}
+                    </ListItemText>
+                  </ListItemButton>
+                ))}
+            </List>
           </Box>
         </Paper>
       )}

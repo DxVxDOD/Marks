@@ -4,7 +4,7 @@ import { MarkT } from "../../types/mark.js";
 import { useRef } from "react";
 import MarkForm from "./MarksForm.js";
 import Toggleable, { VisibilityHandle } from "../Togglable.js";
-import { Box, Button, Icon, Paper, Typography } from "@mui/material";
+import {Box, Button, Icon, List, ListItemButton, ListItemIcon, ListItemText, Paper, Typography} from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 import blogList from "../../theme/BlogList.js";
 import useHome from "../../theme/Home.js";
@@ -47,35 +47,36 @@ const LoggedInMarks = () => {
             }}
             component="nav"
           >
-            {[...marks]
-              .sort((a: MarkT, b: MarkT) => b.likes! - a.likes!)
-              .filter((mark: MarkT) => mark.user.username === user.username)
-              .map((mark: MarkT) => (
-                <Button
-                  aria-label="button to access marks"
-                  sx={{
-                    marginLeft: "2rem",
-                    display: "flex",
-                    justifyContent: "flex-start",
-                  }}
-                  key={mark.id}
-                  component={RouterLink}
-                  to={`/marks/${mark.id}`}
-                  state={mark}
-                >
-                  <Icon className={classes.icon}>
-                    <ArticleIcon
-                      sx={{
-                        display: "flex",
-                      }}
-                      fontSize="small"
-                    />
-                  </Icon>
-                  <Typography className={button.bttnTxt}>
-                    {mark.title}
-                  </Typography>
-                </Button>
-              ))}
+            <List>
+              {[...marks]
+                .sort((a: MarkT, b: MarkT) => b.likes! - a.likes!)
+                .filter((mark: MarkT) => mark.user.username === user.username)
+                .map((mark: MarkT) => (
+                  <ListItemButton
+                    aria-label="button to access marks"
+                    sx={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                    }}
+                    key={mark.id}
+                    component={RouterLink}
+                    to={`/marks/${mark.id}`}
+                    state={mark}
+                  >
+                    <ListItemIcon className={classes.icon}>
+                      <ArticleIcon
+                        sx={{
+                          display: "flex",
+                        }}
+                        fontSize="small"
+                      />
+                    </ListItemIcon>
+                    <ListItemText className={button.bttnTxt}>
+                      {mark.title}
+                    </ListItemText>
+                  </ListItemButton>
+                ))}
+            </List>
           </Box>
         </Paper>
       )}

@@ -3,7 +3,7 @@ import { VisibilityHandle } from "../Togglable";
 import { useAppDispatch } from "../../app/hooks";
 import { createMark, initializeMarks } from "../../reducers/markReducer";
 import { AxiosError } from "axios";
-import { dispalyError } from "../../reducers/notificationReducer";
+import { displayError } from "../../reducers/notificationReducer";
 import { useForm } from "../../hooks/useForm";
 import { Box, Button, Paper, Stack, TextField } from "@mui/material";
 
@@ -12,7 +12,7 @@ const MarkForm = ({
 }: {
   markFormRef: React.MutableRefObject<VisibilityHandle | undefined>;
 }) => {
-  const { reset: resetAuthor, ...author } = useForm("text");
+  const { reset: resetTag, ...tag } = useForm("text");
   const { reset: resetTitle, ...title } = useForm("text");
   const { reset: resetUrl, ...url } = useForm("text");
 
@@ -25,19 +25,19 @@ const MarkForm = ({
 
     const markObject = {
       title: title.value,
-      author: author.value,
+      tag: tag.value,
       url: url.value,
     };
 
     try {
       dispatch(createMark(markObject));
       dispatch(initializeMarks());
-      resetAuthor();
+      resetTag();
       resetTitle();
       resetUrl();
     } catch (exception: unknown) {
       if (exception instanceof AxiosError && exception.response) {
-        dispatch(dispalyError(exception.response.data.error, 5000));
+        dispatch(displayError(exception.response.data.error, 5000));
       }
     }
   };
@@ -72,15 +72,6 @@ const MarkForm = ({
           spacing={2}
         >
           <TextField
-            required
-            size="small"
-            label="Author"
-            variant="standard"
-            placeholder="Author"
-            color="success"
-            {...author}
-          />
-          <TextField
             color="success"
             required
             size="small"
@@ -89,7 +80,7 @@ const MarkForm = ({
             placeholder="Title"
             {...title}
           />
-          <TextField
+            <TextField
             required
             color="success"
             size="small"
@@ -98,6 +89,15 @@ const MarkForm = ({
             placeholder="Url"
             {...url}
           />
+            <TextField
+                required
+                size="small"
+                label="Tag"
+                variant="standard"
+                placeholder="Tag"
+                color="success"
+                {...tag}
+            />
         </Stack>
         <Button
           aria-label="submit button"

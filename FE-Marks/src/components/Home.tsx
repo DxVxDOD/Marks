@@ -1,7 +1,7 @@
 import { Link as RouterLink } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
 import { MarkT } from "../types/mark";
-import { Box, Button, Icon, Paper, Typography } from "@mui/material";
+import {Box, List, ListItemButton, ListItemIcon, ListItemText, Paper, Typography} from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 import blogList from "../theme/BlogList";
 import useHome from "../theme/Home";
@@ -59,33 +59,36 @@ const Home = () => {
             My marks:
           </Typography>
         </Box>
-        {[...marks]
-          .sort((a: MarkT, b: MarkT) => b.likes! - a.likes!)
-          .filter((mark: MarkT) => mark.user.username === user.username)
-          .map((mark: MarkT) => (
-            <Button
-              sx={{
-                display: "flex",
-                justifyContent: "flex-start",
-              }}
-              key={mark.id}
-              to={`/blog/${mark.id}`}
-              component={RouterLink}
-              state={mark}
-            >
-              <Icon
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <ArticleIcon fontSize="small" />
-              </Icon>
-              <Typography className={button.bttnTxt}>
-                {mark.title} by {mark.author}
-              </Typography>
-            </Button>
-          ))}
+          <List>
+              {[...marks]
+                  .sort((a: MarkT, b: MarkT) => b.likes! - a.likes!)
+                  .filter((mark: MarkT) => mark.user.username === user.username)
+                  .map((mark: MarkT) => (
+                      <ListItemButton
+                          sx={{
+                              display: "flex",
+                              justifyContent: "flex-start",
+                          }}
+                          key={mark.id}
+                          to={`/marks/${mark.id}`}
+                          component={RouterLink}
+                          state={mark}
+                      >
+                          <ListItemIcon
+                              sx={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                              }}
+                          >
+                              <ArticleIcon fontSize="small" />
+                          </ListItemIcon>
+                          <ListItemText className={button.bttnTxt}>
+                              {mark.title}
+                          </ListItemText>
+                      </ListItemButton>
+                  ))}
+          </List>
+
       </Paper>
       <Toggleable buttonLabel="Account settings" ref={accountRef}>
         <AccountPage />
