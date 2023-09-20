@@ -31,7 +31,7 @@ const slice = createSlice({
 
 const { setSuccess, clear, setError } = slice.actions;
 
-export const dispalySuccess = (message: string, time: number): AppThunk => {
+export const displaySuccess = (message: string, time: number): AppThunk => {
   return async (dispatch) => {
     dispatch(setSuccess(message));
     setTimeout(() => {
@@ -40,7 +40,7 @@ export const dispalySuccess = (message: string, time: number): AppThunk => {
   };
 };
 
-export const dispalyError = (message: string, time: number): AppThunk => {
+export const displayError = (message: string, time: number): AppThunk => {
   return async (dispatch) => {
     dispatch(setError(message));
     setTimeout(() => {

@@ -3,7 +3,7 @@ import loginService from "../../services/login.js";
 import markService from "../../services/marks.js";
 import { AxiosError } from "axios";
 import { useAppDispatch } from "../../app/hooks.js";
-import { dispalyError } from "../../reducers/notificationReducer.js";
+import { displayError } from "../../reducers/notificationReducer.js";
 import { setUser } from "../../reducers/userReducer.js";
 import { useForm } from "../../hooks/useForm.js";
 import { Box, Button, Paper, Stack, TextField } from "@mui/material";
@@ -33,7 +33,7 @@ const LoginForm = () => {
       passwordReset();
     } catch (exception: unknown) {
       if (exception instanceof AxiosError && exception.response) {
-        dispatch(dispalyError(exception.response.data.error, 5000));
+        dispatch(displayError(exception.response.data.error, 5000));
       }
     }
   };
