@@ -24,6 +24,7 @@ const { set, create } = slice.actions
 export const initializeComments = (): AppThunk => {
     return async dispatch => {
         const comments = await commentService.getAll();
+        console.log('reducer',comments)
         dispatch(set(comments))
     }
 }
