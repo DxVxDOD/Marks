@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import commentService from "../services/commentService";
 import { AppThunk } from "../app/store";
 import { TComment } from "../types/comment";
+import genericService from "../services/genericService.ts";
+
+const baseUrl = '/api/comments'
 
 const initialState = [] as TComment[]
 
@@ -23,7 +25,7 @@ const { set, create } = slice.actions
 
 export const initializeComments = (): AppThunk => {
     return async dispatch => {
-        const comments = await commentService.getAll();
+        const comments = await genericService.getAll(baseUrl);
         console.log('reducer',comments)
         dispatch(set(comments))
     }
@@ -31,7 +33,7 @@ export const initializeComments = (): AppThunk => {
 
 export const createComment = (comment: TComment): AppThunk => {
     return async dispatch => {
-        const newComment = await commentService.create(comment)
+        const newComment = await genericService.create(comment, baseUrl)
         dispatch(create(newComment))
     }
 }
