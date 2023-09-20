@@ -20,6 +20,9 @@ import useBlog from "../theme/Blog";
 const Comments = ({ markId }: { markId: string }) => {
   const comments = useAppSelector((state) => state.comments);
   const dispatch = useAppDispatch();
+  console.log(comments)
+    console.log('markId', markId)
+    console.log(comments.filter(comment => markId === comment.id))
 
   const { classes } = useBlog();
   const { reset: resetComment, ...comment } = useForm("text");

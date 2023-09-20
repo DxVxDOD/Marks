@@ -5,6 +5,7 @@ import config from "../utils/config.js";
 
 type TComment = {
   content: string;
+  markId: string
 };
 
 dotenv.config();
@@ -23,6 +24,7 @@ mongoose
 
 const commentSchema = new mongoose.Schema({
   content: String,
+  markId: String,
 });
 
 commentSchema.set("toJSON", {

@@ -1,11 +1,16 @@
 import express from "express";
 import Comment from "../models/comments.js";
 
+type TComment = {
+  content: string;
+  markId: string
+};
+
 const commentRouter = express.Router();
 
-commentRouter.get("/", async (request, respones) => {
+commentRouter.get("/", async (request, response) => {
   const comments = await Comment.find({});
-  respones.json(comments);
+  response.json(comments);
 });
 
 commentRouter.post("/", async (request, response) => {
@@ -14,10 +19,11 @@ commentRouter.post("/", async (request, response) => {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { content }: { content: string } = request.body;
+  const { content, markId }: TComment = request.body;
 
   const comment = new Comment({
     content,
+    markId
   });
 
   const savedComment = await comment.save();
