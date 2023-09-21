@@ -9,7 +9,9 @@
     "dev": "nodemon",
     "build": "tsc",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
-    "start:test": "cross-env NODE_ENV=test npm start"
+    "start:test": "cross-env NODE_ENV=test npm start",
+    "build:ui": "rm -rf dist && cd  ../FE-Marks/ && npm run build && cp -r dist ../BE-Marks/",
+    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   },
   "keywords": [],
   "author": "",
