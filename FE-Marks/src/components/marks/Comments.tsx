@@ -1,9 +1,9 @@
 import { FormEvent } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { useForm } from "../hooks/useForm";
-import { createComment } from "../reducers/commentReducer";
+import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
+import { useForm } from "../../hooks/useForm.tsx";
+import { createComment } from "../../reducers/commentReducer.ts";
 import { AxiosError } from "axios";
-import { displayError } from "../reducers/notificationReducer";
+import { displayError } from "../../reducers/notificationReducer.ts";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import {
   Box,
@@ -15,7 +15,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import useBlog from "../theme/Blog";
+import useBlog from "../../theme/Blog.tsx";
 
 const Comments = ({ markId }: { markId: string }) => {
   const comments = useAppSelector((state) => state.comments);
