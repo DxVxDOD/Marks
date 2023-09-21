@@ -1,4 +1,4 @@
 # deployment build
-dist
+../FE-Marks/dist
 
 node_modules
