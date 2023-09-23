@@ -1,4 +1,4 @@
-import Toggleable, { VisibilityHandle } from "../Togglable.js";
+import Toggleable, { VisibilityHandle } from "../features/Togglable.tsx";
 import LoginForm from "./LoginForm.js";
 import CreateUserForm from "../users/CreateUserForm.js";
 import { useRef } from "react";

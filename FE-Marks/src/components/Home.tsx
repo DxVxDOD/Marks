@@ -6,7 +6,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import blogList from "../theme/BlogList";
 import useHome from "../theme/Home";
 import AccountPage from "./users/AccountPage";
-import Toggleable, { VisibilityHandle } from "./Togglable";
+import Toggleable, { VisibilityHandle } from "./features/Togglable.tsx";
 import { useRef } from "react";
 
 const Home = () => {

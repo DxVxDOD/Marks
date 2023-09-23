@@ -1,5 +1,5 @@
 import { Button, Paper, Typography } from "@mui/material";
-import { useAppSelector } from "../app/hooks.ts";
+import { useAppSelector } from "../../app/hooks.ts";
 function Reel() {
 
     const tags = useAppSelector(state => state.mark).map(mark => mark.tag)
