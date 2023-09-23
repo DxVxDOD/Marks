@@ -2,7 +2,7 @@ import { FormEvent } from "react";
 import { useForm } from "../../hooks/useForm";
 import { useAppDispatch } from "../../app/hooks";
 import { createUsers } from "../../reducers/userArrayReducer";
-import { VisibilityHandle } from "../Togglable";
+import { VisibilityHandle } from "../features/Togglable.tsx";
 import { Box, Button, Paper, Stack, TextField } from "@mui/material";
 
 const CreateUserForm = ({

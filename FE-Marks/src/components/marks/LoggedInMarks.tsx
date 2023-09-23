@@ -3,13 +3,13 @@ import { useAppSelector } from "../../app/hooks.js";
 import { MarkT } from "../../types/mark.js";
 import { useRef } from "react";
 import MarkForm from "./MarksForm.js";
-import Toggleable, { VisibilityHandle } from "../Togglable.js";
+import Toggleable, { VisibilityHandle } from "../features/Togglable.tsx";
 import {Box, Button, Icon, List, ListItemButton, ListItemIcon, ListItemText, Paper, Typography} from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 import blogList from "../../theme/BlogList.js";
 import useHome from "../../theme/Home.js";
 import "../../styles/marks.css";
-import Reel from "../Reel.tsx";
+import Reel from "../features/Reel.tsx";
 
 const LoggedInMarks = () => {
   const marks = useAppSelector((state) => state.mark);
