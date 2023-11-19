@@ -11,6 +11,7 @@
     "target": "ES2020",
     "sourceMap": true,
     "outDir": "./dist",
+    "skipLibCheck": true
   },
   "ts-node": { "esm": true },
   "include": ["./**/*.ts", "index.ts", "controllers/mark.ts"],
