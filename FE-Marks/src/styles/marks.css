@@ -14,6 +14,12 @@
   padding: 1rem;
   scroll-snap-type: x mandatory;
   scroll-padding: 0.5rem;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.reel::-webkit-scrollbar {
+    scroll-behavior: smooth;
 }
 
 .reel > * {
