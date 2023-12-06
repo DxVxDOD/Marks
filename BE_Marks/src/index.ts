@@ -1,14 +1,9 @@
-import express from "express";
+import { app } from "./app";
+import config from "./utils/config";
+import logger from "./utils/logger";
 
-const app = express();
-
-const PORT = 3000;
-
-app.get("/ping", (_req, res) => {
-	console.log("someone pinged here !");
-	res.send("Pong!");
-});
+const PORT = config.PORT;
 
 app.listen(PORT, () => {
-	console.log(`Server running on port ${PORT}`);
+	logger.info(`Server running on port ${PORT}`);
 });
