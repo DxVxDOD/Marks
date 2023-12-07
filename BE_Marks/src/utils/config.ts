@@ -3,5 +3,6 @@ dotenv.config();
 
 const { PORT } = process.env;
 const { SECRET } = process.env;
+const { MONGO_URI } = process.env;
 
-export default { PORT, SECRET };
+export default { PORT, SECRET, MONGO_URI };
