@@ -4,7 +4,8 @@ import { getAllUsers } from "../services/userService";
 const router = express.Router();
 
 router.get("/", (_req: Request, res: Response) => {
-	res.json(getAllUsers());
+	res.send(getAllUsers());
+	// res.json(getAllUsers());
 });
 
 export default router;

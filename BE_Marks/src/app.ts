@@ -3,16 +3,17 @@ import cors from "cors";
 import config from "./utils/config";
 import logger from "./utils/logger";
 import mongoose from "mongoose";
-import { parseString } from "./utils/parsers";
+import { stringParser } from "./utils/parsers";
 import {
 	errorHandler,
 	requestLogger,
 	unknownEndpoint,
 } from "./utils/middleware";
+import userRoute from "./routes/userRoute";
 
 export const app = express();
 
-const MONGO_URI = parseString(config.MONGO_URI);
+const MONGO_URI = stringParser(config.MONGO_URI);
 
 logger.info("Connecting to: ", MONGO_URI);
 
@@ -23,7 +24,7 @@ mongoose
 	})
 	.catch((error) => {
 		if (error instanceof Error) {
-			logger.error("Error connecting to MongoDB ", error.message);
+			logger.error("Error connecting to MongoDB: ", error.message);
 		}
 	});
 
@@ -31,6 +32,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("dist"));
 app.use(requestLogger);
+app.use("/api/users", userRoute);
 
 app.get("/ping", (_req, res) => {
 	console.log("someone pinged here !");

@@ -12,6 +12,8 @@ export const jwtPayloadParser = (param: unknown): JwtPayload | string => {
 };
 
 export const stringParser = (param: unknown): string => {
+	console.log(param);
+
 	if (!param || !isString(param)) {
 		logger.error(param);
 		throw new Error("Incorrect or missing argument");
