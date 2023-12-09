@@ -1,9 +1,9 @@
-import { User } from "./user";
+import { TUser } from "./user";
 
 export type Mark = {
 	title: string;
 	tag: string;
 	url: string;
 	likes: number;
-	user: User;
+	user: TUser;
 };
