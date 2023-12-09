@@ -4,5 +4,7 @@ export type TUser = {
 	username: string;
 	name: string;
 	password: string;
-	marks: Mark[];
+	marks?: Mark[];
 };
+
+export type TNewUser = Omit<TUser, "marks">;
