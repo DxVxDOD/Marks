@@ -18,6 +18,7 @@ export const isUser = (obj: Partial<TNewUser>): obj is TNewUser => {
 		username: "string",
 		name: "string",
 		password: "string",
+		email: "string",
 	};
 	const missingProperties = Object.keys(schema)
 		.filter((key) => obj[key as keyof TNewUser] === undefined)
@@ -29,4 +30,8 @@ export const isUser = (obj: Partial<TNewUser>): obj is TNewUser => {
 	console.log(missingProperties);
 
 	return missingProperties.length === 0;
+};
+
+export const isDate = (date: string) => {
+	return Boolean(Date.parse(date));
 };

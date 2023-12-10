@@ -1,9 +1,10 @@
 import { TUser } from "./user";
 
-export type Mark = {
+export type TMark = {
 	title: string;
 	tag: string;
 	url: string;
 	likes: number;
 	user: TUser;
+	createdAt: Date;
 };

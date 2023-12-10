@@ -3,6 +3,7 @@ import logger from "./logger";
 import { TNewUser, TUser } from "../types/user";
 import bcrypt from "bcrypt";
 import { wrapInPromise } from "./promiseWrapper";
+import { isDate } from "util/types";
 
 export const jwtPayloadParser = (param: unknown) => {
 	if (!param || !isString(param) || !isJwtToken(param)) {
@@ -60,7 +61,15 @@ export const newUserParser = async (obj: Partial<TNewUser>, users: TUser[]) => {
 		username,
 		name: stringParser(obj.name),
 		password: passwordHashed!,
+		email: stringParser(obj.email),
 	};
 
 	return user;
+};
+
+export const dateParser = (date: unknown) => {
+	if (!date || !isString(date) || !isDate(date)) {
+		throw new Error("Incorrect or missing date" + date);
+	}
+	return date;
 };
