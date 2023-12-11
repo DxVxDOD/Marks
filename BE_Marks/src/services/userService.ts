@@ -12,8 +12,9 @@ export const getAllUsers = async () => {
 		throw new Error("Error while fetching all users: " + allUserData);
 	}
 
-	return allUserData;
-};
+	return allUserData
+}
+
 
 export const postNewUser = async (obj: Partial<TNewUser>) => {
 	const { data: allUsersData, error: allUsersError } = await wrapInPromise<
@@ -21,7 +22,7 @@ export const postNewUser = async (obj: Partial<TNewUser>) => {
 	>(getAllUsers());
 
 	if (allUsersError) {
-		throw new Error("Error while fetching all users: " + allUsersError);
+		throw new Error('Error while fetching all users: ' + allUsersError);
 	}
 
 	const { data: userData, error: userError } = await wrapInPromise<TNewUser>(
@@ -29,11 +30,11 @@ export const postNewUser = async (obj: Partial<TNewUser>) => {
 	);
 
 	if (userError) {
-		throw new Error(userError);
+    throw new Error(userError);
 	}
 
 	const user = new User(userData!);
-	const savedUser = await user.save();
+	const savedUser = await user.save()
 
 	return savedUser;
 };
