@@ -39,7 +39,6 @@ const HomeNoUser = () => {
             This way knoledge and fun articles can be spread easily!
           </Typography>
         </Box>
-
         <Box>
           <Typography
             className={classes.otherTxt}
