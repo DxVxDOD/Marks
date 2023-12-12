@@ -1,13 +1,13 @@
+import ArticleIcon from "@mui/icons-material/Article";
+import { Box, List, ListItemButton, ListItemIcon, ListItemText, Paper, Typography } from "@mui/material";
+import { useRef } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
-import { MarkT } from "../types/mark";
-import {Box, List, ListItemButton, ListItemIcon, ListItemText, Paper, Typography} from "@mui/material";
-import ArticleIcon from "@mui/icons-material/Article";
 import blogList from "../theme/BlogList";
 import useHome from "../theme/Home";
-import AccountPage from "./users/AccountPage";
+import { MarkT } from "../types/mark";
 import Toggleable, { VisibilityHandle } from "./features/Togglable.tsx";
-import { useRef } from "react";
+import AccountPage from "./users/AccountPage";
 
 const Home = () => {
   const user = useAppSelector((state) => state.user);
@@ -88,7 +88,6 @@ const Home = () => {
                       </ListItemButton>
                   ))}
           </List>
-
       </Paper>
       <Toggleable buttonLabel="Account settings" ref={accountRef}>
         <AccountPage />
