@@ -1,11 +1,16 @@
-import { TUserMarks } from "./user";
+import mongoose from "mongoose";
+
+type TUserRef = {
+  type: mongoose.Schema.Types.ObjectId;
+  ref: "User";
+};
 
 export type TMark = {
   title: string;
   tag: string;
   url: string;
   likes: number;
-  user: TUserMarks;
+  user: TUserRef;
   createdAt: Date;
   id: string;
 };

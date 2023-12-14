@@ -15,11 +15,13 @@ router.post("/", async (req: Request, res: Response) => {
     postNewUser(req.body),
   );
 
-  if (newUserError) {
+  if (newUserError || !newUserData) {
     res.status(400).json({ error: newUserError.message });
   }
 
-  res.status(201).json(newUserData!);
+  console.log("user Route", newUserData);
+
+  res.status(201).json(newUserData);
 });
 
 export default router;

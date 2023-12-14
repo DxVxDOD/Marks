@@ -4,6 +4,7 @@ import { TNewUser, TUser } from "../types/user";
 import { stringParser } from "../utils/parsers/generalParsers";
 import { newUserParser } from "../utils/parsers/userParser";
 import { wrapInPromise } from "../utils/promiseWrapper";
+import { Types } from "mongoose";
 
 export const getAllUsers = async () => {
   const { data: allUserData, error: allUserError } = await wrapInPromise<
@@ -25,7 +26,7 @@ export const postNewUser = async (obj: Partial<TNewUser>) => {
     throw new Error("Error while fetching all users: " + allUsersError);
   }
 
-  const { data: userData, error: userError } = await wrapInPromise<TNewUser>(
+  const { data: userData, error: userError } = await wrapInPromise(
     newUserParser(obj, allUsersData!),
   );
 
@@ -44,7 +45,16 @@ export const postNewUser = async (obj: Partial<TNewUser>) => {
     ...userData,
     password: passwordHashed,
   });
-  const savedUser = await user.save();
+
+  const { data: savedUser, error: savedUserError } = await wrapInPromise<TUser>(
+    user.save(),
+  );
+
+  if (!savedUser || savedUserError) {
+    throw new Error("Error while saving user to database: " + savedUserError);
+  }
+
+  console.log(savedUser);
 
   return savedUser;
 };
