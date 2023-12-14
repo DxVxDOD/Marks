@@ -1,14 +1,14 @@
 import { TNewUser } from "../../types/user";
 import { wrapInPromise } from "../promiseWrapper";
-import { isUser } from "../typeGuards";
+import { isNewUser } from "../typeGuards/userGuards";
 import { stringParser } from "./generalParsers";
 
 export const newUserParser = async (
   obj: Partial<TNewUser>,
   users: TNewUser[],
 ) => {
-  const checkUser = await wrapInPromise(isUser(obj));
-  if (checkUser.error) {
+  const checkUser = await wrapInPromise(isNewUser(obj));
+  if (checkUser.error || checkUser.data === false) {
     throw new Error(checkUser.error);
   }
 

@@ -1,4 +1,9 @@
-import { TMark } from "./mark";
+import mongoose from "mongoose";
+
+type TMarkRef = {
+  type: mongoose.Schema.Types.ObjectId;
+  ref: "Mark";
+};
 
 export type TUser = {
   username: string;
@@ -7,8 +12,7 @@ export type TUser = {
   email: string;
   createdAt: Date;
   id: string;
-  marks?: TMark[];
+  marks: TMarkRef[];
 };
 
 export type TNewUser = Omit<TUser, "marks" | "createdAt" | "id">;
-export type TUserMarks = Pick<TUser, "username" | "name">;
