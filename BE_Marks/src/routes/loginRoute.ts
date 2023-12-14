@@ -1,6 +1,6 @@
-import bycryp from "bcrypt";
 import express, { type Request, type Response } from "express";
-import User from "../models/user";
+import { login } from "../services/loginService";
+import { TUserLoginRes } from "../types/userLoginRes";
 import { wrapInPromise } from "../utils/promiseWrapper";
 
 const loginRouter = express.Router();
@@ -10,10 +10,14 @@ loginRouter.get("/", (_req: Request, res: Response) => {
 });
 
 loginRouter.post("/", async (req: Request, res: Response) => {
-  const {} = req.body;
+  const { data: loginData, error: loginError } =
+    await wrapInPromise<TUserLoginRes>(login(req.body));
 
-  const { data: userData, error: userError } = await wrapInPromise(
-    User.findOne(),
-  );
-  const correctPassword = await wrapInPromise(bycryp.compare());
+  if (loginError || !loginData) {
+    res.status(401).json({ error: loginError.message });
+  }
+
+  res.status(200).json(loginData);
 });
+
+export default loginRouter;

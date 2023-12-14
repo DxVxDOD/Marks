@@ -1,40 +1,50 @@
-import User from "../models/user";
+import bcrypt from "bcrypt";
+import User from "../models/userModel";
 import { TNewUser, TUser } from "../types/user";
-import { newUserParser } from "../utils/parsers";
+import { stringParser } from "../utils/parsers/generalParsers";
+import { newUserParser } from "../utils/parsers/userParser";
 import { wrapInPromise } from "../utils/promiseWrapper";
 
 export const getAllUsers = async () => {
-	const { data: allUserData, error: allUserError } = await wrapInPromise<
-		TUser[]
-	>(User.find({}));
+  const { data: allUserData, error: allUserError } = await wrapInPromise<
+    TUser[]
+  >(User.find({}));
 
-	if (allUserError) {
-		throw new Error("Error while fetching all users: " + allUserData);
-	}
+  if (allUserError) {
+    throw new Error("Error while fetching all users: " + allUserData);
+  }
 
-	return allUserData
-}
-
+  return allUserData;
+};
 
 export const postNewUser = async (obj: Partial<TNewUser>) => {
-	const { data: allUsersData, error: allUsersError } = await wrapInPromise<
-		TUser[]
-	>(getAllUsers());
+  const { data: allUsersData, error: allUsersError } =
+    await wrapInPromise<TUser[]>(getAllUsers());
 
-	if (allUsersError) {
-		throw new Error('Error while fetching all users: ' + allUsersError);
-	}
+  if (allUsersError) {
+    throw new Error("Error while fetching all users: " + allUsersError);
+  }
 
-	const { data: userData, error: userError } = await wrapInPromise<TNewUser>(
-		newUserParser(obj, allUsersData!)
-	);
+  const { data: userData, error: userError } = await wrapInPromise<TNewUser>(
+    newUserParser(obj, allUsersData!),
+  );
 
-	if (userError) {
+  if (userError || !userData) {
     throw new Error(userError);
-	}
+  }
 
-	const user = new User(userData!);
-	const savedUser = await user.save()
+  const { data: passwordHashed, error: passwordHashedError } =
+    await wrapInPromise<string>(bcrypt.hash(stringParser(obj.password), 10));
 
-	return savedUser;
+  if (passwordHashedError || !passwordHashed) {
+    throw new Error("Error while hashing password: " + passwordHashedError);
+  }
+
+  const user = new User({
+    ...userData,
+    password: passwordHashed,
+  });
+  const savedUser = await user.save();
+
+  return savedUser;
 };

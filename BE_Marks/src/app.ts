@@ -1,17 +1,18 @@
-import express from "express";
 import cors from "cors";
+import express from "express";
+import mongoose from "mongoose";
+import userRoute from "./routes/userRoute";
+import loginRoute from "./routes/loginRoute";
 import config from "./utils/config";
 import logger from "./utils/logger";
-import mongoose from "mongoose";
-import { stringParser } from "./utils/parsers";
 import {
   errorHandler,
   requestLogger,
   unknownEndpoint,
 } from "./utils/middleware";
-import userRoute from "./routes/userRoute";
+import { stringParser } from "./utils/parsers/generalParsers";
 
-export const app = express();
+const app = express();
 
 const MONGO_URI = stringParser(config.MONGO_URI);
 
@@ -32,7 +33,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("dist"));
 app.use(requestLogger);
+
 app.use("/api/users", userRoute);
+app.use("/api/login", loginRoute);
 
 app.get("/ping", (_req, res) => {
   console.log("someone pinged here !");
@@ -45,3 +48,5 @@ if (process.env.NODE_ENV === "test") {
 
 app.use(unknownEndpoint);
 app.use(errorHandler);
+
+export default app;

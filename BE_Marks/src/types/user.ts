@@ -6,7 +6,9 @@ export type TUser = {
   password: string;
   email: string;
   createdAt: Date;
+  id: string;
   marks?: TMark[];
 };
 
-export type TNewUser = Omit<TUser, "marks">;
+export type TNewUser = Omit<TUser, "marks" | "createdAt" | "id">;
+export type TUserMarks = Pick<TUser, "username" | "name">;
