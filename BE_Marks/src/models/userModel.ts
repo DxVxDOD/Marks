@@ -15,6 +15,15 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
   marks: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -25,6 +34,15 @@ const userSchema = new mongoose.Schema({
 
 userSchema.set("toJSON", {
   transform(_document: Document, returnedObject) {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+    delete returnedObject.password;
+  },
+});
+
+userSchema.set("toObject", {
+  transform(_document, returnedObject) {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;

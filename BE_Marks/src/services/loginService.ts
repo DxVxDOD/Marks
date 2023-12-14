@@ -6,7 +6,7 @@ import { TCredentials } from "../types/credentials";
 import { TUser } from "../types/user";
 import { stringParser } from "../utils/parsers/generalParsers";
 import { wrapInPromise } from "../utils/promiseWrapper";
-import { isCredentials } from "../utils/typeGuards";
+import { isCredentials } from "../utils/typeGuards/generalGuards";
 
 export const login = async (obj: Partial<TCredentials>) => {
   const checkCredentials = await wrapInPromise(isCredentials(obj));

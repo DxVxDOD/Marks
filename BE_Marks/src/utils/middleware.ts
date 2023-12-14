@@ -2,69 +2,68 @@ import { NextFunction, Request, Response, ErrorRequestHandler } from "express";
 import logger from "./logger";
 import jsonwebtoken from "jsonwebtoken";
 import config from "./config";
+import { stringParser } from "./parsers/generalParsers";
+import { wrapInPromise } from "./promiseWrapper";
 
 export const requestLogger = (
-	req: Request,
-	_res: Response,
-	next: NextFunction
+  req: Request,
+  _res: Response,
+  next: NextFunction,
 ) => {
-	logger.info("Method", req.method);
-	logger.info("Path", req.path);
-	logger.info("Body", req.body);
-	logger.info("---");
-	next();
+  logger.info("Method", req.method);
+  logger.info("Path", req.path);
+  logger.info("Body", req.body);
+  logger.info("---");
+  next();
 };
 
 export const unknownEndpoint = (_req: Request, res: Response) => {
-	res.status(404).send({ error: "unknown endpoint" });
+  res.status(404).send({ error: "unknown endpoint" });
 };
 
 export const errorHandler: ErrorRequestHandler = (
-	error: Error,
-	_req: Request,
-	res: Response,
-	next: NextFunction
+  error: Error,
+  _req: Request,
+  res: Response,
+  next: NextFunction,
 ) => {
-	logger.error(error.message);
+  logger.error(error.message);
 
-	if (error.name === "CastError") {
-		return res.status(400).send({ error: "malformed id" });
-	}
+  if (error.name === "CastError") {
+    return res.status(400).send({ error: "malformed id" });
+  }
 
-	if (error.name === "ValidationError") {
-		return res.status(400).json({ error: error.message });
-	}
+  if (error.name === "ValidationError") {
+    return res.status(400).json({ error: error.message });
+  }
 
-	if (error.name === "JsonWebTokenError") {
-		return res.status(400).json({ error: error.message });
-	}
+  if (error.name === "JsonWebTokenError") {
+    return res.status(400).json({ error: error.message });
+  }
 
-	next(error);
+  next(error);
 };
 
 export const tokenExtractor = (
-	req: Request,
-	_res: Response,
-	next: NextFunction
+  req: Request,
+  _res: Response,
+  next: NextFunction,
 ) => {
-	const auth = req.get("authorization");
+  const auth = req.get("authorization");
 
-	if (auth?.startsWith("Bearer ")) return auth.replace("Bearer ", "");
+  if (auth?.startsWith("Bearer ")) return auth.replace("Bearer ", "");
 
-	next();
+  next();
 };
 
 export const userExtractor = async (
-	req: Request,
-	res: Response,
-	next: NextFunction
+  req: Request,
+  res: Response,
+  next: NextFunction,
 ) => {
-	const decodedToken = jsonwebtoken.verify(
-		tokenExtractor(req, res, next)!,
-		config.SECRET!
-	);
+  const SECRET = stringParser(config.SECRET);
 
-	if (decodedToken) {
-		return res.status(401);
-	}
+  const { data: decodedToken, error: decodedTokenError } = await wrapInPromise(
+    jsonwebtoken.verify(tokenExtractor(req, res, next)!, SECRET),
+  );
 };
