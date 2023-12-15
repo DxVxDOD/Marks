@@ -1,18 +1,9 @@
-import mongoose from "mongoose";
+import User from "../models/userModel";
 
-type TMarkRef = {
-  type: mongoose.Schema.Types.ObjectId;
-  ref: "Mark";
+const user = new User();
+
+export type TUser = typeof user & {
+  id?: string;
 };
 
-export type TUser = {
-  username: string;
-  name: string;
-  password: string;
-  email: string;
-  createdAt: Date;
-  id: string;
-  marks: TMarkRef[];
-};
-
-export type TNewUser = Omit<TUser, "marks" | "createdAt" | "id">;
+export type TNewUser = Pick<TUser, "username" | "name" | "password" | "email">;

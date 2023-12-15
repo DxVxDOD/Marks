@@ -1,12 +1,25 @@
-import { Types } from "mongoose";
 import Mark from "../models/markModel";
-import { TMark, TNewMark } from "../types/mark";
+import { TNewMark } from "../types/mark";
 import { TUser } from "../types/user";
 import { markParser } from "../utils/parsers/markParser";
 import { wrapInPromise } from "../utils/promiseWrapper";
 
+export const getAllMarks = async () => {
+  const { data: allMarks, error: allMarksError } = await wrapInPromise(
+    Mark.find({}).populate("user", { username: 1, name: 1 }),
+  );
+
+  if (!allMarks || allMarksError) {
+    throw new Error(
+      "Error while fetching all Marks from database: " + allMarksError,
+    );
+  }
+
+  return allMarks;
+};
+
 export const postNewMark = async (obj: Partial<TNewMark>, user: TUser) => {
-  const { data: markData, error: markError } = await wrapInPromise<TNewMark>(
+  const { data: markData, error: markError } = await wrapInPromise(
     markParser(obj),
   );
 
@@ -22,9 +35,9 @@ export const postNewMark = async (obj: Partial<TNewMark>, user: TUser) => {
     user: user.id,
   });
 
-  const { data: savedMark, error: savedMarkError } = await wrapInPromise<
-    TMark & { _id: Types.ObjectId }
-  >(mark.save());
+  const { data: savedMark, error: savedMarkError } = await wrapInPromise(
+    mark.save(),
+  );
 
   if (!savedMark || savedMarkError) {
     throw new Error("Error while saving Marks to database: " + savedMarkError);

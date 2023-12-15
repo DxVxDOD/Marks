@@ -1,9 +1,8 @@
-import config from "../utils/config";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import User from "../models/userModel";
 import { TCredentials } from "../types/credentials";
-import { TUser } from "../types/user";
+import config from "../utils/config";
 import { stringParser } from "../utils/parsers/generalParsers";
 import { wrapInPromise } from "../utils/promiseWrapper";
 import { isCredentials } from "../utils/typeGuards/generalGuards";
@@ -19,7 +18,7 @@ export const login = async (obj: Partial<TCredentials>) => {
     password: stringParser(obj.password),
   };
 
-  const { data: userData, error: userError } = await wrapInPromise<TUser>(
+  const { data: userData, error: userError } = await wrapInPromise(
     User.findOne({ username }),
   );
 

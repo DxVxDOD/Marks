@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { TMark } from "../types/mark";
 
 const markSchema = new mongoose.Schema({
   title: {
@@ -14,16 +13,21 @@ const markSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
-  likes: Number,
+  likes: {
+    required: true,
+    type: Number,
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
   comment: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Comment",
   },
   createdAt: {
+    required: true,
     type: Date,
     default: Date.now(),
   },
@@ -37,6 +41,14 @@ markSchema.set("toJSON", {
   },
 });
 
-const Mark = mongoose.model<TMark>("Mark", markSchema);
+markSchema.set("toObject", {
+  transform(_document, returnedObject) {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__V;
+  },
+});
+
+const Mark = mongoose.model("Mark", markSchema);
 
 export default Mark;

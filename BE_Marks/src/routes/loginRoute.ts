@@ -1,6 +1,5 @@
 import express, { type Request, type Response } from "express";
 import { login } from "../services/loginService";
-import { TUserLoginRes } from "../types/userLoginRes";
 import { wrapInPromise } from "../utils/promiseWrapper";
 
 const loginRouter = express.Router();
@@ -10,8 +9,9 @@ loginRouter.get("/", (_req: Request, res: Response) => {
 });
 
 loginRouter.post("/", async (req: Request, res: Response) => {
-  const { data: loginData, error: loginError } =
-    await wrapInPromise<TUserLoginRes>(login(req.body));
+  const { data: loginData, error: loginError } = await wrapInPromise(
+    login(req.body),
+  );
 
   if (loginError || !loginData) {
     res.status(401).json({ error: loginError.message });
