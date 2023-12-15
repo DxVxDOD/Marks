@@ -5,7 +5,7 @@ export const isString = (param: unknown): param is string => {
   return typeof param === "string" || param instanceof String;
 };
 
-export const isJwtToken = (param: unknown): param is JwtPayload => {
+export const isJwtPayload = (param: unknown): param is JwtPayload => {
   return (param as JwtPayload).aud !== undefined;
 };
 

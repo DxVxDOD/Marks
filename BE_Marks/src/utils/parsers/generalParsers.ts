@@ -1,13 +1,13 @@
 import { isDate } from "../typeGuards/generalGuards";
 import logger from "../logger";
-import { isJwtToken, isString } from "../typeGuards/generalGuards";
+import { isJwtPayload, isString } from "../typeGuards/generalGuards";
 
 export const jwtPayloadParser = (param: unknown) => {
-  if (!param || !isString(param) || !isJwtToken(param)) {
+  if (isString(param) && isJwtPayload(param)) {
     logger.error(param);
-    throw new Error("Invalid arguments: " + param);
+    return param;
   }
-  return param;
+  throw new Error("Error while parsing provided token: " + param);
 };
 
 export const stringParser = (param: unknown) => {
