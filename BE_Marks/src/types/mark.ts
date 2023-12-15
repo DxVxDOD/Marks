@@ -1,17 +1,8 @@
-import mongoose from "mongoose";
+import Mark from "../models/markModel";
 
-type TUserRef = {
-  type: mongoose.Schema.Types.ObjectId;
-  ref: "User";
-};
+const mark = new Mark();
 
-export type TMark = {
-  title: string;
-  tag: string;
-  url: string;
-  likes: number;
-  user: TUserRef;
-  createdAt: Date;
+export type TMark = typeof mark & {
   id: string;
 };
 

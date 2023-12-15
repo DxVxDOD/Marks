@@ -19,8 +19,6 @@ router.post("/", async (req: Request, res: Response) => {
     res.status(400).json({ error: newUserError.message });
   }
 
-  console.log("user Route", newUserData);
-
   res.status(201).json(newUserData);
 });
 
