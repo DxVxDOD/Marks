@@ -1,9 +1,9 @@
-import { TNewMark } from "../../types/mark";
+import { TMarkFE, TNewMark } from "../../types/mark";
 import { wrapInPromise } from "../promiseWrapper";
-import { isNewMark } from "../typeGuards/markGuards";
-import { stringParser } from "./generalParsers";
+import { isMarkFromFE, isNewMark } from "../typeGuards/markGuards";
+import { numberParser, stringParser } from "./generalParsers";
 
-export const markParser = async (obj: Partial<TNewMark>) => {
+export const newMarkParser = async (obj: Partial<TNewMark>) => {
   const checkMark = await wrapInPromise(isNewMark(obj));
 
   if (checkMark.error || checkMark.data === false) {
@@ -15,4 +15,21 @@ export const markParser = async (obj: Partial<TNewMark>) => {
     url: stringParser(obj.url),
     title: stringParser(obj.title),
   };
+};
+
+export const markParser = async (obj: Partial<TMarkFE>) => {
+  const checkMark = await wrapInPromise(isMarkFromFE(obj));
+  if (checkMark.error || !checkMark.data) {
+    throw new Error(checkMark.error);
+  }
+
+  const mark: TMarkFE = {
+    title: stringParser(obj.title),
+    tag: stringParser(obj.tag),
+    url: stringParser(obj.url),
+    user: stringParser(obj.user),
+    likes: numberParser(obj.likes),
+  };
+
+  return;
 };
