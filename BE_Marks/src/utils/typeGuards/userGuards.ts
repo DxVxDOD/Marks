@@ -20,5 +20,3 @@ export const isNewUser = (obj: Partial<TNewUser>): obj is TNewUser => {
 
   return missingProperties.length === 0;
 };
-
-export const isUser = () => {};

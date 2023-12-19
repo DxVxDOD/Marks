@@ -1,4 +1,4 @@
-import { isDate } from "../typeGuards/generalGuards";
+import { isDate, isNumber } from "../typeGuards/generalGuards";
 import logger from "../logger";
 import { isJwtPayload, isString } from "../typeGuards/generalGuards";
 
@@ -11,8 +11,6 @@ export const jwtPayloadParser = (param: unknown) => {
 };
 
 export const stringParser = (param: unknown) => {
-  console.log(param);
-
   if (!param || !isString(param)) {
     logger.error(param);
     throw new Error(`${param} is not a string.`);
@@ -25,4 +23,12 @@ export const dateParser = (date: unknown) => {
     throw new Error("Incorrect or missing date" + date);
   }
   return date;
+};
+
+export const numberParser = (num: unknown) => {
+  if (!num || !isNumber(num)) {
+    throw new Error(`${num} is not a number`);
+  }
+
+  return num;
 };
