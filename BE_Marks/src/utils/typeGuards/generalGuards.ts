@@ -30,3 +30,7 @@ export const isCredentials = (obj: Partial<TCredentials>) => {
 
   return missingProperties.length === 0;
 };
+
+export const isNumber = (num: unknown): num is number => {
+  return typeof num === "number" || num instanceof Number;
+};

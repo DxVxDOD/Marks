@@ -80,12 +80,10 @@ export const userExtractor = async (
       User.findById(verifiedToken.id),
     );
 
-    if (!user || userError) {
-      res
-        .status(401)
-        .json({ error: "Cannot find user in database" + userError });
+    if (user) {
+      res.locals.user = user;
     }
-    res.locals.user = user;
+    res.status(401).json({ error: "Cannot find user in database" + userError });
   }
 
   res.status(401).json({ error: verifiedTokenError });
