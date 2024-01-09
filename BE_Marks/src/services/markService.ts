@@ -1,9 +1,9 @@
 import Mark from "../models/markModel";
 import User from "../models/userModel";
-import { TMark, TNewMark } from "../types/mark";
+import { TMark, TMarkFE, TNewMark } from "../types/mark";
 import { TUser } from "../types/user";
 import { stringParser } from "../utils/parsers/generalParsers";
-import { newMarkParser } from "../utils/parsers/markParser";
+import { markParser, newMarkParser } from "../utils/parsers/markParser";
 import { wrapInPromise } from "../utils/promiseWrapper";
 
 export const getAllMarks = async () => {
@@ -95,10 +95,6 @@ export const deleteMark = async (
     );
   }
 
-  console.log(mark.user.toString());
-  console.log(user.id.toString());
-  console.log(user._id.toString());
-
   if (mark.user.toString() !== user.id.toString()) {
     throw new Error("You do not have the permission to delete this Mark");
   }
@@ -106,4 +102,15 @@ export const deleteMark = async (
   await Mark.findByIdAndDelete(markId);
 };
 
-export const updateMark = async (mark: TMark, user: TUser) => {};
+export const updateMark = async (
+  mark: Partial<TMarkFE>,
+  userId: string | undefined,
+) => {
+  const { data: markData, error: markError } = await wrapInPromise(
+    markParser(mark),
+  );
+
+  if (!markData || markError) {
+    throw new Error(markError);
+  }
+};

@@ -27,9 +27,8 @@ export const markParser = async (obj: Partial<TMarkFE>) => {
     title: stringParser(obj.title),
     tag: stringParser(obj.tag),
     url: stringParser(obj.url),
-    user: stringParser(obj.user),
     likes: numberParser(obj.likes),
   };
 
-  return;
+  return mark;
 };
