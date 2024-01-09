@@ -8,4 +8,4 @@ export type TMark = typeof mark & {
 
 export type TNewMark = Pick<TMark, "title" | "tag" | "url">;
 
-export type TMarkFE = Pick<TMark, "title" | "tag" | "url" | "likes" | "user">;
+export type TMarkFE = Pick<TMark, "title" | "tag" | "url" | "likes">;

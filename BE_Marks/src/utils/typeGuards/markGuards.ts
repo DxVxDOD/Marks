@@ -30,7 +30,6 @@ export const isMarkFromFE = (obj: Partial<TMarkFE>) => {
     tag: "string",
     url: "string",
     title: "string",
-    user: "string",
     likes: "number",
   };
 

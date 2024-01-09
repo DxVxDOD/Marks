@@ -22,10 +22,12 @@ const markSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  comment: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Comment",
-  },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
   createdAt: {
     required: true,
     type: Date,
