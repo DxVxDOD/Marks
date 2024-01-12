@@ -1,6 +1,6 @@
 import Mark from "../models/markModel";
 import User from "../models/userModel";
-import { TMark, TMarkFE, TNewMark } from "../types/mark";
+import { TMarkFE, TNewMark } from "../types/mark";
 import { TUser } from "../types/user";
 import { stringParser } from "../utils/parsers/generalParsers";
 import { markParser, newMarkParser } from "../utils/parsers/markParser";
@@ -105,12 +105,43 @@ export const deleteMark = async (
 export const updateMark = async (
   mark: Partial<TMarkFE>,
   userId: string | undefined,
+  markId: string | undefined,
 ) => {
-  const { data: markData, error: markError } = await wrapInPromise(
+  const { data: newMarkData, error: newMarkError } = await wrapInPromise(
     markParser(mark),
   );
 
-  if (!markData || markError) {
-    throw new Error(markError);
+  if (!newMarkData || newMarkError) {
+    throw new Error(newMarkError);
   }
+
+  const user = await wrapInPromise(User.findById(stringParser(userId)));
+
+  if (!user.data || user.error) {
+    throw new Error("Token is invalid" + user.error);
+  }
+
+  const { data: oldMark, error: oldMarkError } = await wrapInPromise(
+    Mark.findById(stringParser(markId)),
+  );
+
+  if (!oldMark || oldMarkError) {
+    throw new Error(
+      "Cannot find Mark with given id in data base" + oldMarkError,
+    );
+  }
+
+  if (oldMark.user.toString() !== user.data.id) {
+    throw new Error("You do not have permission to update this Mark");
+  }
+
+  const updatedMark = await wrapInPromise(
+    Mark.findByIdAndUpdate(oldMark.id, newMarkData, { new: true }),
+  );
+
+  if (!updatedMark.data || updatedMark.error) {
+    throw new Error("Error while trying to update Mark" + updatedMark.error);
+  }
+
+  return updatedMark.data;
 };
