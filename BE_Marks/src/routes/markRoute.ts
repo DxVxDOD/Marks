@@ -5,6 +5,7 @@ import {
   getAllMarks,
   getMarkById,
   postNewMark,
+  updateMark,
 } from "../services/markService";
 import { userExtractor } from "../utils/middleware";
 
@@ -26,6 +27,8 @@ router.get("/:id", async (req: Request, res: Response) => {
   if (mark.error || !mark.data) {
     res.status(400).json({ error: mark.error });
   }
+
+  res.status(200).json(mark.data);
 });
 
 router.post("/", userExtractor, async (req: Request, res: Response) => {
@@ -38,6 +41,8 @@ router.post("/", userExtractor, async (req: Request, res: Response) => {
   if (!newMark || newMarkError) {
     res.status(400).json({ error: newMarkError });
   }
+
+  res.status(201).json(newMark);
 });
 
 router.delete("/:id", userExtractor, async (req: Request, res: Response) => {
@@ -50,6 +55,18 @@ router.delete("/:id", userExtractor, async (req: Request, res: Response) => {
   }
 
   res.status(401).json({ error: error });
+});
+
+router.put("/:id", userExtractor, async (req: Request, res: Response) => {
+  const { data, error } = await wrapInPromise(
+    updateMark(req.body, res.locals.user.id, req.params.id),
+  );
+
+  if (data) {
+    res.status(201).json(data);
+  }
+
+  res.status(400).json({ error: error });
 });
 
 export default router;
