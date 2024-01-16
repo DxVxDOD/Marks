@@ -5,9 +5,7 @@ import { wrapInPromise } from "../utils/promiseWrapper";
 const router = express.Router();
 
 router.get("/", async (_req: Request, res: Response) => {
-  const users = await getAllUsers();
-  res.send(users);
-  // res.json(getAllUsers());
+  res.json(getAllUsers());
 });
 
 router.post("/", async (req: Request, res: Response) => {

@@ -7,7 +7,7 @@ import {
   postNewMark,
   updateMark,
 } from "../services/markService";
-import { userExtractor } from "../utils/middleware";
+import { userExtractor } from "../utils/middleware/user_extractor";
 
 const router = express.Router();
 
@@ -39,10 +39,10 @@ router.post("/", userExtractor, async (req: Request, res: Response) => {
   );
 
   if (!newMark || newMarkError) {
-    res.status(400).json({ error: newMarkError });
+    return res.status(400).json({ error: newMarkError });
   }
 
-  res.status(201).json(newMark);
+  return res.status(201).json(newMark);
 });
 
 router.delete("/:id", userExtractor, async (req: Request, res: Response) => {
