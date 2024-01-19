@@ -1,6 +1,6 @@
 import { TMarkFE, TNewMark } from "../../types/mark";
 
-export const isNewMark = (obj: Partial<TNewMark>) => {
+export const isNewMark = async (obj: Partial<TNewMark>) => {
   if (!obj || typeof obj !== "object") {
     throw new Error("Error object does not exist: " + obj);
   }
@@ -21,7 +21,7 @@ export const isNewMark = (obj: Partial<TNewMark>) => {
   return missingProperties.length === 0;
 };
 
-export const isMarkFromFE = (obj: Partial<TMarkFE>) => {
+export const isMarkFromFE = async (obj: Partial<TMarkFE>) => {
   if (!obj || typeof obj !== "object") {
     throw new Error("Error object does not exist" + obj);
   }

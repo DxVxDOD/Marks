@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import jsonwebtoken from "jsonwebtoken";
 import User from "../../models/userModel";
 import config from "../config";
@@ -7,14 +7,14 @@ import { wrapInPromise } from "../promiseWrapper";
 import { tokenExtractor } from "./token_extractor";
 
 export const userExtractor = async (req: Request, res: Response) => {
-  const SECRET = stringParser(config.SECRET);
+  const SECRET = await stringParser(config.SECRET);
 
   const { data: token, error: tokenError } = await wrapInPromise(
     tokenExtractor(req, res),
   );
 
-  if (!token || tokenError) {
-    res.status(401).json({ error: "token error " + tokenError });
+  if (!token || tokenError || token instanceof Error) {
+    return res.status(401).json({ error: "{token} " + tokenError });
   }
 
   const { data: decodedToken, error: decodedTokenError } = await wrapInPromise(
@@ -22,7 +22,9 @@ export const userExtractor = async (req: Request, res: Response) => {
   );
 
   if (!decodedToken || decodedTokenError) {
-    res.status(401).json({ error: "decoded " + decodedTokenError });
+    return res
+      .status(401)
+      .json({ error: "{decodedToken} " + decodedTokenError });
   }
 
   const { data: verifiedToken, error: verifiedTokenError } =
@@ -38,8 +40,10 @@ export const userExtractor = async (req: Request, res: Response) => {
     }
     return res
       .status(401)
-      .json({ error: "Cannot find user in database" + userError });
+      .json({ error: "{Cannot find user in database} " + userError });
   }
 
-  return res.status(401).json({ error: verifiedTokenError });
+  return res
+    .status(401)
+    .json({ error: "{verifiedToken} " + verifiedTokenError });
 };

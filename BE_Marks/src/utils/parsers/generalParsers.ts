@@ -2,7 +2,7 @@ import { isDate, isNumber } from "../typeGuards/generalGuards";
 import logger from "../logger";
 import { isJwtPayload, isString } from "../typeGuards/generalGuards";
 
-export const jwtPayloadParser = (param: unknown) => {
+export const jwtPayloadParser = async (param: unknown) => {
   if (isString(param) && isJwtPayload(param)) {
     logger.error(param);
     return param;
@@ -10,7 +10,7 @@ export const jwtPayloadParser = (param: unknown) => {
   throw new Error("Error while parsing provided token: " + param);
 };
 
-export const stringParser = (param: unknown) => {
+export const stringParser = async (param: unknown) => {
   if (!param || !isString(param)) {
     logger.error(param);
     throw new Error(`${param} is not a string.`);
@@ -18,14 +18,14 @@ export const stringParser = (param: unknown) => {
   return param;
 };
 
-export const dateParser = (date: unknown) => {
+export const dateParser = async (date: unknown) => {
   if (!date || !isString(date) || !isDate(date)) {
     throw new Error("Incorrect or missing date" + date);
   }
   return date;
 };
 
-export const numberParser = (num: unknown) => {
+export const numberParser = async (num: unknown) => {
   if (!num || !isNumber(num)) {
     throw new Error(`${num} is not a number`);
   }
