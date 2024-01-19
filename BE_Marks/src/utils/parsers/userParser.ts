@@ -5,8 +5,8 @@ import { stringParser } from "./generalParsers";
 
 export const newUserParser = async (obj: Partial<TNewUser>, users: TUser[]) => {
   const checkUser = await wrapInPromise(isNewUser(obj));
-  if (checkUser.error || checkUser.data === false) {
-    throw new Error(checkUser.error);
+  if (checkUser.error || !checkUser.data) {
+    throw Error("{checkUser} " + checkUser.error);
   }
 
   if (obj.password!.length < 3) {
@@ -20,7 +20,7 @@ export const newUserParser = async (obj: Partial<TNewUser>, users: TUser[]) => {
     );
   }
 
-  const username = stringParser(obj.username);
+  const username = await stringParser(obj.username);
 
   const checkUniqueUser = users.find((user) => user.username === username);
 
@@ -28,10 +28,12 @@ export const newUserParser = async (obj: Partial<TNewUser>, users: TUser[]) => {
     throw new Error("This username already exits, please choose another.");
   }
 
-  return {
+  const newUser = {
     username,
-    name: stringParser(obj.name),
-    password: stringParser(obj.password),
-    email: stringParser(obj.email),
+    name: await stringParser(obj.name),
+    password: await stringParser(obj.password),
+    email: await stringParser(obj.email),
   };
+
+  return newUser;
 };

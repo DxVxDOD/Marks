@@ -10,17 +10,16 @@ import {
   errorHandler,
   requestLogger,
   unknownEndpoint,
-} from "./utils/middleware";
-import { stringParser } from "./utils/parsers/generalParsers";
+} from "./utils/middleware/error_handlers";
 
 const app = express();
 
-const MONGO_URI = stringParser(config.MONGO_URI);
+const MONGO_URI = config.MONGO_URI;
 
 logger.info("Connecting to: ", MONGO_URI);
 
 mongoose
-  .connect(MONGO_URI)
+  .connect(MONGO_URI!)
   .then(() => {
     logger.info("Connected to MongoDb");
   })

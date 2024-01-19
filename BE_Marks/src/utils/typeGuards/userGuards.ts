@@ -1,6 +1,6 @@
 import { TNewUser } from "../../types/user";
 
-export const isNewUser = (obj: Partial<TNewUser>): obj is TNewUser => {
+export const isNewUser = async (obj: Partial<TNewUser>) => {
   if (!obj || typeof obj !== "object") {
     throw new Error("Error object does not exist" + obj);
   }

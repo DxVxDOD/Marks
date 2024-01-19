@@ -6,28 +6,28 @@ import { numberParser, stringParser } from "./generalParsers";
 export const newMarkParser = async (obj: Partial<TNewMark>) => {
   const checkMark = await wrapInPromise(isNewMark(obj));
 
-  if (checkMark.error || checkMark.data === false) {
-    throw new Error(checkMark.error);
+  if (checkMark.error || !checkMark.data) {
+    throw Error(checkMark.error);
   }
 
   return {
-    tag: stringParser(obj.tag),
-    url: stringParser(obj.url),
-    title: stringParser(obj.title),
+    tag: await stringParser(obj.tag),
+    url: await stringParser(obj.url),
+    title: await stringParser(obj.title),
   };
 };
 
 export const markParser = async (obj: Partial<TMarkFE>) => {
   const checkMark = await wrapInPromise(isMarkFromFE(obj));
   if (checkMark.error || !checkMark.data) {
-    throw new Error(checkMark.error);
+    throw Error(checkMark.error);
   }
 
   const mark: TMarkFE = {
-    title: stringParser(obj.title),
-    tag: stringParser(obj.tag),
-    url: stringParser(obj.url),
-    likes: numberParser(obj.likes),
+    title: await stringParser(obj.title),
+    tag: await stringParser(obj.tag),
+    url: await stringParser(obj.url),
+    likes: await numberParser(obj.likes),
   };
 
   return mark;

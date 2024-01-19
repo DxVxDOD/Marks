@@ -30,11 +30,11 @@ export const postNewUser = async (obj: Partial<TNewUser>) => {
   );
 
   if (userError || !userData) {
-    throw new Error(userError);
+    throw Error(userError);
   }
 
   const { data: passwordHashed, error: passwordHashedError } =
-    await wrapInPromise(bcrypt.hash(stringParser(obj.password), 10));
+    await wrapInPromise(bcrypt.hash(await stringParser(obj.password), 10));
 
   if (passwordHashedError || !passwordHashed) {
     throw new Error("Error while hashing password: " + passwordHashedError);
