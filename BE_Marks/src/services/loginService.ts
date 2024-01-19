@@ -14,8 +14,8 @@ export const login = async (obj: Partial<TCredentials>) => {
   }
 
   const { username, password }: TCredentials = {
-    username: stringParser(obj.username),
-    password: stringParser(obj.password),
+    username: await stringParser(obj.username),
+    password: await stringParser(obj.password),
   };
 
   const { data: userData, error: userError } = await wrapInPromise(
@@ -39,7 +39,7 @@ export const login = async (obj: Partial<TCredentials>) => {
     id: userData.id,
   };
 
-  const SECRET = stringParser(config.SECRET);
+  const SECRET = await stringParser(config.SECRET);
 
   const token = jwt.sign(userForToken, SECRET);
 
