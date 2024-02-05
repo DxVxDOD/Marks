@@ -6,7 +6,7 @@ export const isString = (param: unknown): param is string => {
 };
 
 export const isJwtPayload = (param: unknown): param is JwtPayload => {
-  return (param as JwtPayload).aud !== undefined;
+  return (param as JwtPayload).iat !== undefined;
 };
 
 export const isDate = (date: string) => {

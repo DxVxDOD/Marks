@@ -3,11 +3,12 @@ import logger from "../logger";
 import { isJwtPayload, isString } from "../typeGuards/generalGuards";
 
 export const jwtPayloadParser = async (param: unknown) => {
-  if (isString(param) && isJwtPayload(param)) {
-    logger.error(param);
+  if (isJwtPayload(param)) {
     return param;
   }
-  throw new Error("Error while parsing provided token: " + param);
+  console.log(isJwtPayload(param));
+  logger.info(param);
+  throw new Error("while parsing provided token: " + param);
 };
 
 export const stringParser = async (param: unknown) => {

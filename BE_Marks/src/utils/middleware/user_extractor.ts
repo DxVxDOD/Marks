@@ -35,8 +35,10 @@ export const userExtractor = async (req: Request, res: Response) => {
       User.findById(verifiedToken.id),
     );
 
+    console.log(user);
+
     if (user) {
-      res.locals.user = user;
+      return (res.locals.user = user);
     }
     return res
       .status(401)
