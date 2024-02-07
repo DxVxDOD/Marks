@@ -13,7 +13,8 @@ export const getAllMarks = async () => {
 
 	if (!allMarks || allMarksError) {
 		throw new Error(
-			"Error while fetching all Marks from database: " + allMarksError
+			"Error while fetching all Marks from database: " +
+				allMarksError.message
 		);
 	}
 
@@ -25,8 +26,8 @@ export const postNewMark = async (obj: Partial<TNewMark>, user: TUser) => {
 		newMarkParser(obj)
 	);
 
-	if (markError || !markData) {
-		throw new Error(markError);
+	if (!markData || markError) {
+		throw new Error(markError.message);
 	}
 
 	const mark = new Mark({
@@ -43,7 +44,7 @@ export const postNewMark = async (obj: Partial<TNewMark>, user: TUser) => {
 
 	if (!savedMark || savedMarkError) {
 		throw new Error(
-			"Error while saving Marks to database: " + savedMarkError
+			"Error while saving Marks to database: " + savedMarkError.message
 		);
 	}
 
@@ -54,7 +55,9 @@ export const postNewMark = async (obj: Partial<TNewMark>, user: TUser) => {
 	);
 
 	if (updatedUserError || !updatedUser) {
-		throw new Error("Error while saving user's Marks");
+		throw new Error(
+			"Error while saving user's Mark: " + updatedUserError.message
+		);
 	}
 
 	return savedMark;
@@ -67,7 +70,8 @@ export const getMarkById = async (id: string | undefined) => {
 
 	if (!data || error) {
 		throw new Error(
-			"Error while fetching user from database with provided id: " + error
+			"Error while fetching user from database with provided id: " +
+				error.message
 		);
 	}
 
@@ -88,14 +92,14 @@ export const deleteMark = async (
 	if (!mark || markError) {
 		throw new Error(
 			"Error while trying to fetch Mark with provided id from database: " +
-				markError
+				markError.message
 		);
 	}
 
 	if (!user || userError) {
 		throw new Error(
 			"Error while trying to fetch user with provided id from database: " +
-				userError
+				userError.message
 		);
 	}
 
@@ -103,7 +107,28 @@ export const deleteMark = async (
 		throw new Error("You do not have the permission to delete this Mark");
 	}
 
-	await Mark.findByIdAndDelete(markId);
+	const { data: deleteData, error: deleteError } = await wrapInPromise(
+		Mark.findByIdAndDelete(markId)
+	);
+
+	user.marks = user.marks.splice(user.marks.indexOf(mark._id, 1));
+
+	const updatedUser = await wrapInPromise(user.save());
+
+	if (!updatedUser.data || updatedUser.error) {
+		throw new Error(
+			"Error while updating user after Mark's deletion: " +
+				updatedUser.error.message
+		);
+	}
+
+	if (!deleteData || deleteError) {
+		throw new Error(
+			"Error while finding and deleting Mark: " + deleteError.message
+		);
+	}
+
+	return true;
 };
 
 export const updateMark = async (
@@ -116,7 +141,7 @@ export const updateMark = async (
 	);
 
 	if (!newMarkData || newMarkError) {
-		throw new Error(newMarkError);
+		throw new Error(newMarkError.message);
 	}
 
 	const user = await wrapInPromise(User.findById(stringParser(userId)));
