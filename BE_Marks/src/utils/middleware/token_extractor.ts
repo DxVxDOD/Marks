@@ -1,13 +1,22 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
-export const tokenExtractor = (req: Request, _res: Response) => {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const tokenExtractor = async (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+) => {
   const auth = req.get("authorization");
   if (!auth) {
-    return new Error("Incorrect header");
+    throw new Error("Incorrect header");
   }
   if (!auth.startsWith("Bearer ")) {
-    return new Error("Provided header is formatted Incorrectly");
+    throw new Error("Provided header is formatted Incorrectly");
   }
 
-  return auth.replace("Bearer ", "");
+  if (auth.startsWith("Bearer ")) {
+    return auth.replace("Bearer ", "");
+  }
+
+  next();
 };
