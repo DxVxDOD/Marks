@@ -3,7 +3,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkRhdmlkIiwiaWQiOiI2NWMzZDdiNjMwMmE3YjE2NWE3NzkzOGYiLCJpYXQiOjE3MDczMzM1NzB9.U-ryN68h7NpSsnNBz-Owtn5y2fJNuujcbjqe5VzTVic
 
 {
-    "title": "Puffy 3",
-    "name": "123456789",
+    "title": "Puffy 4",
+    "url": "123456789",
     "tag": "Puffy Princess"
 }
