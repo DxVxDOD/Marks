@@ -5,7 +5,13 @@ import { wrapInPromise } from "../utils/promiseWrapper";
 const router = express.Router();
 
 router.get("/", async (_req: Request, res: Response) => {
-  res.json(getAllUsers());
+  const allUsers = await wrapInPromise(getAllUsers());
+
+  if (!allUsers.data || allUsers.error) {
+    res.status(400).json({ error: allUsers.error });
+  }
+
+  res.status(201).json(allUsers.data);
 });
 
 router.post("/", async (req: Request, res: Response) => {
