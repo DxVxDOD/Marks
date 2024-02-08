@@ -11,7 +11,7 @@ export const userExtractor = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const SECRET = await stringParser(config.SECRET);
+	const SECRET = stringParser(config.SECRET);
 
 	const { data: token, error: tokenError } = await wrapInPromise(
 		tokenExtractor(req, res, next)

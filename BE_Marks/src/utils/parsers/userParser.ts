@@ -1,12 +1,12 @@
 import { TNewUser, TUser } from "../../types/user";
-import { wrapInPromise } from "../promiseWrapper";
 import { isNewUser } from "../typeGuards/userGuards";
 import { stringParser } from "./generalParsers";
 
-export const newUserParser = async (obj: Partial<TNewUser>, users: TUser[]) => {
-	const checkUser = await wrapInPromise(isNewUser(obj));
-	if (checkUser.error || !checkUser.data) {
-		throw Error("{checkUser} " + checkUser.error);
+export const newUserParser = (obj: Partial<TNewUser>, users: TUser[]) => {
+	if (!isNewUser(obj)) {
+		throw Error(
+			"Missing fields or incorrect;y formatted data for new user"
+		);
 	}
 
 	if (obj.password!.length < 3) {
@@ -20,7 +20,7 @@ export const newUserParser = async (obj: Partial<TNewUser>, users: TUser[]) => {
 		);
 	}
 
-	const username = await stringParser(obj.username);
+	const username = stringParser(obj.username);
 
 	const checkUniqueUser = users.find((user) => user.username === username);
 
@@ -30,9 +30,9 @@ export const newUserParser = async (obj: Partial<TNewUser>, users: TUser[]) => {
 
 	const newUser = {
 		username,
-		name: await stringParser(obj.name),
-		password: await stringParser(obj.password),
-		email: await stringParser(obj.email),
+		name: stringParser(obj.name),
+		password: stringParser(obj.password),
+		email: stringParser(obj.email),
 	};
 
 	return newUser;
