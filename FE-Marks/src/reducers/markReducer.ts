@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { MarkT } from "../types/mark";
+import { TMark, TNewMark } from "../types/mark";
 import markService from "../services/marks";
 import { AppThunk } from "../app/store";
 import { displaySuccess } from "./notificationReducer";
 
-const initialState = [] as MarkT[];
+const initialState = [] as TMark[];
 
 const slice = createSlice({
   name: "blog",
@@ -17,16 +17,10 @@ const slice = createSlice({
     create(state, action) {
       state.push(action.payload);
     },
-    like(state, action) {
-      const mark = action.payload;
-      const markToUpdate = state.find((state) => state.id === mark.id)!;
-      const updated = { ...markToUpdate, likes: markToUpdate?.likes! + 1 };
-      return state.map((s) => (s.id === updated.id ? updated : s));
-    },
   },
 });
 
-const { set, create, like } = slice.actions;
+const { set, create } = slice.actions;
 
 export const initializeMarks = (): AppThunk => {
   return async (dispatch) => {
@@ -35,21 +29,20 @@ export const initializeMarks = (): AppThunk => {
   };
 };
 
-export const createMark = (mark: MarkT): AppThunk => {
+export const createMark = (mark: TNewMark): AppThunk => {
   return async (dispatch) => {
     const newMark = await markService.create(mark);
     dispatch(create(newMark));
-    dispatch(
-      displaySuccess(`New mark: ${newMark.title}!`, 5000),
-    );
+    dispatch(displaySuccess(`New mark: ${newMark.title}!`, 5000));
   };
 };
 
-export const updateMark = (blog: MarkT): AppThunk => {
+export const updateMark = (blog: TMark): AppThunk => {
   return async (dispatch) => {
-    const updatedBlog = { ...blog, likes: blog.likes! + 1 };
-    const response = await markService.update(updatedBlog.id!, updatedBlog);
-    dispatch(like(response));
+    const updatedBlog = { ...blog, likes: blog.likes + 1 };
+    const response = await markService.update(updatedBlog.id, updatedBlog);
+    dispatch(set(response));
+    // temporary  need fix asap
   };
 };
 

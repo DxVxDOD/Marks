@@ -1,6 +1,6 @@
 import axios from "axios";
 const baseUrl = "/api/marks";
-import { MarkT } from "../types/mark";
+import { TMark, TNewMark } from "../types/mark";
 
 let token: string;
 
@@ -12,7 +12,7 @@ const getAll = async () => {
   return response.data;
 };
 
-const create = async (newMark: MarkT) => {
+const create = async (newMark: TNewMark) => {
   const config = {
     headers: { Authorization: token },
   };
@@ -21,7 +21,7 @@ const create = async (newMark: MarkT) => {
   return response.data;
 };
 
-const update = async (id: string, updatedMark: MarkT) => {
+const update = async (id: string, updatedMark: TMark) => {
   const config = {
     headers: { Authorization: token },
   };
