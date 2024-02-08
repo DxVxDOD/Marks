@@ -6,6 +6,6 @@ type TComment = {
   id: string;
 };
 
-// type TComment = Optional<Comment, "id">;
+type TNewComment = Omit<TComment, "id">;
 
-export type { TComment };
+export type { TComment, TNewComment };

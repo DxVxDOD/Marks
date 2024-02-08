@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "../app/store";
-import { User } from "../types/user";
+import { TNewUser } from "../types/user";
 
-const initialState = null as unknown as User;
+const initialState = null as unknown as TNewUser;
 
 const slice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    set(state, action: PayloadAction<User>) {
+    set(state, action: PayloadAction<TNewUser>) {
       state = action.payload;
       return state;
     },
@@ -17,7 +17,7 @@ const slice = createSlice({
 
 const { set } = slice.actions;
 
-export const setUser = (user: User): AppThunk => {
+export const setUser = (user: TNewUser): AppThunk => {
   return async (dispatch) => {
     dispatch(set(user));
   };

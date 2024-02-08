@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "../app/store";
-import { TComment } from "../types/comment";
+import { TNewComment } from "../types/comment";
 import genericService from "../services/genericService.ts";
 
 const baseUrl = "/api/comments";
 
-const initialState = [] as TComment[];
+const initialState = [] as TNewComment[];
 
 const slice = createSlice({
   name: "comment",
@@ -30,7 +30,7 @@ export const initializeComments = (): AppThunk => {
   };
 };
 
-export const createComment = (comment: TComment): AppThunk => {
+export const createComment = (comment: TNewComment): AppThunk => {
   return async (dispatch) => {
     const newComment = await genericService.create(comment, baseUrl);
     dispatch(create(newComment));

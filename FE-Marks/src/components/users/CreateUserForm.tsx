@@ -1,7 +1,7 @@
 import { FormEvent } from "react";
 import { useForm } from "../../hooks/useForm";
 import { useAppDispatch } from "../../app/hooks";
-import { createUsers } from "../../reducers/userArrayReducer";
+import { setUser } from "../../reducers/userReducer.ts";
 import { VisibilityHandle } from "../features/Toggle.tsx";
 import { Box, Button, Paper, Stack, TextField } from "@mui/material";
 
@@ -28,7 +28,7 @@ const CreateUserForm = ({
     signUpRef.current?.toggleVisibility();
 
     dispatch(
-      createUsers({
+      setUser({
         username: username.value,
         name: name.value,
         password: password.value,
