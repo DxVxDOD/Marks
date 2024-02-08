@@ -5,7 +5,7 @@ export type VisibilityHandle = {
   toggleVisibility: () => void;
 };
 
-const Togglable = forwardRef(
+const Toggle = forwardRef(
   (
     { buttonLabel, children }: { buttonLabel: string; children: ReactNode },
     refs,
@@ -79,6 +79,6 @@ const Togglable = forwardRef(
   },
 );
 
-Togglable.displayName = "Togglable";
+Toggle.displayName = "Toggle";
 
-export default Togglable;
+export default Toggle;
