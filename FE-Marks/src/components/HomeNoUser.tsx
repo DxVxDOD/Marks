@@ -36,7 +36,7 @@ const HomeNoUser = () => {
             component="h3"
             variant="subtitle1"
           >
-            This way knoledge and fun articles can be spread easily!
+            This way knowledge and fun articles can be spread easily!
           </Typography>
         </Box>
         <Box>
@@ -46,7 +46,7 @@ const HomeNoUser = () => {
             variant="subtitle1"
           >
             If you would like to get started right away just sign up and start
-            veiwing and storing!
+            viewing and storing!
           </Typography>
         </Box>
       </Paper>

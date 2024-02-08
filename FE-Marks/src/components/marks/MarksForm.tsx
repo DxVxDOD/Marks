@@ -1,5 +1,5 @@
 import React, { FormEvent } from "react";
-import { VisibilityHandle } from "../features/Togglable.tsx";
+import { VisibilityHandle } from "../features/Toggle.tsx";
 import { useAppDispatch } from "../../app/hooks";
 import { createMark, initializeMarks } from "../../reducers/markReducer";
 import { AxiosError } from "axios";
@@ -80,7 +80,7 @@ const MarkForm = ({
             placeholder="Title"
             {...title}
           />
-            <TextField
+          <TextField
             required
             color="success"
             size="small"
@@ -89,15 +89,15 @@ const MarkForm = ({
             placeholder="Url"
             {...url}
           />
-            <TextField
-                required
-                size="small"
-                label="Tag"
-                variant="standard"
-                placeholder="Tag"
-                color="success"
-                {...tag}
-            />
+          <TextField
+            required
+            size="small"
+            label="Tag"
+            variant="standard"
+            placeholder="Tag"
+            color="success"
+            {...tag}
+          />
         </Stack>
         <Button
           aria-label="submit button"
