@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev src/index.ts",
+    "build:ui": "rm -rf dist && cd ../FE-Marks/ && npm run build && cp -r dist ../BE_Marks",
+    "deploy:full": "npm run build:ui && npm run tsc && git add --all && git commit -m 'ui:build' && git push",
     "tsc": "tsc",
     "start": "node dist/index.js"
   },
