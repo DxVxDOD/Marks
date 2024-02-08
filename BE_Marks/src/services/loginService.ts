@@ -8,14 +8,13 @@ import { wrapInPromise } from "../utils/promiseWrapper";
 import { isCredentials } from "../utils/typeGuards/generalGuards";
 
 export const login = async (obj: Partial<TCredentials>) => {
-	const checkCredentials = await wrapInPromise(isCredentials(obj));
-	if (checkCredentials.error) {
-		return checkCredentials.error;
+	if (!isCredentials(obj)) {
+		throw new Error("Wrong fields provided for credentials");
 	}
 
 	const { username, password }: TCredentials = {
-		username: await stringParser(obj.username),
-		password: await stringParser(obj.password),
+		username: stringParser(obj.username),
+		password: stringParser(obj.password),
 	};
 
 	const { data: userData, error: userError } = await wrapInPromise(
@@ -23,15 +22,19 @@ export const login = async (obj: Partial<TCredentials>) => {
 	);
 
 	if (userError || !userData) {
-		throw new Error("Error while fetching user: " + userError);
+		throw new Error(
+			"Error while fetching user by username: " + userError.message
+		);
 	}
 
 	const correctPassword = await wrapInPromise(
 		bcrypt.compare(password, userData.password)
 	);
 
-	if (correctPassword.data === false) {
-		throw new Error("Error wrong password provided");
+	if (!correctPassword.data || correctPassword.error) {
+		throw new Error(
+			"Error wrong password provided: " + correctPassword.error.message
+		);
 	}
 
 	const userForToken = {
@@ -39,7 +42,7 @@ export const login = async (obj: Partial<TCredentials>) => {
 		id: userData.id,
 	};
 
-	const SECRET = await stringParser(config.SECRET);
+	const SECRET = stringParser(config.SECRET);
 
 	const token = jwt.sign(userForToken, SECRET);
 

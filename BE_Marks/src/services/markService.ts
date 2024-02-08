@@ -107,11 +107,13 @@ export const deleteMark = async (
 		throw new Error("You do not have the permission to delete this Mark");
 	}
 
+	user.marks = user.marks.filter(
+		(m) => m._id.toString() !== mark._id.toString()
+	);
+
 	const { data: deleteData, error: deleteError } = await wrapInPromise(
 		Mark.findByIdAndDelete(markId)
 	);
-
-	user.marks = user.marks.splice(user.marks.indexOf(mark._id, 1));
 
 	const updatedUser = await wrapInPromise(user.save());
 
@@ -147,7 +149,7 @@ export const updateMark = async (
 	const user = await wrapInPromise(User.findById(stringParser(userId)));
 
 	if (!user.data || user.error) {
-		throw new Error("Token is invalid" + user.error);
+		throw new Error("Token is invalid: " + user.error.message);
 	}
 
 	const { data: oldMark, error: oldMarkError } = await wrapInPromise(
@@ -156,7 +158,8 @@ export const updateMark = async (
 
 	if (!oldMark || oldMarkError) {
 		throw new Error(
-			"Cannot find Mark with given id in data base" + oldMarkError
+			"Cannot find Mark with given id in data base: " +
+				oldMarkError.message
 		);
 	}
 
@@ -170,7 +173,7 @@ export const updateMark = async (
 
 	if (!updatedMark.data || updatedMark.error) {
 		throw new Error(
-			"Error while trying to update Mark" + updatedMark.error
+			"Error while trying to update Mark: " + updatedMark.error.message
 		);
 	}
 
