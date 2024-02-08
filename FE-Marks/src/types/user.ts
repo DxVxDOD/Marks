@@ -10,6 +10,6 @@ type TUser = {
   id: string;
 };
 
-// type TUser = Optional<User, "marks" | "id">;
+type TNewUser = Omit<TUser, "marks" | "id">;
 
-export type { TUser };
+export type { TUser, TNewUser };
