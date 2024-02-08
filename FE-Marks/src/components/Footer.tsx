@@ -50,7 +50,7 @@ const Footer = () => {
       >
         <LinkedInIcon />
       </Button>
-    </Paper>
+    </Paper> 
   );
 };
 
