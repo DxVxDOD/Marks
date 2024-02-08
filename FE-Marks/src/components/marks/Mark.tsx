@@ -5,7 +5,7 @@ import {
   displaySuccess,
 } from "../../reducers/notificationReducer";
 import { useLocation } from "react-router-dom";
-import Comments from "./Comments.tsx";
+// import Comments from "./Comments.tsx";
 import {
   Box,
   Button,
@@ -132,7 +132,7 @@ const Mark = () => {
           </>
         )}
       </Paper>
-      <Comments markId={`${mark.id}`} />
+      {/* <Comments markId={`${mark.id}`} /> */}
     </Box>
   );
 };
