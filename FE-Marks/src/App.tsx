@@ -28,6 +28,8 @@ import theme from "./theme/Theme.tsx";
 const App = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
+  const marks = useAppSelector((state) => state.mark);
+  console.log(marks);
 
   useEffect(() => {
     dispatch(initializeMarks());

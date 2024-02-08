@@ -19,10 +19,20 @@ import AccountPage from "./users/AccountPage";
 
 const Home = () => {
   const user = useAppSelector((state) => state.user);
-  const marks = useAppSelector((state) => state.mark);
+  const marks = useAppSelector((state) => {
+    if (!Array.isArray(state.mark)) {
+      let array = new Array();
+      return [...array, state.mark];
+    }
+    return state.mark;
+  });
+  const userArray = useAppSelector((state) => state.userArray);
   const { classes } = blogList();
   const button = useHome().classes;
   const accountRef = useRef<VisibilityHandle>();
+
+  console.log(marks);
+  console.log(userArray);
 
   return (
     <Box
