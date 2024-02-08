@@ -1,4 +1,4 @@
-import Toggleable, { VisibilityHandle } from "../features/Togglable.tsx";
+import Toggle, { VisibilityHandle } from "../features/Toggle.tsx";
 import LoginForm from "./LoginForm.js";
 import CreateUserForm from "../users/CreateUserForm.js";
 import { useRef } from "react";
@@ -8,14 +8,17 @@ const NotLoggedIn = () => {
   const signUpRef = useRef<VisibilityHandle>();
 
   return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column'
-    }} component='article'>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+      }}
+      component="article"
+    >
       <LoginForm />
-      <Toggleable buttonLabel="Sign up" ref={signUpRef}>
+      <Toggle buttonLabel="Sign up" ref={signUpRef}>
         <CreateUserForm signUpRef={signUpRef} />
-      </Toggleable>
+      </Toggle>
     </Box>
   );
 };
