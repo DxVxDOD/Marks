@@ -7,7 +7,7 @@ import { displaySuccess } from "./notificationReducer";
 const initialState = [] as TMark[];
 
 const slice = createSlice({
-  name: "blog",
+  name: "marks",
   initialState,
   reducers: {
     set(state, action) {
@@ -25,6 +25,7 @@ const { set, create } = slice.actions;
 export const initializeMarks = (): AppThunk => {
   return async (dispatch) => {
     const marks = await markService.getAll();
+
     dispatch(set(marks));
   };
 };
