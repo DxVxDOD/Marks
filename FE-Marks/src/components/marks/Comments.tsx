@@ -1,13 +1,13 @@
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import {
-    Box,
-    Button,
-    FormControl,
-    List,
-    ListItemText,
-    Paper,
-    TextField,
-    Typography,
+  Box,
+  Button,
+  FormControl,
+  List,
+  ListItemText,
+  Paper,
+  TextField,
+  Typography,
 } from "@mui/material";
 import { AxiosError } from "axios";
 import { FormEvent } from "react";
@@ -72,7 +72,8 @@ const Comments = ({ markId }: { markId: string }) => {
               {comments
                 .filter((comment) => comment.markId === markId)
                 .map((comment) => (
-                  <ListItemText key={comment.id}>
+                  // need to replace mark id with id !!!
+                  <ListItemText key={comment.markId}>
                     <Typography className={classes.otherTxt}>
                       {comment.content}
                     </Typography>

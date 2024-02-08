@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { User } from "../types/user";
+import { TUser } from "../types/user";
 import { AppThunk } from "../app/store";
 import genericService from "../services/genericService.ts";
 
 const baseUrl = "/api/users";
 
-const initialState = [] as User[];
+const initialState = [] as TUser[];
 
 const slice = createSlice({
   name: "userArray",
@@ -30,9 +30,9 @@ export const initializeUsers = (): AppThunk => {
   };
 };
 
-export const createUsers = (user: User): AppThunk => {
+export const createUsers = (user: TUser): AppThunk => {
   return async (dispatch) => {
-    const newUser = await genericService.create(user,baseUrl);
+    const newUser = await genericService.create(user, baseUrl);
     dispatch(create(newUser));
   };
 };

@@ -1,5 +1,5 @@
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { MarkT } from "../../types/mark";
+import { TMark } from "../../types/mark";
 import { Box, Button, Icon, Paper, Typography } from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 
@@ -35,8 +35,8 @@ const User = () => {
           </Typography>
         ) : (
           state.user.marks
-            .sort((a: MarkT, b: MarkT) => b.likes! - a.likes!)
-            .map((mark: MarkT) => (
+            .sort((a: TMark, b: TMark) => b.likes! - a.likes!)
+            .map((mark: TMark) => (
               <Button
                 sx={{
                   display: "flex",

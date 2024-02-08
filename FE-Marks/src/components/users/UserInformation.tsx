@@ -1,6 +1,6 @@
 import { Link as RouterLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { User } from "../../types/user";
+import { TUser } from "../../types/user";
 import { useEffect } from "react";
 import { initializeUsers } from "../../reducers/userArrayReducer";
 import {
@@ -53,7 +53,7 @@ const UserInformation = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map((user: User) => (
+              {users.map((user: TUser) => (
                 <TableRow key={user.username}>
                   <TableCell>
                     <Button
