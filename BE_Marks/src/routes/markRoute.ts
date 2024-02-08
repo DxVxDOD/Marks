@@ -63,11 +63,11 @@ router.put("/:id", userExtractor, async (req: Request, res: Response) => {
 		updateMark(req.body, res.locals.user.id, req.params.id)
 	);
 
-	if (data) {
-		res.status(201).json(data);
+	if (!data) {
+		res.status(400).json({ error: error.message });
 	}
 
-	res.status(400).json({ error: error.message });
+	res.status(201).json(data);
 });
 
 export default router;

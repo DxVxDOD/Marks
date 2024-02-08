@@ -11,7 +11,9 @@ export const getAllUsers = async () => {
 	);
 
 	if (allUserError || !allUserData) {
-		throw new Error("Error while fetching all users: " + allUserData);
+		throw new Error(
+			"Error while fetching all users: " + allUserError.message
+		);
 	}
 
 	return allUserData;
@@ -23,7 +25,9 @@ export const postNewUser = async (obj: Partial<TNewUser>) => {
 	);
 
 	if (allUsersError || !allUsersData) {
-		throw new Error("Error while fetching all users: " + allUsersError);
+		throw new Error(
+			"Error while fetching all users: " + allUsersError.message
+		);
 	}
 
 	const { data: userData, error: userError } = await wrapInPromise(
@@ -31,14 +35,18 @@ export const postNewUser = async (obj: Partial<TNewUser>) => {
 	);
 
 	if (userError || !userData) {
-		return userError;
+		throw new Error(
+			"Error while parsing new user data: " + userError.message
+		);
 	}
 
 	const { data: passwordHashed, error: passwordHashedError } =
-		await wrapInPromise(bcrypt.hash(await stringParser(obj.password), 10));
+		await wrapInPromise(bcrypt.hash(stringParser(obj.password), 10));
 
 	if (passwordHashedError || !passwordHashed) {
-		throw new Error("Error while hashing password: " + passwordHashedError);
+		throw new Error(
+			"Error while hashing password: " + passwordHashedError.message
+		);
 	}
 
 	const user = new User({
@@ -52,7 +60,7 @@ export const postNewUser = async (obj: Partial<TNewUser>) => {
 
 	if (!savedUser || savedUserError) {
 		throw new Error(
-			"Error while saving user to database: " + savedUserError
+			"Error while saving user to database: " + savedUserError.message
 		);
 	}
 
