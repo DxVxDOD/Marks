@@ -1,10 +1,20 @@
 import { Link as RouterLink } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks.js";
-import { MarkT } from "../../types/mark.js";
+import { TMark } from "../../types/mark.js";
 import { useRef } from "react";
 import MarkForm from "./MarksForm.js";
-import Toggleable, { VisibilityHandle } from "../features/Togglable.tsx";
-import {Box, Button, Icon, List, ListItemButton, ListItemIcon, ListItemText, Paper, Typography} from "@mui/material";
+import Toggle, { VisibilityHandle } from "../features/Toggle.tsx";
+import {
+  Box,
+  Button,
+  Icon,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+  Typography,
+} from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 import blogList from "../../theme/BlogList.js";
 import useHome from "../../theme/Home.js";
@@ -49,9 +59,9 @@ const LoggedInMarks = () => {
           >
             <List>
               {[...marks]
-                .sort((a: MarkT, b: MarkT) => b.likes! - a.likes!)
-                .filter((mark: MarkT) => mark.user.username === user.username)
-                .map((mark: MarkT) => (
+                .sort((a: TMark, b: TMark) => b.likes! - a.likes!)
+                .filter((mark: TMark) => mark.user.username === user.username)
+                .map((mark: TMark) => (
                   <ListItemButton
                     aria-label="button to access marks"
                     sx={{
@@ -101,9 +111,9 @@ const LoggedInMarks = () => {
           component="nav"
         >
           {[...marks]
-            .sort((a: MarkT, b: MarkT) => b.likes! - a.likes!)
-            .filter((mark: MarkT) => mark.user.username !== user.username)
-            .map((mark: MarkT) => (
+            .sort((a: TMark, b: TMark) => b.likes! - a.likes!)
+            .filter((mark: TMark) => mark.user.username !== user.username)
+            .map((mark: TMark) => (
               <Button
                 aria-label="button to access marks"
                 sx={{
@@ -129,9 +139,9 @@ const LoggedInMarks = () => {
             ))}
         </Box>
       </Paper>
-      <Toggleable buttonLabel="New mark" ref={markFormRef}>
+      <Toggle buttonLabel="New mark" ref={markFormRef}>
         <MarkForm markFormRef={markFormRef} />
-      </Toggleable>
+      </Toggle>
     </section>
   );
 };
