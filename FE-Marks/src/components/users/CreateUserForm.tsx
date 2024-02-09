@@ -1,6 +1,6 @@
 import { FormEvent } from "react";
 import { useForm } from "../../hooks/useForm";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks.ts";
 import { setUser } from "../../reducers/userReducer.ts";
 import { VisibilityHandle } from "../features/Toggle.tsx";
 import { Box, Button, Paper, Stack, TextField } from "@mui/material";
