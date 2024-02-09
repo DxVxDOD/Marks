@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { TUser } from "../types/user";
-import { AppThunk } from "../app/store";
+import { AppThunk } from "../app/store.ts";
 import genericService from "../services/genericService.ts";
 
 const baseUrl = "/api/users";
