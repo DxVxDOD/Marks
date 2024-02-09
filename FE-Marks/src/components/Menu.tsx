@@ -30,12 +30,12 @@ const Menu = () => {
         width: "100%",
         alignItems: "center",
         padding: "0.5em",
-          borderColor: '#8F9094',
-          borderTop: 'none',
-          borderLeft: 'none',
-          borderRight: 'none'
+        borderColor: "#8F9094",
+        borderTop: "none",
+        borderLeft: "none",
+        borderRight: "none",
       }}
-      variant='outlined'
+      variant="outlined"
     >
       <Box
         component="nav"
@@ -51,7 +51,7 @@ const Menu = () => {
           }}
           direction="column"
         >
-          <ButtonGroup variant="outlined"  aria-label="alignment button group">
+          <ButtonGroup variant="outlined" aria-label="alignment button group">
             <Button
               className={classes.button}
               component={RouterLink}

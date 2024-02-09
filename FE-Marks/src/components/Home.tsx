@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useRef } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { useAppSelector } from "../app/hooks";
+import { useAppSelector } from "../app/hooks.ts";
 import blogList from "../theme/BlogList";
 import useHome from "../theme/Home";
 import { TMark } from "../types/mark";

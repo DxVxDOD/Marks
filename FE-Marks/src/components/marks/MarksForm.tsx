@@ -1,6 +1,6 @@
 import React, { FormEvent } from "react";
 import { VisibilityHandle } from "../features/Toggle.tsx";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks.ts";
 import { createMark, initializeMarks } from "../../reducers/markReducer";
 import { AxiosError } from "axios";
 import { displayError } from "../../reducers/notificationReducer";
