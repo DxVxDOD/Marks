@@ -3,9 +3,13 @@
 type TComment = {
   content: string;
   markId: string;
+  userId: string;
   id: string;
+  numberOfLikes: number;
+  like: boolean;
+  createdAt: Date;
 };
 
-type TNewComment = Omit<TComment, "id">;
+type TNewComment = Pick<TComment, "content" | "markId" | "userId">;
 
 export type { TComment, TNewComment };
