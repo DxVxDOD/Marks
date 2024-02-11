@@ -21,6 +21,20 @@ export const getAllMarks = async () => {
 	return allMarks;
 };
 
+export const getMarkById = async (id: string | undefined) => {
+	const { data, error } = await wrapInPromise(
+		Mark.findById(stringParser(id))
+	);
+
+	if (!data || error) {
+		throw new Error(
+			"Error while fetching mark from database with provided id: " + error
+		);
+	}
+
+	return data;
+};
+
 export const postNewMark = async (obj: Partial<TNewMark>, user: TUser) => {
 	const { data: markData, error: markError } = await wrapInPromise(
 		newMarkParser(obj)
@@ -44,7 +58,7 @@ export const postNewMark = async (obj: Partial<TNewMark>, user: TUser) => {
 
 	if (!savedMark || savedMarkError) {
 		throw new Error(
-			"Error while saving Marks to database: " + savedMarkError.message
+			"Error while saving Marks to database: " + savedMarkError
 		);
 	}
 
@@ -61,21 +75,6 @@ export const postNewMark = async (obj: Partial<TNewMark>, user: TUser) => {
 	}
 
 	return savedMark;
-};
-
-export const getMarkById = async (id: string | undefined) => {
-	const { data, error } = await wrapInPromise(
-		Mark.findById(stringParser(id))
-	);
-
-	if (!data || error) {
-		throw new Error(
-			"Error while fetching user from database with provided id: " +
-				error.message
-		);
-	}
-
-	return data;
 };
 
 export const deleteMark = async (

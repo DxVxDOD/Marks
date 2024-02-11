@@ -10,6 +10,6 @@ type TComment = {
   createdAt: Date;
 };
 
-type TNewComment = Pick<TComment, "content" | "markId" | "userId">;
+type TNewComment = Pick<TComment, "content" | "markId">;
 
 export type { TComment, TNewComment };
