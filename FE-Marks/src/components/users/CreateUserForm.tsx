@@ -13,6 +13,7 @@ const CreateUserForm = ({
   const { reset: resetUsername, ...username } = useForm("text");
   const { reset: resetPassword, ...password } = useForm("password");
   const { reset: resetName, ...name } = useForm("text");
+  const { reset: resetEmail, ...email } = useForm("text");
 
   const dispatch = useAppDispatch();
 
@@ -32,6 +33,7 @@ const CreateUserForm = ({
         username: username.value,
         name: name.value,
         password: password.value,
+        email: email.value,
       }),
     );
   };
@@ -89,6 +91,14 @@ const CreateUserForm = ({
             variant="standard"
             placeholder="Password"
             {...password}
+          />
+          <TextField
+            size="small"
+            required
+            label="Email"
+            variant="standard"
+            placeholder="Email"
+            {...email}
           />
         </Stack>
         <Stack

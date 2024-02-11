@@ -1,3 +1,4 @@
+import { isComment } from "../../type_guard/comments";
 import { TComment, TNewComment } from "../../types/comment";
 import { marksApi } from "../marksBaseApi";
 
@@ -6,8 +7,11 @@ const commentApi = marksApi.injectEndpoints({
     getComments: builder.query<TComment[], void>({
       query: () => "comments",
       providesTags: ["Comment"],
-      transformResponse: (response: { data: TComment[] }, _meta, _arg) =>
-        response.data,
+      transformResponse: (response: { data: TComment[] }, _meta, _arg) => {
+        response.data.forEach(isComment);
+
+        return response.data;
+      },
       transformErrorResponse: (
         response: { status: string | number },
         _meta,
@@ -16,8 +20,12 @@ const commentApi = marksApi.injectEndpoints({
     }),
     getComment: builder.query<TComment, string>({
       query: (id) => ({ url: `comments${id}` }),
-      transformResponse: (response: { data: TComment }, _meta, _arg) =>
-        response.data,
+      transformResponse: (response: { data: TComment }, _meta, _arg) => {
+        if (!isComment(response.data)) {
+          throw new Error("Malformed response");
+        }
+        return response.data;
+      },
       transformErrorResponse: (
         response: { status: string | number },
         _meta,
@@ -25,12 +33,18 @@ const commentApi = marksApi.injectEndpoints({
       ) => response.status,
       providesTags: (_result, _error, id) => [{ type: "Comment", id }],
     }),
-    addNewComment: builder.mutation({
+    addNewComment: builder.mutation<TComment, TNewComment>({
       query: (newComment: TNewComment) => ({
         url: "comments",
         method: "POST",
         body: newComment,
       }),
+      transformResponse: (response: { data: TComment }, _meta, _args) => {
+        if (!isComment(response.data)) {
+          throw new Error("Malformed response");
+        }
+        return response.data;
+      },
       invalidatesTags: ["Comment"],
     }),
     editComment: builder.mutation<
@@ -42,8 +56,12 @@ const commentApi = marksApi.injectEndpoints({
         method: "PUT",
         body: comment,
       }),
-      transformResponse: (response: { data: TComment }, _meta, _args) =>
-        response.data,
+      transformResponse: (response: { data: TComment }, _meta, _args) => {
+        if (!isComment(response.data)) {
+          throw new Error("Malformed response");
+        }
+        return response.data;
+      },
       transformErrorResponse: (
         response: { status: string | number },
         _meta,
@@ -54,4 +72,9 @@ const commentApi = marksApi.injectEndpoints({
   }),
 });
 
-export const { useGetCommentsQuery, useAddNewCommentMutation } = commentApi;
+export const {
+  useGetCommentsQuery,
+  useAddNewCommentMutation,
+  useEditCommentMutation,
+  useGetCommentQuery,
+} = commentApi;
