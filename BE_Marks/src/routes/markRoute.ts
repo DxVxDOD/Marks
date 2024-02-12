@@ -8,6 +8,7 @@ import {
 	updateMark,
 } from "../services/markService";
 import { userExtractor } from "../utils/middleware/user_extractor";
+import { TUser } from "../types/user";
 
 const router = express.Router();
 
@@ -33,7 +34,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 });
 
 router.post("/", userExtractor, async (req: Request, res: Response) => {
-	const user = res.locals.user;
+	const user: TUser = res.locals.user;
 
 	const { data: newMark, error: newMarkError } = await wrapInPromise(
 		postNewMark(req.body, user)
@@ -63,7 +64,7 @@ router.put("/:id", userExtractor, async (req: Request, res: Response) => {
 		updateMark(req.body, res.locals.user.id, req.params.id)
 	);
 
-	if (!data) {
+	if (!data || error) {
 		res.status(400).json({ error: error.message });
 	}
 

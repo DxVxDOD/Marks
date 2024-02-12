@@ -1,7 +1,14 @@
-import express, { Request, Response } from "express";
+import express, { Request, Response, response } from "express";
 import { wrapInPromise } from "../utils/promiseWrapper";
-import { getAllComments, getCommentById } from "../services/commentService";
+import {
+	getAllComments,
+	getCommentById,
+	postNewComment,
+	updateComment,
+} from "../services/commentService";
 import { stringParser } from "../utils/parsers/generalParsers";
+import { userExtractor } from "../utils/middleware/user_extractor";
+import { TUser } from "../types/user";
 
 const router = express.Router();
 
@@ -25,4 +32,34 @@ router.get("/:id", async (req: Request, res: Response) => {
 	}
 
 	res.status(200).json(data);
+});
+
+router.post("/", userExtractor, async (req: Request, res: Response) => {
+	const user: TUser = res.locals.user;
+
+	const { data: newComment, error: newCommentError } = await wrapInPromise(
+		postNewComment(req.body, user)
+	);
+
+	if (!newComment || newCommentError) {
+		res.status(400).json({ error: newCommentError.message });
+	}
+
+	res.status(201).json(newComment);
+});
+
+router.put("/:id", userExtractor, async (req: Request, res: Response) => {
+	const { data: comment, error: commentError } = await wrapInPromise(
+		updateComment(
+			req.body,
+			stringParser(req.params.id),
+			stringParser(response.locals.user.id)
+		)
+	);
+
+	if (!comment || commentError) {
+		res.status(400).json({ error: commentError.message });
+	}
+
+	res.status(201).json(comment);
 });
