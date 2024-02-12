@@ -1,5 +1,4 @@
 import Mark from "../models/markModel";
-import User from "../models/userModel";
 import { TMarkFE, TNewMark } from "../types/mark";
 import { TUser } from "../types/user";
 import { stringParser } from "../utils/parsers/generalParsers";
@@ -77,13 +76,7 @@ export const postNewMark = async (obj: Partial<TNewMark>, user: TUser) => {
 	return savedMark;
 };
 
-export const deleteMark = async (
-	userId: string | undefined,
-	markId: string | undefined
-) => {
-	const { data: user, error: userError } = await wrapInPromise(
-		User.findById(stringParser(userId))
-	);
+export const deleteMark = async (user: TUser, markId: string | undefined) => {
 	const { data: mark, error: markError } = await wrapInPromise(
 		Mark.findById(stringParser(markId))
 	);
@@ -95,23 +88,22 @@ export const deleteMark = async (
 		);
 	}
 
-	if (!user || userError) {
-		throw new Error(
-			"Error while trying to fetch user with provided id from database: " +
-				userError.message
-		);
-	}
-
 	if (mark.user.toString() !== user.id.toString()) {
 		throw new Error("You do not have the permission to delete this Mark");
 	}
 
-	user.marks = user.marks.filter(
-		(m) => m._id.toString() !== mark._id.toString()
-	);
-
 	const { data: deleteData, error: deleteError } = await wrapInPromise(
 		Mark.findByIdAndDelete(markId)
+	);
+
+	if (!deleteData || deleteError) {
+		throw new Error(
+			"Error while finding and deleting Mark: " + deleteError.message
+		);
+	}
+
+	user.marks = user.marks.filter(
+		(m) => m._id.toString() !== mark._id.toString()
 	);
 
 	const updatedUser = await wrapInPromise(user.save());
@@ -120,12 +112,6 @@ export const deleteMark = async (
 		throw new Error(
 			"Error while updating user after Mark's deletion: " +
 				updatedUser.error.message
-		);
-	}
-
-	if (!deleteData || deleteError) {
-		throw new Error(
-			"Error while finding and deleting Mark: " + deleteError.message
 		);
 	}
 

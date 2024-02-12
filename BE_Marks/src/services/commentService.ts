@@ -155,3 +155,63 @@ export const updateComment = async (
 
 	return updatedComment;
 };
+
+export const deleteComment = async (
+	user: TUser,
+	markId: string | undefined,
+	commentId: string | undefined
+) => {
+	const { data: commentData, error: commentError } = await wrapInPromise(
+		Comment.findById(commentId)
+	);
+
+	if (!commentData || commentError) {
+		throw new Error(
+			"Cannot find comment to be deleted with provided id: " +
+				commentError
+		);
+	}
+
+	if (commentData.id.toString() !== user.id.toString()) {
+		throw new Error(
+			"You do not have the permission to delete this comment"
+		);
+	}
+
+	const deletedComment = await wrapInPromise(
+		Comment.findByIdAndDelete(commentData.id)
+	);
+
+	if (!deletedComment.data || deletedComment.error) {
+		throw new Error(
+			"Error while deleting comment from database" +
+				deletedComment.error.message
+		);
+	}
+
+	const { data: markData, error: markError } = await wrapInPromise(
+		Mark.findById(markId)
+	);
+
+	if (!markData || markError) {
+		throw new Error(
+			"Cannot find Mark to delete comment from with provided id: " +
+				markError.message
+		);
+	}
+
+	markData.comments = markData.comments.filter(
+		(com) => com.id.toString() !== commentData.id.toString()
+	);
+
+	const updatedMark = await wrapInPromise(markData.save());
+
+	if (!updatedMark.data || updatedMark.error) {
+		throw new Error(
+			"Error while saving updated comment array without deleted comment in Mark:  " +
+				updatedMark.error.message
+		);
+	}
+
+	return true;
+};
