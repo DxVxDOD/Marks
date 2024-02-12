@@ -134,7 +134,7 @@ export const deleteMark = async (
 
 export const updateMark = async (
 	mark: Partial<TMarkFE>,
-	userId: string | undefined,
+	user: TUser,
 	markId: string | undefined
 ) => {
 	const { data: markData, error: markError } = await wrapInPromise(
@@ -156,19 +156,31 @@ export const updateMark = async (
 		);
 	}
 
-	if (oldMark.user.toString() !== stringParser(userId)) {
+	if (oldMark.user.toString() !== user.id) {
 		throw new Error("You do not have permission to update this Mark");
 	}
 
-	const updatedMark = await wrapInPromise(
+	const { data: updatedMark, error: updatedMarkError } = await wrapInPromise(
 		Mark.findByIdAndUpdate(oldMark.id, markData, { new: true })
 	);
 
-	if (!updatedMark.data || updatedMark.error) {
+	if (!updatedMark || updatedMarkError) {
 		throw new Error(
-			"Error while trying to update Mark: " + updatedMark.error.message
+			"Error while trying to update Mark: " + updatedMarkError.message
+		);
+	}
+	user.marks = user.marks
+		.filter((m) => m.id !== oldMark.id)
+		.concat(updatedMark.id);
+
+	const updatedUser = await wrapInPromise(user.save());
+
+	if (!updatedUser.data || updatedUser.error) {
+		throw new Error(
+			"Error while updating user's Mark array with updated Mark: " +
+				updatedUser.error.message
 		);
 	}
 
-	return updatedMark.data;
+	return updatedMark;
 };
