@@ -2,12 +2,17 @@ import Comment from "../models/commentModel";
 import Mark from "../models/markModel";
 import { TComment, TNewComment } from "../types/comment";
 import { TUser } from "../types/user";
-import { newCommentParser } from "../utils/parsers/commentParser";
+import {
+	commentParser,
+	newCommentParser,
+} from "../utils/parsers/commentParser";
 import { stringParser } from "../utils/parsers/generalParsers";
 import { wrapInPromise } from "../utils/promiseWrapper";
 
 export const getAllComments = async () => {
-	const { data, error } = await wrapInPromise(Comment.find({}));
+	const { data, error } = await wrapInPromise(
+		Comment.find({}).populate("user", { username: 1 })
+	);
 
 	if (!data || error) {
 		throw new Error(
@@ -89,4 +94,64 @@ export const updateComment = async (
 	comment: TComment,
 	userId: string,
 	markId: string
-) => {};
+) => {
+	const { data: commentData, error: commentError } = await wrapInPromise(
+		commentParser(comment)
+	);
+
+	if (!commentData || commentError) {
+		throw new Error(commentError.message);
+	}
+
+	const { data: oldCommentData, error: oldCommentError } =
+		await wrapInPromise(Comment.findById(comment.id));
+
+	if (!oldCommentData || oldCommentError) {
+		throw new Error("Cannot find comment to update: " + oldCommentError);
+	}
+
+	const { data: markData, error: markError } = await wrapInPromise(
+		Mark.findById(markId)
+	);
+
+	if (!markData || markError) {
+		throw new Error(
+			"Cannot find mark to comment with provided id: " + markError
+		);
+	}
+
+	if (oldCommentData.userId.toString() !== userId) {
+		throw new Error("You do not have permission to update this comment");
+	}
+
+	const { data: updatedComment, error: updatedCommentError } =
+		await wrapInPromise(
+			Comment.findByIdAndUpdate(oldCommentData.id, commentData, {
+				new: true,
+			})
+		);
+
+	if (!updatedComment || updatedCommentError) {
+		throw new Error(
+			"Error while saving updated comment to data base: " +
+				updatedCommentError.message
+		);
+	}
+
+	markData.comments = markData.comments
+		.filter((com) => com.id !== oldCommentData.id)
+		.concat(updatedComment.id);
+
+	const { data: updatedMark, error: updatedMarkError } = await wrapInPromise(
+		markData.save()
+	);
+
+	if (!updatedMark || updatedMarkError) {
+		throw new Error(
+			"Failed saving updated comment under Mark: " +
+				updatedMarkError.message
+		);
+	}
+
+	return updatedComment;
+};
