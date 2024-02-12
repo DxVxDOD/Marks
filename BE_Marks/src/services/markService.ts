@@ -137,18 +137,12 @@ export const updateMark = async (
 	userId: string | undefined,
 	markId: string | undefined
 ) => {
-	const { data: newMarkData, error: newMarkError } = await wrapInPromise(
+	const { data: markData, error: markError } = await wrapInPromise(
 		markParser(mark)
 	);
 
-	if (!newMarkData || newMarkError) {
-		throw new Error(newMarkError.message);
-	}
-
-	const user = await wrapInPromise(User.findById(stringParser(userId)));
-
-	if (!user.data || user.error) {
-		throw new Error("Token is invalid: " + user.error.message);
+	if (!markData || markError) {
+		throw new Error(markError.message);
 	}
 
 	const { data: oldMark, error: oldMarkError } = await wrapInPromise(
@@ -162,12 +156,12 @@ export const updateMark = async (
 		);
 	}
 
-	if (oldMark.user.toString() !== user.data.id) {
+	if (oldMark.user.toString() !== stringParser(userId)) {
 		throw new Error("You do not have permission to update this Mark");
 	}
 
 	const updatedMark = await wrapInPromise(
-		Mark.findByIdAndUpdate(oldMark.id, newMarkData, { new: true })
+		Mark.findByIdAndUpdate(oldMark.id, markData, { new: true })
 	);
 
 	if (!updatedMark.data || updatedMark.error) {
