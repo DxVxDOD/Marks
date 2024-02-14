@@ -1,9 +1,6 @@
 import { useEffect } from "react";
 import blogService from "./services/marks.ts";
-import { useAppDispatch, useAppSelector } from "./app/hooks.ts";
-import { initializeMarks } from "./reducers/markReducer.ts";
 import { setUser } from "./reducers/userReducer.ts";
-import { initializeUsers } from "./reducers/userArrayReducer.ts";
 import { Route, Routes } from "react-router-dom";
 import User from "./components/users/User.tsx";
 import Blog from "./components/marks/Mark.tsx";
@@ -12,7 +9,6 @@ import LoggedInMarks from "./components/marks/LoggedInMarks.tsx";
 import Menu from "./components/Menu.tsx";
 import UserInformation from "./components/users/UserInformation.tsx";
 import Home from "./components/Home.tsx";
-import { initializeComments } from "./reducers/commentReducer.ts";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -26,23 +22,12 @@ import HomeNoUser from "./components/HomeNoUser.tsx";
 import theme from "./theme/Theme.tsx";
 
 const App = () => {
-  const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user);
-  const marks = useAppSelector((state) => state.mark);
-  console.log(marks);
-
-  useEffect(() => {
-    dispatch(initializeMarks());
-    dispatch(initializeComments());
-  }, []);
-
   useEffect(() => {
     const loggerUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggerUserJSON !== null) {
       const loggedUser = JSON.parse(loggerUserJSON);
       blogService.setToken(loggedUser.token);
-      dispatch(initializeUsers());
-      dispatch(setUser(loggedUser));
+      setUser(loggedUser);
     }
   }, []);
 
