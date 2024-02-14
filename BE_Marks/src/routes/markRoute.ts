@@ -52,7 +52,7 @@ router.delete("/:id", userExtractor, async (req: Request, res: Response) => {
 		deleteMark(res.locals.user.id, req.params.id)
 	);
 
-	if (!data) {
+	if (!data || error) {
 		res.status(401).json({ error: error.message });
 	}
 
