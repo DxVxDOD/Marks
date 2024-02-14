@@ -158,8 +158,8 @@ export const updateComment = async (
 
 export const deleteComment = async (
 	user: TUser,
-	markId: string | undefined,
-	commentId: string | undefined
+	markId: string,
+	commentId: string
 ) => {
 	const { data: commentData, error: commentError } = await wrapInPromise(
 		Comment.findById(commentId)

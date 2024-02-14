@@ -1,6 +1,7 @@
 import express, { Request, Response, response } from "express";
 import { wrapInPromise } from "../utils/promiseWrapper";
 import {
+	deleteComment,
 	getAllComments,
 	getCommentById,
 	postNewComment,
@@ -63,3 +64,26 @@ router.put("/:id", userExtractor, async (req: Request, res: Response) => {
 
 	res.status(201).json(comment);
 });
+
+// router.patch("/:id", async (req: Request, res: Response) => {
+
+// })
+
+router.delete("/:id", userExtractor, async (req: Request, res: Response) => {
+	const user = res.locals.user;
+
+	const { data, error } = await wrapInPromise(
+		deleteComment(
+			user,
+			stringParser(req.body.markId),
+			stringParser(req.params.id)
+		)
+	);
+	if (!data || error) {
+		res.status(401).json({ error: error.message });
+	}
+
+	res.status(204).end();
+});
+
+export default router;
