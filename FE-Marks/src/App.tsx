@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import blogService from "./services/marks.ts";
-import { setUser } from "./reducers/userReducer.ts";
 import { Route, Routes } from "react-router-dom";
 import User from "./components/users/User.tsx";
 import Blog from "./components/marks/Mark.tsx";
@@ -20,8 +19,12 @@ import NotLoggedIn from "./components/login/NotLoggedIn.tsx";
 import Footer from "./components/Footer.tsx";
 import HomeNoUser from "./components/HomeNoUser.tsx";
 import theme from "./theme/Theme.tsx";
+import { useAppSelector } from "./redux/hook.ts";
+import { setUser } from "./redux/slices/auth.ts";
 
 const App = () => {
+  const user = useAppSelector((state) => state.user.value);
+
   useEffect(() => {
     const loggerUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggerUserJSON !== null) {
