@@ -9,8 +9,8 @@ type TMark = {
   url: string;
   likes: number;
   id: string;
-  userId: string;
-  comments: string[];
+  user: TUser;
+  comments: TComment[];
   createdAt: Date;
 };
 

@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AppThunk } from "../app/store.ts";
 import { TNewComment } from "../types/comment";
 import genericService from "../services/genericService.ts";
 

@@ -1,7 +1,5 @@
 import { FormEvent } from "react";
 import { useForm } from "../../hooks/useForm";
-import { useAppDispatch } from "../../app/hooks.ts";
-import { setUser } from "../../reducers/userReducer.ts";
 import { VisibilityHandle } from "../features/Toggle.tsx";
 import { Box, Button, Paper, Stack, TextField } from "@mui/material";
 
@@ -15,27 +13,17 @@ const CreateUserForm = ({
   const { reset: resetName, ...name } = useForm("text");
   const { reset: resetEmail, ...email } = useForm("text");
 
-  const dispatch = useAppDispatch();
-
   const handleReset = () => {
     resetPassword();
     resetUsername();
     resetName();
   };
 
+  // TODO: Doesn't do anything, need to add mutation
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     signUpRef.current?.toggleVisibility();
-
-    dispatch(
-      setUser({
-        username: username.value,
-        name: name.value,
-        password: password.value,
-        email: email.value,
-      }),
-    );
   };
 
   return (

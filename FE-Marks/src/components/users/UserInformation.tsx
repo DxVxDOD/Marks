@@ -1,8 +1,5 @@
 import { Link as RouterLink } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { TUser } from "../../types/user";
-import { useEffect } from "react";
-import { initializeUsers } from "../../reducers/userArrayReducer";
 import {
   Box,
   Button,
@@ -15,16 +12,22 @@ import {
   TableRow,
 } from "@mui/material";
 import useBlog from "../../theme/Blog";
+import { useGetAllUsersQuery } from "../../redux/endpoints/users";
+import { useGetAllMarksQuery } from "../../redux/endpoints/marks";
 
 const UserInformation = () => {
-  const users = useAppSelector((state) => state.userArray);
-  const marks = useAppSelector((state) => state.mark);
-  const dispatch = useAppDispatch();
   const { classes } = useBlog();
 
-  useEffect(() => {
-    dispatch(initializeUsers());
-  }, []);
+  const {
+    data: users,
+    isFetching: isFetchingUsers,
+    isLoading: isLoadingUsers,
+  } = useGetAllUsersQuery();
+  const {
+    data: marks,
+    isFetching: isFetchingMarks,
+    isLoading: isLoadingMarks,
+  } = useGetAllMarksQuery();
 
   return (
     <Box
