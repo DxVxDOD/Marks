@@ -2,19 +2,15 @@ import { FormEvent } from "react";
 import loginService from "../../services/login.js";
 import markService from "../../services/marks.js";
 import { AxiosError } from "axios";
-import { useAppDispatch } from "../../app/hooks.js";
-import { displayError } from "../../reducers/notificationReducer.js";
-import { setUser } from "../../reducers/userReducer.js";
 import { useForm } from "../../hooks/useForm.js";
 import { Box, Button, Paper, Stack, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { setUser } from "../../redux/slices/auth.js";
 
 const LoginForm = () => {
   const { reset: usernameReset, ...username } = useForm("text");
   const { reset: passwordReset, ...password } = useForm("password");
   const navigate = useNavigate();
-
-  const dispatch = useAppDispatch();
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -28,12 +24,12 @@ const LoginForm = () => {
 
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
       markService.setToken(user.token);
-      dispatch(setUser(user));
+      setUser(user);
       usernameReset();
       passwordReset();
     } catch (exception: unknown) {
       if (exception instanceof AxiosError && exception.response) {
-        dispatch(displayError(exception.response.data.error, 5000));
+        exception.response.data.error, 5000;
       }
     }
   };
