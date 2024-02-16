@@ -1,11 +1,8 @@
 import React, { FormEvent } from "react";
 import { VisibilityHandle } from "../features/Toggle.tsx";
-import { useAppDispatch } from "../../app/hooks.ts";
-import { createMark, initializeMarks } from "../../reducers/markReducer";
-import { AxiosError } from "axios";
-import { displayError } from "../../reducers/notificationReducer";
 import { useForm } from "../../hooks/useForm";
 import { Box, Button, Paper, Stack, TextField } from "@mui/material";
+import { useAddNewMarkMutation } from "../../redux/endpoints/marks.ts";
 
 const MarkForm = ({
   markFormRef: markFormRef,
@@ -16,7 +13,7 @@ const MarkForm = ({
   const { reset: resetTitle, ...title } = useForm("text");
   const { reset: resetUrl, ...url } = useForm("text");
 
-  const dispatch = useAppDispatch();
+  const [postMark, {}] = useAddNewMarkMutation();
 
   const handleNewMark = async (e: FormEvent) => {
     e.preventDefault();
@@ -29,17 +26,11 @@ const MarkForm = ({
       url: url.value,
     };
 
-    try {
-      dispatch(createMark(markObject));
-      dispatch(initializeMarks());
-      resetTag();
-      resetTitle();
-      resetUrl();
-    } catch (exception: unknown) {
-      if (exception instanceof AxiosError && exception.response) {
-        dispatch(displayError(exception.response.data.error, 5000));
-      }
-    }
+    postMark(markObject);
+
+    resetTag();
+    resetTitle();
+    resetUrl();
   };
 
   return (

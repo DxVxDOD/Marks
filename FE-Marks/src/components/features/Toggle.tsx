@@ -58,7 +58,6 @@ const Toggle = forwardRef(
             alignItems: "center",
           }}
           style={showWhenVisible}
-          className="togglableContent"
         >
           {children}
           <Button

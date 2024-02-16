@@ -8,8 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
-import { useAppSelector } from "../app/hooks";
 import useHeader from "../theme/Header";
+import { useAuth } from "../hooks/useAuth";
 
 const Menu = () => {
   const handleLogout = () => {
@@ -17,7 +17,7 @@ const Menu = () => {
     window.location.reload();
   };
 
-  const user = useAppSelector((state) => state.user);
+  const { user } = useAuth();
 
   const { classes } = useHeader();
 

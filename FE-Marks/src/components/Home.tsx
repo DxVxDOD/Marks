@@ -16,11 +16,9 @@ import { TMark } from "../types/mark";
 import Toggle, { VisibilityHandle } from "./features/Toggle.tsx";
 import AccountPage from "./users/AccountPage";
 import { useGetAllMarksQuery } from "../redux/endpoints/marks.ts";
-import { useAppSelector } from "../redux/hook.ts";
+import { TLoggedUser } from "../types/user.ts";
 
-const Home = () => {
-  const user = useAppSelector((state) => state.user.value);
-
+const Home = ({ user }: { user: TLoggedUser }) => {
   const { data: marks } = useGetAllMarksQuery();
 
   // const marks = useAppSelector((state) => {

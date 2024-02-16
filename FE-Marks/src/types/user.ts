@@ -12,4 +12,7 @@ type TUser = {
 
 type TNewUser = Pick<TUser, "username" | "name" | "password" | "email">;
 
-export type { TUser, TNewUser };
+type TLoggedUser = Pick<TUser, "username" | "name">;
+type TCredentials = Pick<TUser, "username" | "password">;
+
+export type { TUser, TNewUser, TLoggedUser, TCredentials };

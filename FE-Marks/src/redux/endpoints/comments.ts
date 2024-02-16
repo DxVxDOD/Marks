@@ -3,7 +3,7 @@ import { marksApi } from "../marksBaseApi";
 
 const commentApi = marksApi.injectEndpoints({
   endpoints: (builder) => ({
-    getComments: builder.query<TComment[], void>({
+    getAllComments: builder.query<TComment[], void>({
       query: () => "comments",
       providesTags: ["Comment"],
       transformResponse: (response: { data: TComment[] }, _meta, _arg) =>
@@ -57,7 +57,7 @@ const commentApi = marksApi.injectEndpoints({
 });
 
 export const {
-  useGetCommentsQuery,
+  useGetAllCommentsQuery,
   useAddNewCommentMutation,
   useEditCommentMutation,
   useGetCommentQuery,

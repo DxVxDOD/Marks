@@ -29,55 +29,57 @@ const UserInformation = () => {
     isLoading: isLoadingMarks,
   } = useGetAllMarksQuery();
 
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        marginTop: "2rem",
-      }}
-      component="article"
-    >
-      <Paper
+  if (users && marks) {
+    return (
+      <Box
         sx={{
-          padding: "2rem",
-          minWidth: "75%",
-          border: "solid 0.02rem #6E6E6E",
-          borderRadius: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginTop: "2rem",
         }}
+        component="article"
       >
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell className={classes.title}>User</TableCell>
-                <TableCell className={classes.title}>Mark count</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map((user: TUser) => (
-                <TableRow key={user.username}>
-                  <TableCell>
-                    <Button
-                      className={classes.button}
-                      component={RouterLink}
-                      size="small"
-                      to={`/users/${user.id}`}
-                      state={{ user, marks: marks }}
-                    >
-                      {user.username}
-                    </Button>
-                  </TableCell>
-                  <TableCell>{user.marks.length}</TableCell>
+        <Paper
+          sx={{
+            padding: "2rem",
+            minWidth: "75%",
+            border: "solid 0.02rem #6E6E6E",
+            borderRadius: 0,
+          }}
+        >
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell className={classes.title}>User</TableCell>
+                  <TableCell className={classes.title}>Mark count</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-    </Box>
-  );
+              </TableHead>
+              <TableBody>
+                {users.map((user: TUser) => (
+                  <TableRow key={user.username}>
+                    <TableCell>
+                      <Button
+                        className={classes.button}
+                        component={RouterLink}
+                        size="small"
+                        to={`/users/${user.id}`}
+                        state={{ user, marks: marks }}
+                      >
+                        {user.username}
+                      </Button>
+                    </TableCell>
+                    <TableCell>{user.marks.length}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </Box>
+    );
+  }
 };
 
 export default UserInformation;
