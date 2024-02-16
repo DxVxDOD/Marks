@@ -1,28 +1,20 @@
 import { makeStyles } from "tss-react/mui";
 
-const blogList = makeStyles()((theme) => {
+const useMark = makeStyles()((theme) => {
   return {
-    h2: {
+    title: {
       [theme.breakpoints.down("sm")]: {
         fontSize: "1rem",
       },
     },
-    h3: {
+    author: {
       [theme.breakpoints.down("sm")]: {
         fontSize: "1rem",
       },
     },
-    listItem: {
+    button: {
       [theme.breakpoints.down("sm")]: {
-        fontSize: "1rem",
-        padding: 0,
-        margin: "0",
-      },
-    },
-    icon: {
-      [theme.breakpoints.down("sm")]: {
-        padding: 0,
-        margin: 0,
+        fontSize: "0.8rem",
       },
     },
     otherTxt: {
@@ -33,4 +25,4 @@ const blogList = makeStyles()((theme) => {
   };
 });
 
-export default blogList;
+export default useMark;
