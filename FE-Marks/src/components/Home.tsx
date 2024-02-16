@@ -79,8 +79,8 @@ const Home = ({ user }: { user: TLoggedUser }) => {
           </Box>
           <List>
             {[...marks]
-              .sort((a: TMark, b: TMark) => b.likes - a.likes)
               .filter((mark: TMark) => mark.user.username === user.username)
+              .sort((a: TMark, b: TMark) => b.likes - a.likes)
               .map((mark: TMark) => (
                 <ListItemButton
                   sx={{

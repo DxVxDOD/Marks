@@ -33,17 +33,19 @@ const User = () => {
             You haven't posted any marks yet
           </Typography>
         ) : (
-          state.user.marks
-            .sort((a: TMark, b: TMark) => b.likes! - a.likes!)
+          [...state.marks]
+            .filter((mark: TMark, i) => mark.id === state.user.marks[i])
+            .sort((a: TMark, b: TMark) => b.likes - a.likes)
             .map((mark: TMark) => (
               <Button
+                aria-label="Mark link button"
                 sx={{
                   display: "flex",
                   justifyContent: "flex-start",
                 }}
                 key={mark.id}
                 component={RouterLink}
-                to={`/blog/${mark.id}`}
+                to={`/marks/${mark.id}`}
                 state={mark}
               >
                 <Icon>

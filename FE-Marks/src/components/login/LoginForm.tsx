@@ -20,9 +20,6 @@ const LoginForm = () => {
         password: password.value,
       });
 
-      // window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      // markService.setToken();
-      // setUser(user);
       usernameReset();
       passwordReset();
     } catch (error) {

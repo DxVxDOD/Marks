@@ -18,18 +18,26 @@ import Footer from "./components/Footer.tsx";
 import HomeNoUser from "./components/HomeNoUser.tsx";
 import theme from "./theme/Theme.tsx";
 import { useAuth } from "./hooks/useAuth.tsx";
+import { useEffect } from "react";
+import { setCredentials } from "./redux/slices/auth.ts";
+import { useAppDispatch } from "./redux/hook.ts";
 
 const App = () => {
   const { user } = useAuth();
+  const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   const loggerUserJSON = window.localStorage.getItem("loggedBlogappUser");
-  //   if (loggerUserJSON !== null) {
-  //     const loggedUser = JSON.parse(loggerUserJSON);
-  //     blogService.setToken(loggedUser.token);
-  //     setUser(loggedUser);
-  //   }
-  // }, []);
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem("logged_in_user");
+    if (loggedUserJSON !== null) {
+      const loggedUser = JSON.parse(loggedUserJSON);
+      dispatch(
+        setCredentials({
+          user: { username: loggedUser.username, name: loggedUser.name },
+          token: loggedUser.token,
+        }),
+      );
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
