@@ -5,8 +5,6 @@ const marksSliceApi = marksApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllMarks: builder.query<TMark[], void>({
       query: () => "marks",
-      transformResponse: (response: { data: TMark[] }, _meta, _args) =>
-        response.data,
       transformErrorResponse: (
         response: { status: number | string },
         _meta,
@@ -16,8 +14,6 @@ const marksSliceApi = marksApi.injectEndpoints({
     }),
     getMark: builder.query<TMark, string>({
       query: (id) => ({ url: `marks${id}` }),
-      transformResponse: (response: { data: TMark }, _meta, _args) =>
-        response.data,
       transformErrorResponse: (
         response: { status: string | number },
         _meta,
@@ -31,8 +27,6 @@ const marksSliceApi = marksApi.injectEndpoints({
         method: "POST",
         body: newMark,
       }),
-      transformResponse: (response: { data: TMark }, _meta, _args) =>
-        response.data,
       invalidatesTags: ["Mark"],
     }),
     editMark: builder.mutation<TMark, Partial<TMark> & Pick<TMark, "id">>({
@@ -41,8 +35,6 @@ const marksSliceApi = marksApi.injectEndpoints({
         method: "PUT",
         body: mark,
       }),
-      transformResponse: (response: { data: TMark }, _meta, _args) =>
-        response.data,
       transformErrorResponse: (
         response: { status: string | number },
         _meta,

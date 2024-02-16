@@ -4,8 +4,6 @@ function Reel() {
   const { data: marks } = useGetAllMarksQuery();
 
   if (marks) {
-    const tags = marks.map((mark) => mark.tag);
-
     return (
       <Paper
         sx={{
@@ -18,9 +16,9 @@ function Reel() {
         className="container"
       >
         <div className="reel">
-          {[...tags].map((tag) => (
-            <Button key={tag}>
-              <Typography>{tag}</Typography>
+          {[...marks].map((mark) => (
+            <Button key={mark.id}>
+              <Typography>{mark.tag}</Typography>
             </Button>
           ))}
         </div>
