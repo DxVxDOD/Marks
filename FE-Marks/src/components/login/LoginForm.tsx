@@ -1,36 +1,32 @@
 import { FormEvent } from "react";
-import loginService from "../../services/login.js";
-import markService from "../../services/marks.js";
-import { AxiosError } from "axios";
 import { useForm } from "../../hooks/useForm.js";
 import { Box, Button, Paper, Stack, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { setUser } from "../../redux/slices/auth.js";
+import { useLoginMutation } from "../../redux/endpoints/login.js";
 
 const LoginForm = () => {
   const { reset: usernameReset, ...username } = useForm("text");
   const { reset: passwordReset, ...password } = useForm("password");
   const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     navigate("/");
 
     try {
-      const user = await loginService.login({
+      await login({
         username: username.value,
         password: password.value,
       });
 
-      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      markService.setToken(user.token);
-      setUser(user);
+      // window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
+      // markService.setToken();
+      // setUser(user);
       usernameReset();
       passwordReset();
-    } catch (exception: unknown) {
-      if (exception instanceof AxiosError && exception.response) {
-        exception.response.data.error, 5000;
-      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

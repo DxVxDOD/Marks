@@ -1,18 +1,12 @@
-#root{
-    min-height: 100vh;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-     --blue: #2445C8;
-    --orange: #CF9862;
-    --black: #000000;
-    --green: #436354;
-    --orange2: #CC9B68;
+#root {
+  min-height: 100vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .main {
-    padding: 2rem;
-    height: 100%;
-    flex: auto;
+  padding: 2rem;
+  height: 100%;
+  flex: auto;
 }
-

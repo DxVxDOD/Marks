@@ -1,8 +1,6 @@
-import { useEffect } from "react";
-import blogService from "./services/marks.ts";
 import { Route, Routes } from "react-router-dom";
 import User from "./components/users/User.tsx";
-import Blog from "./components/marks/Mark.tsx";
+import Mark from "./components/marks/Mark.tsx";
 import NotLoggedInMarks from "./components/marks/NotLoggedInMarks.tsx";
 import LoggedInMarks from "./components/marks/LoggedInMarks.tsx";
 import Menu from "./components/Menu.tsx";
@@ -19,20 +17,19 @@ import NotLoggedIn from "./components/login/NotLoggedIn.tsx";
 import Footer from "./components/Footer.tsx";
 import HomeNoUser from "./components/HomeNoUser.tsx";
 import theme from "./theme/Theme.tsx";
-import { useAppSelector } from "./redux/hook.ts";
-import { setUser } from "./redux/slices/auth.ts";
+import { useAuth } from "./hooks/useAuth.tsx";
 
 const App = () => {
-  const user = useAppSelector((state) => state.user.value);
+  const { user } = useAuth();
 
-  useEffect(() => {
-    const loggerUserJSON = window.localStorage.getItem("loggedBlogappUser");
-    if (loggerUserJSON !== null) {
-      const loggedUser = JSON.parse(loggerUserJSON);
-      blogService.setToken(loggedUser.token);
-      setUser(loggedUser);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const loggerUserJSON = window.localStorage.getItem("loggedBlogappUser");
+  //   if (loggerUserJSON !== null) {
+  //     const loggedUser = JSON.parse(loggerUserJSON);
+  //     blogService.setToken(loggedUser.token);
+  //     setUser(loggedUser);
+  //   }
+  // }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -46,7 +43,7 @@ const App = () => {
             {user === null ? (
               <Route path="/" element={<HomeNoUser />} />
             ) : (
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Home user={user} />} />
             )}
 
             <Route path="/users" element={<UserInformation />} />
@@ -55,9 +52,9 @@ const App = () => {
                 <Route path="/marks" element={<NotLoggedInMarks />} />
               </>
             ) : (
-              <Route path="/marks" element={<LoggedInMarks />} />
+              <Route path="/marks" element={<LoggedInMarks user={user} />} />
             )}
-            <Route path="/marks/:id" element={<Blog />} />
+            <Route path="/marks/:id" element={<Mark />} />
           </Routes>
         </main>
 
