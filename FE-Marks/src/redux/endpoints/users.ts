@@ -5,8 +5,6 @@ const userApi = marksApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllUsers: builder.query<TUser[], void>({
       query: () => "users",
-      transformResponse: (response: { data: TUser[] }, _meta, _args) =>
-        response.data,
       transformErrorResponse: (
         response: { status: string | number },
         _meta,
@@ -16,8 +14,6 @@ const userApi = marksApi.injectEndpoints({
     }),
     getUser: builder.query<TUser, string>({
       query: (id) => ({ url: `users/${id}` }),
-      transformResponse: (response: { data: TUser }, _meta, _args) =>
-        response.data,
       transformErrorResponse: (
         response: { status: string | number },
         _meta,
@@ -31,8 +27,6 @@ const userApi = marksApi.injectEndpoints({
         method: "POST",
         body: user,
       }),
-      transformResponse: (response: { data: TUser }, _meta, _args) =>
-        response.data,
       transformErrorResponse: (
         response: { status: string | number },
         _meta,
@@ -46,8 +40,6 @@ const userApi = marksApi.injectEndpoints({
         method: "PUT",
         body: user,
       }),
-      transformResponse: (response: { data: TUser }, _meta, _args) =>
-        response.data,
       transformErrorResponse: (
         response: { status: string | number },
         _meta,

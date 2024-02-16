@@ -22,7 +22,9 @@ const authApi = marksApi.injectEndpoints({
               token: data.token,
             }),
           );
+          window.localStorage.setItem("logged_in_user", JSON.stringify(data));
         } catch (error) {
+          console.log("clear");
           dispatch(clearCredentials());
         }
       },

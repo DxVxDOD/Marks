@@ -60,8 +60,8 @@ const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
             >
               <List>
                 {[...marks]
-                  .sort((a: TMark, b: TMark) => b.likes - a.likes)
                   .filter((mark: TMark) => mark.user.username === user.username)
+                  .sort((a: TMark, b: TMark) => b.likes - a.likes)
                   .map((mark: TMark) => (
                     <ListItemButton
                       aria-label="button to access marks"
@@ -112,8 +112,8 @@ const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
             component="nav"
           >
             {[...marks]
-              .sort((a: TMark, b: TMark) => b.likes - a.likes)
               .filter((mark: TMark) => mark.user.username !== user.username)
+              .sort((a: TMark, b: TMark) => b.likes - a.likes)
               .map((mark: TMark) => (
                 <Button
                   aria-label="button to access marks"
@@ -148,6 +148,7 @@ const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
       </section>
     );
   }
+  return null;
 };
 
 export default LoggedInMarks;

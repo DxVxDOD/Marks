@@ -6,8 +6,6 @@ const commentApi = marksApi.injectEndpoints({
     getAllComments: builder.query<TComment[], void>({
       query: () => "comments",
       providesTags: ["Comment"],
-      transformResponse: (response: { data: TComment[] }, _meta, _arg) =>
-        response.data,
       transformErrorResponse: (
         response: { status: string | number },
         _meta,
@@ -16,8 +14,6 @@ const commentApi = marksApi.injectEndpoints({
     }),
     getComment: builder.query<TComment, string>({
       query: (id) => ({ url: `comments${id}` }),
-      transformResponse: (response: { data: TComment }, _meta, _arg) =>
-        response.data,
       transformErrorResponse: (
         response: { status: string | number },
         _meta,
@@ -31,8 +27,6 @@ const commentApi = marksApi.injectEndpoints({
         method: "POST",
         body: newComment,
       }),
-      transformResponse: (response: { data: TComment }, _meta, _args) =>
-        response.data,
       invalidatesTags: ["Comment"],
     }),
     editComment: builder.mutation<
@@ -44,8 +38,6 @@ const commentApi = marksApi.injectEndpoints({
         method: "PUT",
         body: comment,
       }),
-      transformResponse: (response: { data: TComment }, _meta, _args) =>
-        response.data,
       transformErrorResponse: (
         response: { status: string | number },
         _meta,
