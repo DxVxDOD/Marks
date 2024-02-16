@@ -15,7 +15,7 @@ import {
   Typography,
 } from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
-import blogList from "../../theme/BlogList.js";
+import markList from "../../theme/MarkList.js";
 import useHome from "../../theme/Home.js";
 import "../../styles/marks.css";
 import Reel from "../features/Reel.tsx";
@@ -26,7 +26,7 @@ const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
   const { data: marks, isFetching, isLoading } = useGetAllMarksQuery();
 
   const markFormRef = useRef<VisibilityHandle>();
-  const { classes } = blogList();
+  const { classes } = markList();
   const button = useHome().classes;
 
   if (marks) {

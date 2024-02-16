@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { FormEvent } from "react";
 import { useForm } from "../../hooks/useForm.tsx";
-import useBlog from "../../theme/Blog.tsx";
+import useMark from "../../theme/Mark.tsx";
 import {
   useAddNewCommentMutation,
   useGetAllCommentsQuery,
@@ -21,7 +21,7 @@ const Comments = ({ markId }: { markId: string }) => {
   const { data: comments } = useGetAllCommentsQuery();
   const [postComment, { isLoading, isError }] = useAddNewCommentMutation();
 
-  const { classes } = useBlog();
+  const { classes } = useMark();
   const { reset: resetComment, ...comment } = useForm("text");
 
   const handleComment = (e: FormEvent) => {

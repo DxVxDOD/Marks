@@ -10,14 +10,14 @@ import {
 } from "@mui/material";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import useBlog from "../../theme/Blog";
+import useMark from "../../theme/Mark.tsx";
 import { useGetAllMarksQuery } from "../../redux/endpoints/marks";
 import { setSuccess } from "../../redux/slices/notifications";
 import { useAuth } from "../../hooks/useAuth.tsx";
 
 const Mark = () => {
   const { state } = useLocation();
-  const { classes } = useBlog();
+  const { classes } = useMark();
   const { data: marks } = useGetAllMarksQuery();
   const { user } = useAuth();
 
@@ -50,7 +50,7 @@ const Mark = () => {
             margin: "2rem",
             display: "flex",
             flexDirection: "column",
-            border: "solid 0.02rem #6E6E6E",
+            border: "solid 0.02rem #6E6E6E ",
             borderRadius: 0,
           }}
           component="section"
