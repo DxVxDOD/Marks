@@ -11,12 +11,12 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import useBlog from "../../theme/Blog";
+import useMark from "../../theme/Mark";
 import { useGetAllUsersQuery } from "../../redux/endpoints/users";
 import { useGetAllMarksQuery } from "../../redux/endpoints/marks";
 
 const UserInformation = () => {
-  const { classes } = useBlog();
+  const { classes } = useMark();
 
   const {
     data: users,

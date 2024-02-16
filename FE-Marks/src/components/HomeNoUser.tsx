@@ -1,9 +1,9 @@
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import blogList from "../theme/BlogList";
+import markList from "../theme/MarkList";
 
 const HomeNoUser = () => {
-  const { classes } = blogList();
+  const { classes } = markList();
 
   return (
     <Box

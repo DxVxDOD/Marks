@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useRef } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import blogList from "../theme/BlogList";
+import markList from "../theme/MarkList.tsx";
 import useHome from "../theme/Home";
 import { TMark } from "../types/mark";
 import Toggle, { VisibilityHandle } from "./features/Toggle.tsx";
@@ -21,15 +21,7 @@ import { TLoggedUser } from "../types/user.ts";
 const Home = ({ user }: { user: TLoggedUser }) => {
   const { data: marks } = useGetAllMarksQuery();
 
-  // const marks = useAppSelector((state) => {
-  //   if (!Array.isArray(state.mark)) {
-  //     let array = new Array();
-  //     return [...array, state.mark];
-  //   }
-  //   return state.mark;
-  // });
-
-  const { classes } = blogList();
+  const { classes } = markList();
   const button = useHome().classes;
   const accountRef = useRef<VisibilityHandle>();
 

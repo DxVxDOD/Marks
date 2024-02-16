@@ -1,7 +1,7 @@
 .logged-in-marks {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .reel {
@@ -14,12 +14,12 @@
   padding: 1rem;
   scroll-snap-type: x mandatory;
   scroll-padding: 0.5rem;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 
 .reel::-webkit-scrollbar {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 .reel > * {

@@ -1,6 +1,3 @@
-import { TComment } from "./comment";
-import { TUser } from "./user";
-
 // type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
 type TMark = {
@@ -9,8 +6,10 @@ type TMark = {
   url: string;
   likes: number;
   id: string;
-  user: TUser;
-  comments: TComment[];
+  user: {
+    username: string;
+    name: string;
+  };
   createdAt: Date;
 };
 

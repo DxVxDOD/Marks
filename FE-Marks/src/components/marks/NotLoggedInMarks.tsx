@@ -9,13 +9,13 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import blogList from "../../theme/BlogList.js";
+import markList from "../../theme/MarkList.js";
 import useHome from "../../theme/Home.js";
 import { useGetAllMarksQuery } from "../../redux/endpoints/marks.js";
 
 const NotLoggedInMarks = () => {
   const { data: marks } = useGetAllMarksQuery();
-  const { classes } = blogList();
+  const { classes } = markList();
   const button = useHome().classes;
 
   if (marks) {
