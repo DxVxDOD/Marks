@@ -34,6 +34,7 @@ const Menu = () => {
         borderTop: "none",
         borderLeft: "none",
         borderRight: "none",
+        justifyContent: "space-between",
       }}
       variant="outlined"
     >
@@ -74,20 +75,22 @@ const Menu = () => {
           </ButtonGroup>
         </Stack>
       </Box>
-      <Typography
-        className={classes.h1}
-        sx={{
-          width: "33.33%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        variant="h3"
-        component="h1"
-      >
-        Marks
-        <NewspaperIcon fontSize="inherit" />
-      </Typography>
+
+      <Button>
+        <Typography
+          className={classes.h1}
+          variant="h3"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+          component="h1"
+        >
+          Marks
+          <NewspaperIcon fontSize="inherit" />
+        </Typography>
+      </Button>
+
       {user === null ? (
         <Box
           className={classes.bttnStack}
@@ -118,10 +121,13 @@ const Menu = () => {
           }}
         >
           <Button
+            sx={{
+              marginRight: "1rem",
+            }}
             size="small"
             className={classes.button}
             variant="outlined"
-            color="error"
+            color="success"
             onClick={handleLogout}
           >
             Log out
