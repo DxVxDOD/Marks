@@ -1,37 +1,26 @@
 import { Button, Paper, Typography } from "@mui/material";
 import { useGetAllMarksQuery } from "../../redux/endpoints/marks";
-import { useRef } from "react";
+import styles from "./reel.module.css";
+import reel from "../../theme/Reel";
+
 function Reel() {
   const { data: marks } = useGetAllMarksQuery();
+  const { classes } = reel();
 
   if (marks) {
-    const reelRef = useRef<HTMLDivElement>(null);
-
-    function onDrag(e: MouseEvent) {
-      let pointerFrom = 0;
-      let elementFrom = 0;
-
-      const scrollable = reelRef.current;
-    }
-
     return (
       <Paper
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          borderRadius: 0,
-          borderColor: "#8F9094",
+          border: "solid 0.02rem #8F9094",
         }}
         variant="outlined"
-        className="container"
+        className={styles.reel + " " + classes.tagWidth}
       >
-        <div ref={reelRef} className="reel">
-          {[...marks].map((mark) => (
-            <Button key={mark.id}>
-              <Typography>{mark.tag}</Typography>
-            </Button>
-          ))}
-        </div>
+        {[...marks].map((mark) => (
+          <Button key={mark.id}>
+            <Typography>{mark.tag}</Typography>
+          </Button>
+        ))}
       </Paper>
     );
   }

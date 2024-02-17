@@ -21,6 +21,7 @@ const HomeNoUser = () => {
           flexDirection: "column",
           width: "75%",
           padding: "2rem",
+          background: "#121213",
         }}
       >
         <Box>

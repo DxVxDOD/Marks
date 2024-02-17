@@ -1,0 +1,24 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.box {
+  border: 5px solid;
+  border-image: conic-gradient(
+      from var(--angle),
+      var(--c2),
+      var(--c1) 0.1turn,
+      var(--c1) 0.15turn,
+      var(--c2) 0.25turn
+    )
+    30;
+  animation: borderRotate2 var(--d) linear infinite forwards;
+}
+
+@keyframes borderRotate2 {
+  100% {
+    --angle: 420deg;
+  }
+}

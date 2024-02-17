@@ -17,6 +17,8 @@ export const getAllMarks = async () => {
 		);
 	}
 
+	await new Promise((r) => setTimeout(r, 9000));
+
 	return allMarks;
 };
 
