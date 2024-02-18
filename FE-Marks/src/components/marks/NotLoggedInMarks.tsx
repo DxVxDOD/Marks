@@ -24,6 +24,7 @@ const NotLoggedInMarks = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
+          width: "100%",
         }}
         component="article"
       >
@@ -38,6 +39,10 @@ const NotLoggedInMarks = () => {
               display: "flex",
               gap: "1rem",
               flexDirection: "column",
+              minWidth: "75%",
+              borderRadius: 0,
+              background: "#121213",
+              border: "1.5px solid rgba(168, 239, 255, 0.4)",
             }}
             component="section"
           >
@@ -92,6 +97,29 @@ const NotLoggedInMarks = () => {
       </Box>
     );
   }
+  return (
+    <Paper
+      sx={{
+        padding: "2rem",
+        display: "flex",
+        minWidth: "75%",
+        gap: "1rem",
+        flexDirection: "column",
+        borderRadius: 0,
+        background: "#121213",
+      }}
+      component="section"
+      className="box"
+    >
+      <Typography
+        className={classes.h2 + " loading"}
+        component="h3"
+        variant="h5"
+      >
+        Loading Featured blogs...
+      </Typography>
+    </Paper>
+  );
 };
 
 export default NotLoggedInMarks;

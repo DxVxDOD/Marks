@@ -11,27 +11,32 @@ import {
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import useMark from "../../theme/Mark.tsx";
-import { useGetAllMarksQuery } from "../../redux/endpoints/marks";
+import {
+  useDeleteMarkMutation,
+  useGetMarkQuery,
+} from "../../redux/endpoints/marks";
 import { setSuccess } from "../../redux/slices/notifications";
 import { useAuth } from "../../hooks/useAuth.tsx";
 
 const Mark = () => {
   const { state } = useLocation();
   const { classes } = useMark();
-  const { data: marks } = useGetAllMarksQuery();
+  const { data: mark, isFetching } = useGetMarkQuery(state.id);
+  const [deleteMark, { isLoading: isLoadingDelete, isError: isDeleteError }] =
+    useDeleteMarkMutation();
   const { user } = useAuth();
 
-  if (marks) {
-    const mark = marks.filter((mark) => mark.id === state.id)[0];
-
+  if (mark) {
     const updateLikes = () => {};
 
     const removeMark = async () => {
-      if (mark && window.confirm(`Would you like to remove ${mark.title} ?`)) {
+      if (window.confirm(`Would you like to remove ${mark.title} ?`)) {
+        try {
+        } catch (error) {}
+
         setSuccess(`${mark.title} has been removed`);
       }
     };
-
     return (
       <Box
         sx={{
@@ -50,40 +55,63 @@ const Mark = () => {
             margin: "2rem",
             display: "flex",
             flexDirection: "column",
-            border: "solid 0.02rem #6E6E6E ",
+            border: "solid 1.5px rgba(168, 239, 255, 0.4)",
             borderRadius: 0,
+            background: "#121213",
           }}
           component="section"
         >
           <Box component="section">
-            <Typography className={classes.title} component="h2" variant="h5">
+            <Typography
+              className={isFetching ? " fetching" : "" + classes.title}
+              component="h2"
+              variant="h5"
+            >
               Title: {mark.title}
             </Typography>
-            <Typography className={classes.author} component="h3" variant="h5">
+            <Typography
+              className={isFetching ? " fetching" : "" + classes.author}
+              component="h3"
+              variant="h5"
+            >
               Author: {mark.tag}
             </Typography>
           </Box>
           <Link href={mark.url}>
-            <Typography className={classes.otherTxt}>
+            <Typography
+              sx={{
+                color: "rgba(168, 239, 255, 0.4)",
+              }}
+              className={isFetching ? " fetching" : "" + classes.otherTxt}
+            >
               \\ {mark.title} \\
             </Typography>
           </Link>
-          <Typography className={classes.otherTxt} component="p">
+          <Typography
+            className={isFetching ? " fetching" : "" + classes.otherTxt}
+            component="p"
+          >
             {mark.user.username}
           </Typography>
           {user === null ? (
-            <Typography className={classes.otherTxt} component="p" id="likes">
+            <Typography
+              className={isFetching ? " fetching" : "" + classes.otherTxt}
+              component="p"
+              id="likes"
+            >
               Likes: {mark.likes}
             </Typography>
           ) : (
             <>
-              <Typography className={classes.otherTxt}>
+              <Typography
+                className={isFetching ? " fetching" : "" + classes.otherTxt}
+              >
                 Likes: {mark.likes}
               </Typography>
 
               <ButtonGroup aria-label="alignment button group" size="small">
                 <Button
-                  className={classes.button}
+                  className={isFetching ? " fetching" : "" + classes.button}
                   startIcon={<ThumbUpOutlinedIcon />}
                   aria-label="like button"
                   onClick={updateLikes}
@@ -93,7 +121,7 @@ const Mark = () => {
                 </Button>
                 {mark.user.username === user.username ? (
                   <Button
-                    className={classes.button}
+                    className={isFetching ? " fetching" : "" + classes.button}
                     aria-label="delete button"
                     startIcon={<DeleteOutlinedIcon />}
                     onClick={removeMark}
@@ -109,6 +137,59 @@ const Mark = () => {
       </Box>
     );
   }
+
+  return (
+    <Paper
+      sx={{
+        width: "75%",
+        gap: "1rem",
+        padding: "2rem",
+        margin: "2rem",
+        display: "flex",
+        flexDirection: "column",
+        borderRadius: 0,
+        background: "#121213",
+      }}
+      className="box"
+      component="section"
+    >
+      <Box
+        component="section"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+        }}
+      >
+        <Typography
+          className={classes.title + " loading"}
+          component="h2"
+          variant="h5"
+        >
+          Loading title...
+        </Typography>
+        <Typography
+          className={classes.author + " loading"}
+          component="h3"
+          variant="h5"
+        >
+          Loading author...
+        </Typography>
+      </Box>
+      <Typography className={classes.otherTxt + " loading"}>
+        \\ Loading link... \\
+      </Typography>
+      <Typography className={classes.otherTxt + " loading"} component="p">
+        Loading username...
+      </Typography>
+      <Typography className={classes.otherTxt + " loading"}>
+        Loading likes...
+      </Typography>
+      <Typography className={classes.otherTxt + " loading"}>
+        Loading comments...
+      </Typography>
+    </Paper>
+  );
 };
 
 export default Mark;

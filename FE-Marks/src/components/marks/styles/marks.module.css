@@ -2,23 +2,32 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  align-items: center;
+  width: 100%;
 }
 
-.box {
-  border: 5px solid;
+.loading_animation {
+  --d2: 2500ms;
+  --angle2: 90deg;
+  --gradX2: 100%;
+  --gradY2: 50%;
+  --c12: rgba(193, 193, 197, 1);
+  --c22: rgba(168, 239, 255, 0.2);
+
+  border: 1px solid;
   border-image: conic-gradient(
-      from var(--angle),
-      var(--c2),
-      var(--c1) 0.1turn,
-      var(--c1) 0.15turn,
-      var(--c2) 0.25turn
+      from var(--angle2),
+      var(--c22),
+      var(--c12) 0.1turn,
+      var(--c12) 0.15turn,
+      var(--c22) 0.25turn
     )
     30;
-  animation: borderRotate2 var(--d) linear infinite forwards;
+  animation: borderRotate2 var(--d2) linear infinite forwards;
 }
 
 @keyframes borderRotate2 {
   100% {
-    --angle: 420deg;
+    --angle2: 420deg;
   }
 }
