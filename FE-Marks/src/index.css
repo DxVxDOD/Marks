@@ -4,18 +4,6 @@
   inherits: true;
 }
 
-@property --gradX {
-  syntax: "<percentage>";
-  initial-value: 50%;
-  inherits: true;
-}
-
-@property --gradY {
-  syntax: "<percentage>";
-  initial-value: 0%;
-  inherits: true;
-}
-
 #root {
   min-height: 100vh;
   height: 100%;
@@ -23,8 +11,6 @@
   flex-direction: column;
   --d: 2500ms;
   --angle: 90deg;
-  --gradX: 100%;
-  --gradY: 50%;
   --c1: rgba(193, 193, 197, 1);
   --c2: rgba(168, 239, 255, 0.2);
 }
@@ -32,7 +18,9 @@
 .main {
   padding: 2rem;
   height: 100%;
-  flex: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 html::-webkit-scrollbar-track {
@@ -54,7 +42,7 @@ html::-webkit-scrollbar {
 .loading {
   color: darkgray;
   opacity: 0.7;
-  padding: 0.2rem;
+  padding: 0.5rem;
   width: fit-content;
   background-color: rgba(133, 133, 139, 0.3);
   border-radius: 3px;
@@ -65,7 +53,7 @@ html::-webkit-scrollbar {
 }
 
 .box {
-  border: 1px solid;
+  border: 1.5px solid;
   border-image: conic-gradient(
       from var(--angle),
       var(--c2),

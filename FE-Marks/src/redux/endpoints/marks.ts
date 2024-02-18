@@ -13,7 +13,7 @@ const marksSliceApi = marksApi.injectEndpoints({
       providesTags: ["Mark"],
     }),
     getMark: builder.query<TMark, string>({
-      query: (id) => ({ url: `marks${id}` }),
+      query: (id) => ({ url: `marks/${id}` }),
       transformErrorResponse: (
         response: { status: string | number },
         _meta,
@@ -29,10 +29,23 @@ const marksSliceApi = marksApi.injectEndpoints({
       }),
       invalidatesTags: ["Mark"],
     }),
-    editMark: builder.mutation<TMark, Partial<TMark> & Pick<TMark, "id">>({
+    editMark: builder.mutation<TMark, TMark & Pick<TMark, "id">>({
       query: ({ id, ...mark }) => ({
         url: `marks/${id}`,
         method: "PUT",
+        body: mark,
+      }),
+      transformErrorResponse: (
+        response: { status: string | number },
+        _meta,
+        _args,
+      ) => response.status,
+      invalidatesTags: ["Mark"],
+    }),
+    deleteMark: builder.mutation<void, TMark>({
+      query: (mark) => ({
+        url: `marks/${mark.id}`,
+        method: "DELETE",
         body: mark,
       }),
       transformErrorResponse: (
@@ -48,6 +61,7 @@ const marksSliceApi = marksApi.injectEndpoints({
 export const {
   useAddNewMarkMutation,
   useEditMarkMutation,
-  useGetAllMarksQuery,
+  useDeleteMarkMutation,
   useGetMarkQuery,
+  useGetAllMarksQuery,
 } = marksSliceApi;

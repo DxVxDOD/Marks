@@ -56,16 +56,13 @@ const App = () => {
 
             <Route path="/users" element={<UserInformation />} />
             {user === null ? (
-              <>
-                <Route path="/marks" element={<NotLoggedInMarks />} />
-              </>
+              <Route path="/marks" element={<NotLoggedInMarks />} />
             ) : (
               <Route path="/marks" element={<LoggedInMarks user={user} />} />
             )}
             <Route path="/marks/:id" element={<Mark />} />
           </Routes>
         </main>
-
         <Footer />
       </>
     </ThemeProvider>

@@ -22,6 +22,8 @@ const HomeNoUser = () => {
           width: "75%",
           padding: "2rem",
           background: "#121213",
+          borderRadius: 0,
+          border: "1.5px solid rgba(168, 239, 255, 0.4)",
         }}
       >
         <Box>

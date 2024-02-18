@@ -11,7 +11,9 @@ function Reel() {
     return (
       <Paper
         sx={{
-          border: "solid 0.02rem #8F9094",
+          border: "solid 1.5px rgba(168, 239, 255, 0.4)",
+          maxWidth: "75%",
+          borderRadius: 0,
         }}
         variant="outlined"
         className={styles.reel + " " + classes.tagWidth}

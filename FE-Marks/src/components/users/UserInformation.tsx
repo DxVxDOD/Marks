@@ -1,7 +1,6 @@
 import { Link as RouterLink } from "react-router-dom";
 import { TUser } from "../../types/user";
 import {
-  Box,
   Button,
   Paper,
   Table,
@@ -20,91 +19,31 @@ const UserInformation = () => {
   const { classes } = useMark();
 
   const {
-    data: users = [],
+    data: users,
     isFetching: isFetchingUsers,
     isLoading: isLoadingUsers,
   } = useGetAllUsersQuery();
   const {
-    data: marks = [],
+    data: marks,
     isFetching: isFetchingMarks,
     isLoading: isLoadingMarks,
   } = useGetAllMarksQuery();
 
-  if (isLoadingMarks || isLoadingUsers) {
+  if (marks && users) {
     return (
-      <Box
+      <Paper
         sx={{
+          padding: "2rem",
+          minWidth: "75%",
+          border: "solid 1.5px rgba(168, 239, 255, 0.4)",
+          borderRadius: 0,
+          background: "#121213",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           marginTop: "2rem",
         }}
         component="article"
-      >
-        <Paper
-          sx={{
-            padding: "2rem",
-            minWidth: "75%",
-            borderRadius: 0,
-            background: "#121213",
-          }}
-          className="box"
-        >
-          <TableContainer>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell className={classes.title}>
-                    <Typography fontSize={"large"} className="loading">
-                      User
-                    </Typography>
-                  </TableCell>
-                  <TableCell className={classes.title}>
-                    <Typography className="loading" fontSize={"large"}>
-                      Mark Count
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <Typography fontSize={"medium"} className="loading">
-                      Loading
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography fontSize={"medium"} className="loading">
-                      Loading
-                    </Typography>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-      </Box>
-    );
-  }
-
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        marginTop: "2rem",
-      }}
-      component="article"
-    >
-      <Paper
-        sx={{
-          padding: "2rem",
-          minWidth: "75%",
-          border: "solid 0.02rem rgba(168, 239, 255, 0.4)",
-          borderRadius: 0,
-          background: "#121213",
-        }}
       >
         <TableContainer>
           <Table>
@@ -158,7 +97,57 @@ const UserInformation = () => {
           </Table>
         </TableContainer>
       </Paper>
-    </Box>
+    );
+  }
+
+  return (
+    <Paper
+      sx={{
+        padding: "2rem",
+        borderRadius: 0,
+        background: "#121213",
+        display: "flex",
+        flexDirection: "column",
+        minWidth: "75%",
+        alignItems: "center",
+        marginTop: "2rem",
+      }}
+      component="article"
+      className="box"
+    >
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.title}>
+                <Typography fontSize={"large"} className="loading">
+                  User
+                </Typography>
+              </TableCell>
+              <TableCell className={classes.title}>
+                <Typography className="loading" fontSize={"large"}>
+                  Mark Count
+                </Typography>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <Typography fontSize={"medium"} className="loading">
+                  Loading
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography fontSize={"medium"} className="loading">
+                  Loading
+                </Typography>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Paper>
   );
 };
 
