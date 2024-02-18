@@ -17,8 +17,6 @@ export const getAllMarks = async () => {
 		);
 	}
 
-	await new Promise((r) => setTimeout(r, 5000));
-
 	return allMarks;
 };
 
@@ -35,8 +33,6 @@ export const getMarkById = async (id: string | undefined) => {
 			"Error while fetching mark from database with provided id: " + error
 		);
 	}
-
-	await new Promise((r) => setTimeout(r, 5000));
 
 	return data;
 };
@@ -94,6 +90,9 @@ export const deleteMark = async (user: TUser, markId: string | undefined) => {
 				markError.message
 		);
 	}
+
+	console.log("mark", mark.user);
+	console.log("user", user.id);
 
 	if (mark.user.toString() !== user.id.toString()) {
 		throw new Error("You do not have the permission to delete this Mark");
