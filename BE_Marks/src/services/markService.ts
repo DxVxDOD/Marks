@@ -17,14 +17,17 @@ export const getAllMarks = async () => {
 		);
 	}
 
-	await new Promise((r) => setTimeout(r, 9000));
+	await new Promise((r) => setTimeout(r, 5000));
 
 	return allMarks;
 };
 
 export const getMarkById = async (id: string | undefined) => {
 	const { data, error } = await wrapInPromise(
-		Mark.findById(stringParser(id))
+		Mark.findById(stringParser(id)).populate("user", {
+			username: 1,
+			name: 1,
+		})
 	);
 
 	if (!data || error) {
@@ -32,6 +35,8 @@ export const getMarkById = async (id: string | undefined) => {
 			"Error while fetching mark from database with provided id: " + error
 		);
 	}
+
+	await new Promise((r) => setTimeout(r, 5000));
 
 	return data;
 };
