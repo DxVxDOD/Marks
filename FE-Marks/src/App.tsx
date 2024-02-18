@@ -21,6 +21,7 @@ import { useAuth } from "./hooks/useAuth.tsx";
 import { useEffect } from "react";
 import { setCredentials } from "./redux/slices/auth.ts";
 import { useAppDispatch } from "./redux/hook.ts";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   const { user } = useAuth();
@@ -43,6 +44,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <>
+        <Toaster position="top-center" reverseOrder={false} />
         <Menu />
         <main className="main">
           <Routes>

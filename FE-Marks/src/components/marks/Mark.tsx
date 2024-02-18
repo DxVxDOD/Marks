@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Comments from "./Comments.tsx";
 import {
   Box,
@@ -13,28 +13,54 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import useMark from "../../theme/Mark.tsx";
 import {
   useDeleteMarkMutation,
+  useEditMarkMutation,
   useGetMarkQuery,
 } from "../../redux/endpoints/marks";
-import { setSuccess } from "../../redux/slices/notifications";
 import { useAuth } from "../../hooks/useAuth.tsx";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 const Mark = () => {
   const { state } = useLocation();
   const { classes } = useMark();
   const { data: mark, isFetching } = useGetMarkQuery(state.id);
-  const [deleteMark, { isLoading: isLoadingDelete, isError: isDeleteError }] =
+  const [deleteMark, { isLoading: isDeleteLoading, isError: isDeleteError }] =
     useDeleteMarkMutation();
+  const [updateMark, { isLoading: isUpdateLoading, isError: isUpdateError }] =
+    useEditMarkMutation();
   const { user } = useAuth();
+  const navigate = useNavigate();
+
+  const [like, setLike] = useState(false);
 
   if (mark) {
-    const updateLikes = () => {};
+    const updateLikes = async () => {
+      if (like) {
+        await toast.promise(updateMark({ ...mark, likes: mark.likes + 1 }), {
+          loading: "Updating...",
+          success: <b>Mark updated successfully!</b>,
+          error: <b>Could not update mark.</b>,
+        });
+      }
+      await toast.promise(updateMark({ ...mark, likes: mark.likes - 1 }), {
+        loading: "Updating...",
+        success: <b>Mark updated successfully!</b>,
+        error: <b>Could not update mark.</b>,
+      });
+    };
 
     const removeMark = async () => {
       if (window.confirm(`Would you like to remove ${mark.title} ?`)) {
+        navigate("/");
         try {
-        } catch (error) {}
-
-        setSuccess(`${mark.title} has been removed`);
+          await toast.promise(deleteMark(mark), {
+            loading: "Deleting...",
+            success: <b>Mark deleted successfully!</b>,
+            error: <b>Could not delete Mark.</b>,
+          });
+        } catch (error) {
+          console.log(error);
+        }
       }
     };
     return (
@@ -60,6 +86,7 @@ const Mark = () => {
             background: "#121213",
           }}
           component="section"
+          className={isDeleteLoading || isUpdateLoading ? "box" : ""}
         >
           <Box component="section">
             <Typography
@@ -114,7 +141,10 @@ const Mark = () => {
                   className={isFetching ? " fetching" : "" + classes.button}
                   startIcon={<ThumbUpOutlinedIcon />}
                   aria-label="like button"
-                  onClick={updateLikes}
+                  onClick={() => {
+                    setLike(!like);
+                    updateLikes();
+                  }}
                   id="likeButton"
                 >
                   Like

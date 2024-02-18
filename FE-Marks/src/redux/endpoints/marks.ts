@@ -43,8 +43,8 @@ const marksSliceApi = marksApi.injectEndpoints({
       invalidatesTags: ["Mark"],
     }),
     deleteMark: builder.mutation<void, TMark>({
-      query: (mark) => ({
-        url: `marks/${mark.id}`,
+      query: ({ id, ...mark }) => ({
+        url: `marks/${id}`,
         method: "DELETE",
         body: mark,
       }),

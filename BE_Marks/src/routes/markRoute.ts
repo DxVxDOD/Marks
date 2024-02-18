@@ -49,7 +49,7 @@ router.post("/", userExtractor, async (req: Request, res: Response) => {
 
 router.delete("/:id", userExtractor, async (req: Request, res: Response) => {
 	const { data, error } = await wrapInPromise(
-		deleteMark(res.locals.user.id, req.params.id)
+		deleteMark(res.locals.user, req.params.id)
 	);
 
 	if (!data || error) {
