@@ -1,9 +1,11 @@
 import { FormEvent } from "react";
 import { useForm } from "../../hooks/useForm";
-import { useAppDispatch } from "../../app/hooks";
-import { setUser } from "../../reducers/userReducer.ts";
 import { VisibilityHandle } from "../features/Toggle.tsx";
 import { Box, Button, Paper, Stack, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useAddNewUserMutation } from "../../redux/endpoints/users.ts";
+import { TNewUser } from "../../types/user.ts";
 
 const CreateUserForm = ({
   signUpRef,
@@ -13,8 +15,9 @@ const CreateUserForm = ({
   const { reset: resetUsername, ...username } = useForm("text");
   const { reset: resetPassword, ...password } = useForm("password");
   const { reset: resetName, ...name } = useForm("text");
-
-  const dispatch = useAppDispatch();
+  const { reset: resetEmail, ...email } = useForm("text");
+  const navigate = useNavigate();
+  const [addNewUser, {}] = useAddNewUserMutation();
 
   const handleReset = () => {
     resetPassword();
@@ -22,18 +25,26 @@ const CreateUserForm = ({
     resetName();
   };
 
+  // TODO: Doesn't do anything, need to add mutation
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
     signUpRef.current?.toggleVisibility();
 
-    dispatch(
-      setUser({
-        username: username.value,
-        name: name.value,
-        password: password.value,
-      }),
-    );
+    navigate("/login");
+
+    const newUserObj: TNewUser = {
+      username: username.value,
+      name: name.value,
+      password: password.value,
+      email: email.value,
+    };
+
+    toast.promise(addNewUser(newUserObj), {
+      loading: "Loading...",
+      success: <b>New user created successfully!</b>,
+      error: <b>Could not create user.</b>,
+    });
   };
 
   return (
@@ -89,6 +100,14 @@ const CreateUserForm = ({
             variant="standard"
             placeholder="Password"
             {...password}
+          />
+          <TextField
+            size="small"
+            required
+            label="Email"
+            variant="standard"
+            placeholder="Email"
+            {...email}
           />
         </Stack>
         <Stack

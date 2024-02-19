@@ -11,7 +11,6 @@ import {
 	requestLogger,
 	unknownEndpoint,
 } from "./utils/middleware/error_handlers";
-import path from "path";
 
 const app = express();
 
@@ -44,7 +43,7 @@ app.use("/api/login", loginRoute);
 app.use("/api/marks", markRoute);
 
 app.get("/*", (req, res) => {
-	res.sendFile(path.join(__dirname + "/index.html"));
+	res.sendFile("/index.html", { root: "./dist" });
 });
 
 app.use(unknownEndpoint);
