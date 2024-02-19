@@ -8,8 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import NewspaperIcon from "@mui/icons-material/Newspaper";
-import { useAppSelector } from "../app/hooks";
 import useHeader from "../theme/Header";
+import { useAuth } from "../hooks/useAuth";
 
 const Menu = () => {
   const handleLogout = () => {
@@ -17,7 +17,7 @@ const Menu = () => {
     window.location.reload();
   };
 
-  const user = useAppSelector((state) => state.user);
+  const { user } = useAuth();
 
   const { classes } = useHeader();
 
@@ -30,12 +30,13 @@ const Menu = () => {
         width: "100%",
         alignItems: "center",
         padding: "0.5em",
-          borderColor: '#8F9094',
-          borderTop: 'none',
-          borderLeft: 'none',
-          borderRight: 'none'
+        borderColor: "#8F9094",
+        borderTop: "none",
+        borderLeft: "none",
+        borderRight: "none",
+        justifyContent: "space-between",
       }}
-      variant='outlined'
+      variant="outlined"
     >
       <Box
         component="nav"
@@ -51,7 +52,7 @@ const Menu = () => {
           }}
           direction="column"
         >
-          <ButtonGroup variant="outlined"  aria-label="alignment button group">
+          <ButtonGroup variant="outlined" aria-label="alignment button group">
             <Button
               className={classes.button}
               component={RouterLink}
@@ -74,20 +75,22 @@ const Menu = () => {
           </ButtonGroup>
         </Stack>
       </Box>
-      <Typography
-        className={classes.h1}
-        sx={{
-          width: "33.33%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        variant="h3"
-        component="h1"
-      >
-        Marks
-        <NewspaperIcon fontSize="inherit" />
-      </Typography>
+
+      <Button>
+        <Typography
+          className={classes.h1}
+          variant="h3"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+          component="h1"
+        >
+          Marks
+          <NewspaperIcon fontSize="inherit" />
+        </Typography>
+      </Button>
+
       {user === null ? (
         <Box
           className={classes.bttnStack}
@@ -118,10 +121,13 @@ const Menu = () => {
           }}
         >
           <Button
+            sx={{
+              marginRight: "1rem",
+            }}
             size="small"
             className={classes.button}
             variant="outlined"
-            color="error"
+            color="success"
             onClick={handleLogout}
           >
             Log out

@@ -1,10 +1,6 @@
 import { Link as RouterLink } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { TUser } from "../../types/user";
-import { useEffect } from "react";
-import { initializeUsers } from "../../reducers/userArrayReducer";
 import {
-  Box,
   Button,
   Paper,
   Table,
@@ -13,43 +9,64 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
-import useBlog from "../../theme/Blog";
+import useMark from "../../theme/Mark";
+import { useGetAllUsersQuery } from "../../redux/endpoints/users";
+import { useGetAllMarksQuery } from "../../redux/endpoints/marks";
 
 const UserInformation = () => {
-  const users = useAppSelector((state) => state.userArray);
-  const marks = useAppSelector((state) => state.mark);
-  const dispatch = useAppDispatch();
-  const { classes } = useBlog();
+  const { classes } = useMark();
 
-  useEffect(() => {
-    dispatch(initializeUsers());
-  }, []);
+  const {
+    data: users,
+    isFetching: isFetchingUsers,
+    isLoading: isLoadingUsers,
+  } = useGetAllUsersQuery();
+  const {
+    data: marks,
+    isFetching: isFetchingMarks,
+    isLoading: isLoadingMarks,
+  } = useGetAllMarksQuery();
 
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        marginTop: "2rem",
-      }}
-      component="article"
-    >
+  if (marks && users) {
+    return (
       <Paper
         sx={{
           padding: "2rem",
           minWidth: "75%",
-          border: "solid 0.02rem #6E6E6E",
+          border: "solid 1.5px rgba(168, 239, 255, 0.4)",
           borderRadius: 0,
+          background: "#121213",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginTop: "2rem",
         }}
+        component="article"
       >
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell className={classes.title}>User</TableCell>
-                <TableCell className={classes.title}>Mark count</TableCell>
+                <TableCell
+                  className={
+                    isFetchingMarks || isFetchingUsers
+                      ? "fetching "
+                      : "" + classes.title
+                  }
+                >
+                  User
+                </TableCell>
+                <TableCell
+                  className={
+                    isFetchingMarks || isFetchingUsers
+                      ? "fetching "
+                      : "" + classes.title
+                  }
+                >
+                  Mark count
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -57,7 +74,14 @@ const UserInformation = () => {
                 <TableRow key={user.username}>
                   <TableCell>
                     <Button
-                      className={classes.button}
+                      sx={{
+                        color: "#e0e0e0",
+                      }}
+                      className={
+                        isFetchingMarks || isFetchingUsers
+                          ? "fetching "
+                          : "" + classes.button
+                      }
                       component={RouterLink}
                       size="small"
                       to={`/users/${user.id}`}
@@ -73,7 +97,57 @@ const UserInformation = () => {
           </Table>
         </TableContainer>
       </Paper>
-    </Box>
+    );
+  }
+
+  return (
+    <Paper
+      sx={{
+        padding: "2rem",
+        borderRadius: 0,
+        background: "#121213",
+        display: "flex",
+        flexDirection: "column",
+        minWidth: "75%",
+        alignItems: "center",
+        marginTop: "2rem",
+      }}
+      component="article"
+      className="box"
+    >
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.title}>
+                <Typography fontSize={"large"} className="loading">
+                  User
+                </Typography>
+              </TableCell>
+              <TableCell className={classes.title}>
+                <Typography className="loading" fontSize={"large"}>
+                  Mark Count
+                </Typography>
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                <Typography fontSize={"medium"} className="loading">
+                  Loading
+                </Typography>
+              </TableCell>
+              <TableCell>
+                <Typography fontSize={"medium"} className="loading">
+                  Loading
+                </Typography>
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Paper>
   );
 };
 

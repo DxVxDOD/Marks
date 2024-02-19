@@ -1,4 +1,4 @@
-import { isDate, isNumber } from "../typeGuards/generalGuards";
+import { isBoolean, isDate, isNumber } from "../typeGuards/generalGuards";
 import { isJwtPayload, isString } from "../typeGuards/generalGuards";
 
 export const jwtPayloadParser = (param: unknown) => {
@@ -23,9 +23,21 @@ export const dateParser = (date: unknown) => {
 };
 
 export const numberParser = (num: unknown) => {
+	if (num === 0) {
+		return num;
+	}
+
 	if (!num || !isNumber(num)) {
 		throw new Error(`${num} is not a number`);
 	}
 
 	return num;
+};
+
+export const booleanParser = (obj: unknown) => {
+	if (!obj || !isBoolean(obj)) {
+		throw new Error(`${obj} is not a number`);
+	}
+
+	return obj;
 };

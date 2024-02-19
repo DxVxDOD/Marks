@@ -34,3 +34,7 @@ export const isCredentials = (obj: Partial<TCredentials>) => {
 export const isNumber = (num: unknown): num is number => {
 	return typeof num === "number" || num instanceof Number;
 };
+
+export const isBoolean = (obj: unknown): obj is boolean => {
+	return typeof obj === "boolean" || obj instanceof Boolean;
+};
