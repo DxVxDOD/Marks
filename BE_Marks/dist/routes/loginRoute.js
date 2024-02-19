@@ -7,9 +7,6 @@ const express_1 = __importDefault(require("express"));
 const loginService_1 = require("../services/loginService");
 const promiseWrapper_1 = require("../utils/promiseWrapper");
 const loginRouter = express_1.default.Router();
-loginRouter.get("/", (_req, res) => {
-    res.send("login route");
-});
 loginRouter.post("/", async (req, res) => {
     const { data: loginData, error: loginError } = await (0, promiseWrapper_1.wrapInPromise)((0, loginService_1.login)(req.body));
     if (loginError || !loginData) {
