@@ -13,7 +13,7 @@ const MarkForm = ({
   const { reset: resetTitle, ...title } = useForm("text");
   const { reset: resetUrl, ...url } = useForm("text");
 
-  const [postMark, {}] = useAddNewMarkMutation();
+  const [postMark, { isLoading, isError }] = useAddNewMarkMutation();
 
   const handleNewMark = async (e: FormEvent) => {
     e.preventDefault();
@@ -44,6 +44,7 @@ const MarkForm = ({
         border: "solid 0.02rem #6E6E6E",
         borderRadius: 0,
       }}
+      className={isLoading ? "box" : ""}
     >
       <Box
         component="form"
