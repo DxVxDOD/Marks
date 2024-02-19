@@ -12,7 +12,6 @@ const markRoute_1 = __importDefault(require("./routes/markRoute"));
 const config_1 = __importDefault(require("./utils/config"));
 const logger_1 = __importDefault(require("./utils/logger"));
 const error_handlers_1 = require("./utils/middleware/error_handlers");
-const path_1 = __importDefault(require("path"));
 const app = (0, express_1.default)();
 const MONGO_URI = config_1.default.MONGO_URI;
 logger_1.default.info("Connecting to: ", MONGO_URI);
@@ -37,7 +36,7 @@ app.use("/api/users", userRoute_1.default);
 app.use("/api/login", loginRoute_1.default);
 app.use("/api/marks", markRoute_1.default);
 app.get("/*", (req, res) => {
-    res.sendFile(path_1.default.join(__dirname + "/index.html"));
+    res.sendFile("/index.html", { root: "./dist" });
 });
 app.use(error_handlers_1.unknownEndpoint);
 app.use(error_handlers_1.errorHandler);
