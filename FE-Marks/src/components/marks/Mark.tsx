@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import Comments from "./Comments.tsx";
+// import Comments from "./Comments.tsx";
 import {
   Box,
   Button,
@@ -24,10 +24,8 @@ const Mark = () => {
   const { state } = useLocation();
   const { classes } = useMark();
   const { data: mark, isFetching } = useGetMarkQuery(state.id);
-  const [deleteMark, { isLoading: isDeleteLoading, isError: isDeleteError }] =
-    useDeleteMarkMutation();
-  const [updateMark, { isLoading: isUpdateLoading, isError: isUpdateError }] =
-    useEditMarkMutation();
+  const [deleteMark, { isLoading: isDeleteLoading }] = useDeleteMarkMutation();
+  const [updateMark, { isLoading: isUpdateLoading }] = useEditMarkMutation();
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -162,7 +160,7 @@ const Mark = () => {
             </>
           )}
         </Paper>
-        <Comments markId={`${mark.id}`} />
+        {/* <Comments markId={`${mark.id}`} /> */}
       </Box>
     );
   }
