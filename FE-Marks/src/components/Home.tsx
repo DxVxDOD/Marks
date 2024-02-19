@@ -19,7 +19,7 @@ import { useGetAllMarksQuery } from "../redux/endpoints/marks.ts";
 import { TLoggedUser } from "../types/user.ts";
 
 const Home = ({ user }: { user: TLoggedUser }) => {
-  const { data: marks, isFetching } = useGetAllMarksQuery();
+  const { data: marks } = useGetAllMarksQuery();
 
   const { classes } = markList();
   const button = useHome().classes;

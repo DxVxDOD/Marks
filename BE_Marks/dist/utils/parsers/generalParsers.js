@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.numberParser = exports.dateParser = exports.stringParser = exports.jwtPayloadParser = void 0;
+exports.booleanParser = exports.numberParser = exports.dateParser = exports.stringParser = exports.jwtPayloadParser = void 0;
 const generalGuards_1 = require("../typeGuards/generalGuards");
 const generalGuards_2 = require("../typeGuards/generalGuards");
 const jwtPayloadParser = (param) => {
@@ -25,10 +25,20 @@ const dateParser = (date) => {
 };
 exports.dateParser = dateParser;
 const numberParser = (num) => {
+    if (num === 0) {
+        return num;
+    }
     if (!num || !(0, generalGuards_1.isNumber)(num)) {
         throw new Error(`${num} is not a number`);
     }
     return num;
 };
 exports.numberParser = numberParser;
+const booleanParser = (obj) => {
+    if (!obj || !(0, generalGuards_1.isBoolean)(obj)) {
+        throw new Error(`${obj} is not a number`);
+    }
+    return obj;
+};
+exports.booleanParser = booleanParser;
 //# sourceMappingURL=generalParsers.js.map

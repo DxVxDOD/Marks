@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isNumber = exports.isCredentials = exports.isDate = exports.isJwtPayload = exports.isString = void 0;
+exports.isBoolean = exports.isNumber = exports.isCredentials = exports.isDate = exports.isJwtPayload = exports.isString = void 0;
 const isString = (param) => {
     return typeof param === "string" || param instanceof String;
 };
@@ -34,4 +34,8 @@ const isNumber = (num) => {
     return typeof num === "number" || num instanceof Number;
 };
 exports.isNumber = isNumber;
+const isBoolean = (obj) => {
+    return typeof obj === "boolean" || obj instanceof Boolean;
+};
+exports.isBoolean = isBoolean;
 //# sourceMappingURL=generalGuards.js.map

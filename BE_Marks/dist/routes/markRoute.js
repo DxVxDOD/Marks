@@ -30,19 +30,27 @@ router.post("/", user_extractor_1.userExtractor, async (req, res) => {
     }
     res.status(201).json(newMark);
 });
-router.delete("/:id", user_extractor_1.userExtractor, async (req, res) => {
-    const { data, error } = await (0, promiseWrapper_1.wrapInPromise)((0, markService_1.deleteMark)(res.locals.user.id, req.params.id));
-    if (!data) {
-        res.status(401).json({ error: error.message });
-    }
-    res.status(204).end();
-});
 router.put("/:id", user_extractor_1.userExtractor, async (req, res) => {
     const { data, error } = await (0, promiseWrapper_1.wrapInPromise)((0, markService_1.updateMark)(req.body, res.locals.user.id, req.params.id));
-    if (!data) {
+    if (!data || error) {
         res.status(400).json({ error: error.message });
     }
     res.status(201).json(data);
+});
+router.put("/:id/like", async (req, res) => {
+    const userId = res.locals.user;
+    const { data, error } = await (0, promiseWrapper_1.wrapInPromise)((0, markService_1.updateMark)(req.body, userId, req.params.id));
+    if (!data || error) {
+        res.status(400).json({ error: error.message });
+    }
+    res.status(201).json(data);
+});
+router.delete("/:id", user_extractor_1.userExtractor, async (req, res) => {
+    const { data, error } = await (0, promiseWrapper_1.wrapInPromise)((0, markService_1.deleteMark)(res.locals.user, req.params.id));
+    if (!data || error) {
+        res.status(401).json({ error: error.message });
+    }
+    res.status(204).end();
 });
 exports.default = router;
 //# sourceMappingURL=markRoute.js.map
