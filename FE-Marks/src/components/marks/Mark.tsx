@@ -31,10 +31,12 @@ const Mark = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState(true);
 
   if (mark) {
     const updateLikes = async () => {
+      setLike(!like);
+
       if (like) {
         await toast.promise(updateMark({ ...mark, likes: mark.likes + 1 }), {
           loading: "Updating...",
@@ -42,27 +44,27 @@ const Mark = () => {
           error: <b>Could not update mark.</b>,
         });
       }
-      await toast.promise(updateMark({ ...mark, likes: mark.likes - 1 }), {
-        loading: "Updating...",
-        success: <b>Mark updated successfully!</b>,
-        error: <b>Could not update mark.</b>,
-      });
+
+      if (!like) {
+        await toast.promise(updateMark({ ...mark, likes: mark.likes - 1 }), {
+          loading: "Updating...",
+          success: <b>Mark updated successfully!</b>,
+          error: <b>Could not update mark.</b>,
+        });
+      }
     };
 
     const removeMark = async () => {
       if (window.confirm(`Would you like to remove ${mark.title} ?`)) {
         navigate("/");
-        try {
-          await toast.promise(deleteMark(mark), {
-            loading: "Deleting...",
-            success: <b>Mark deleted successfully!</b>,
-            error: <b>Could not delete Mark.</b>,
-          });
-        } catch (error) {
-          console.log(error);
-        }
+        await toast.promise(deleteMark(mark), {
+          loading: "Deleting...",
+          success: <b>Mark deleted successfully!</b>,
+          error: <b>Could not delete Mark.</b>,
+        });
       }
     };
+
     return (
       <Box
         sx={{
@@ -141,10 +143,7 @@ const Mark = () => {
                   className={isFetching ? " fetching" : "" + classes.button}
                   startIcon={<ThumbUpOutlinedIcon />}
                   aria-label="like button"
-                  onClick={() => {
-                    setLike(!like);
-                    updateLikes();
-                  }}
+                  onClick={updateLikes}
                   id="likeButton"
                 >
                   Like

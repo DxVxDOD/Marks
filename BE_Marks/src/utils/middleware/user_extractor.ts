@@ -50,5 +50,6 @@ export const userExtractor = async (
 	}
 
 	res.locals.user = user;
+
 	next();
 };

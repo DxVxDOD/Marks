@@ -23,6 +23,10 @@ export const dateParser = (date: unknown) => {
 };
 
 export const numberParser = (num: unknown) => {
+	if (num === 0) {
+		return num;
+	}
+
 	if (!num || !isNumber(num)) {
 		throw new Error(`${num} is not a number`);
 	}
