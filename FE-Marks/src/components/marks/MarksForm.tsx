@@ -13,7 +13,7 @@ const MarkForm = ({
   const { reset: resetTitle, ...title } = useForm("text");
   const { reset: resetUrl, ...url } = useForm("text");
 
-  const [postMark, { isLoading, isError }] = useAddNewMarkMutation();
+  const [postMark, { isLoading }] = useAddNewMarkMutation();
 
   const handleNewMark = async (e: FormEvent) => {
     e.preventDefault();
