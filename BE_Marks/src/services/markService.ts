@@ -1,4 +1,5 @@
 import Mark from "../models/markModel";
+import User from "../models/userModel";
 import { TMarkFE, TNewMark } from "../types/mark";
 import { TUser } from "../types/user";
 import { stringParser } from "../utils/parsers/generalParsers";
@@ -91,9 +92,6 @@ export const deleteMark = async (user: TUser, markId: string | undefined) => {
 		);
 	}
 
-	console.log("mark", mark.user);
-	console.log("user", user.id);
-
 	if (mark.user.toString() !== user.id.toString()) {
 		throw new Error("You do not have the permission to delete this Mark");
 	}
@@ -126,7 +124,7 @@ export const deleteMark = async (user: TUser, markId: string | undefined) => {
 
 export const updateMark = async (
 	mark: Partial<TMarkFE>,
-	user: TUser,
+	userId: string,
 	markId: string | undefined
 ) => {
 	const { data: markData, error: markError } = await wrapInPromise(
@@ -145,6 +143,17 @@ export const updateMark = async (
 		throw new Error(
 			"Cannot find Mark with given id in data base: " +
 				oldMarkError.message
+		);
+	}
+
+	const { data: user, error: userError } = await wrapInPromise(
+		User.findById(userId)
+	);
+
+	if (!user || userError) {
+		throw new Error(
+			"Cannot find user in data base based on provided id." +
+				userError.message
 		);
 	}
 
