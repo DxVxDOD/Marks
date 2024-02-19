@@ -8,7 +8,7 @@ const LoginForm = () => {
   const { reset: usernameReset, ...username } = useForm("text");
   const { reset: passwordReset, ...password } = useForm("password");
   const navigate = useNavigate();
-  const [login, { isLoading }] = useLoginMutation();
+  const [login, {}] = useLoginMutation();
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
