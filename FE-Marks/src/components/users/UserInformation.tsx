@@ -18,16 +18,8 @@ import { useGetAllMarksQuery } from "../../redux/endpoints/marks";
 const UserInformation = () => {
   const { classes } = useMark();
 
-  const {
-    data: users,
-    isFetching: isFetchingUsers,
-    isLoading: isLoadingUsers,
-  } = useGetAllUsersQuery();
-  const {
-    data: marks,
-    isFetching: isFetchingMarks,
-    isLoading: isLoadingMarks,
-  } = useGetAllMarksQuery();
+  const { data: users, isFetching: isFetchingUsers } = useGetAllUsersQuery();
+  const { data: marks, isFetching: isFetchingMarks } = useGetAllMarksQuery();
 
   if (marks && users) {
     return (
