@@ -1,9 +1,9 @@
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import blogList from "../theme/BlogList";
+import markList from "../theme/MarkList";
 
 const HomeNoUser = () => {
-  const { classes } = blogList();
+  const { classes } = markList();
 
   return (
     <Box
@@ -21,6 +21,9 @@ const HomeNoUser = () => {
           flexDirection: "column",
           width: "75%",
           padding: "2rem",
+          background: "#121213",
+          borderRadius: 0,
+          border: "1.5px solid rgba(168, 239, 255, 0.4)",
         }}
       >
         <Box>
