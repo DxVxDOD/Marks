@@ -16,7 +16,7 @@ import {
 import ArticleIcon from "@mui/icons-material/Article";
 import markList from "../../theme/MarkList.js";
 import useHome from "../../theme/Home.js";
-// import Reel from "../features/Reel.tsx";
+import Reel from "../features/Reel.tsx";
 import { useGetAllMarksQuery } from "../../redux/endpoints/marks.ts";
 import { TLoggedUser } from "../../types/user.ts";
 import styles from "./styles/marks.module.css";
@@ -31,7 +31,7 @@ const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
   if (marks) {
     return (
       <section className={styles.section}>
-        {/* <Reel /> */}
+        <Reel />
         {marks.length < 1 ? (
           <Typography component="h2" variant="h4">
             You haven't posted any marks yet
