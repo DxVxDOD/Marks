@@ -23,6 +23,9 @@ const theme = createTheme({
     secondary: {
       main: amber.A700,
     },
+    info: {
+      main: "rgba(168, 239, 255, 1)",
+    },
   },
   typography: {
     fontFamily: "monospace",
