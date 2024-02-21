@@ -1,19 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { string } from "prop-types";
 
-const initialState = {
-  tag: "all",
-  on: true,
-};
-
-type TTag = typeof initialState;
+const initialState = "all";
 
 const tagSlice = createSlice({
   name: "tag",
   initialState,
   reducers: {
-    setTag(state, { payload: { on, tag } }: PayloadAction<TTag>) {
-      (state.on = on), (state.tag = tag);
+    setTag(state, action: PayloadAction<string>) {
+      state = action.payload;
+      return state;
     },
   },
 });

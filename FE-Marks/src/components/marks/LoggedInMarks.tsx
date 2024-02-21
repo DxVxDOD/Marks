@@ -20,6 +20,7 @@ import Reel from "../features/Reel.tsx";
 import { useGetAllMarksQuery } from "../../redux/endpoints/marks.ts";
 import { TLoggedUser } from "../../types/user.ts";
 import styles from "./styles/marks.module.css";
+import { useAppSelector } from "../../redux/hook.ts";
 
 const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
   const { data: marks, isFetching } = useGetAllMarksQuery();
@@ -27,6 +28,7 @@ const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
   const markFormRef = useRef<VisibilityHandle>();
   const { classes } = markList();
   const button = useHome().classes;
+  const tag = useAppSelector((state) => state.filterTag);
 
   if (marks) {
     return (
@@ -65,6 +67,13 @@ const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
               <List>
                 {[...marks]
                   .filter((mark: TMark) => mark.user.username === user.username)
+                  .filter((mark) => {
+                    if (tag === "all") {
+                      return mark;
+                    }
+
+                    return tag === mark.tag;
+                  })
                   .sort((a: TMark, b: TMark) => b.likes - a.likes)
                   .map((mark: TMark) => (
                     <ListItemButton
@@ -127,6 +136,13 @@ const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
             <List>
               {[...marks]
                 .filter((mark: TMark) => mark.user.username !== user.username)
+                .filter((mark) => {
+                  if (tag === "all") {
+                    return mark;
+                  }
+
+                  return tag === mark.tag;
+                })
                 .sort((a: TMark, b: TMark) => b.likes - a.likes)
                 .map((mark: TMark) => (
                   <ListItemButton

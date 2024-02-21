@@ -19,6 +19,7 @@ const authSlice = createSlice({
     ) {
       state.user = user;
       state.token = token;
+      return state;
     },
     clearCredentials(state) {
       state.user = null;
