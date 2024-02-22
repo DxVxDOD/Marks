@@ -24,7 +24,7 @@ const theme = createTheme({
       main: amber.A700,
     },
     info: {
-      main: "rgba(168, 239, 255, 1)",
+      main: "rgba(168, 239, 255, 0.8)",
     },
   },
   typography: {

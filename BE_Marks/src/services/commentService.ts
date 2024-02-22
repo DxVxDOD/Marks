@@ -11,7 +11,7 @@ import { wrapInPromise } from "../utils/promiseWrapper";
 
 export const getAllComments = async () => {
 	const { data, error } = await wrapInPromise(
-		Comment.find({}).populate("user", { username: 1 })
+		Comment.find({}).populate("userId", { username: 1 }).populate("markId")
 	);
 
 	if (!data || error) {

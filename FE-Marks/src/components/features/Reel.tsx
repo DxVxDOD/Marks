@@ -93,7 +93,6 @@ function Reel() {
     );
   }
 
-  return null;
 }
 
 export default Reel;

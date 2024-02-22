@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import userRoute from "./routes/userRoute";
 import loginRoute from "./routes/loginRoute";
 import markRoute from "./routes/markRoute";
+import commentRoute from "./routes/commentRoute";
 import config from "./utils/config";
 import logger from "./utils/logger";
 import {
@@ -41,6 +42,7 @@ if (process.env.NODE_ENV === "test") {
 app.use("/api/users", userRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/marks", markRoute);
+app.use("/api/comments", commentRoute);
 
 app.get("/*", (req, res) => {
 	res.sendFile("/index.html", { root: "./dist" });
