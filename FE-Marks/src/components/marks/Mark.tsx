@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-// import Comments from "./Comments.tsx";
+import Comments from "./Comments.tsx";
 import {
   Box,
   Button,
@@ -101,7 +101,7 @@ const Mark = () => {
               component="h3"
               variant="h5"
             >
-              Author: {mark.tag}
+              Tag: {mark.tag}
             </Typography>
           </Box>
           <Link href={mark.url}>
@@ -160,7 +160,7 @@ const Mark = () => {
             </>
           )}
         </Paper>
-        {/* <Comments markId={`${mark.id}`} /> */}
+        <Comments markId={`${mark.id}`} />
       </Box>
     );
   }
@@ -200,7 +200,7 @@ const Mark = () => {
           component="h3"
           variant="h5"
         >
-          Loading author...
+          Loading tag...
         </Typography>
       </Box>
       <Typography className={classes.otherTxt + " loading"}>
