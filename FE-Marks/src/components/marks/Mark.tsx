@@ -1,5 +1,4 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import Comments from "./Comments.tsx";
 import {
   Box,
   Button,
@@ -160,7 +159,6 @@ const Mark = () => {
             </>
           )}
         </Paper>
-        <Comments markId={`${mark.id}`} />
       </Box>
     );
   }

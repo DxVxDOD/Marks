@@ -22,7 +22,7 @@ import { TLoggedUser } from "../../types/user.ts";
 import styles from "./styles/marks.module.css";
 import { useAppSelector } from "../../redux/hook.ts";
 
-const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
+const Marks = ({ user }: { user: TLoggedUser }) => {
   const { data: marks, isFetching } = useGetAllMarksQuery();
 
   const markFormRef = useRef<VisibilityHandle>();
@@ -226,4 +226,4 @@ const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
   );
 };
 
-export default LoggedInMarks;
+export default Marks;

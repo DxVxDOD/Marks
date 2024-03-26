@@ -1,10 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import User from "./components/users/User.tsx";
 import Mark from "./components/marks/Mark.tsx";
-import NotLoggedInMarks from "./components/marks/NotLoggedInMarks.tsx";
-import LoggedInMarks from "./components/marks/LoggedInMarks.tsx";
+import Marks from "./components/marks/Marks.tsx";
 import Menu from "./components/Menu.tsx";
-import UserInformation from "./components/users/UserInformation.tsx";
 import Home from "./components/Home.tsx";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -49,19 +46,12 @@ const App = () => {
         <main className="main">
           <Routes>
             <Route path="/login" element={<NotLoggedIn />} />
-            <Route path="/users/:id" element={<User />} />
             {user === null ? (
               <Route path="/" element={<HomeNoUser />} />
             ) : (
               <Route path="/" element={<Home user={user} />} />
             )}
-
-            <Route path="/users" element={<UserInformation />} />
-            {user === null ? (
-              <Route path="/marks" element={<NotLoggedInMarks />} />
-            ) : (
-              <Route path="/marks" element={<LoggedInMarks user={user} />} />
-            )}
+            {user && <Route path="/marks" element={<Marks user={user} />} />}
             <Route path="/marks/:id" element={<Mark />} />
           </Routes>
         </main>

@@ -92,7 +92,6 @@ function Reel() {
       </Paper>
     );
   }
-
 }
 
 export default Reel;

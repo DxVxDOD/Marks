@@ -15,7 +15,7 @@ const MarkForm = ({
 
   const [postMark, { isLoading }] = useAddNewMarkMutation();
 
-  const handleNewMark = async (e: FormEvent) => {
+  const handleNewMark = (e: FormEvent) => {
     e.preventDefault();
 
     markFormRef.current?.toggleVisibility();
