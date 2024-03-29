@@ -10,7 +10,7 @@ import {
 import NewspaperIcon from "@mui/icons-material/Newspaper";
 import useHeader from "../theme/Header";
 import { useAuth } from "../hooks/useAuth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Menu = () => {
   const handleLogout = () => {
@@ -30,6 +30,16 @@ const Menu = () => {
   ) {
     setAlignment(newAlignment);
   }
+
+  useEffect(() => {
+    const url = window.location.href;
+
+    if (url.includes("marks")) {
+      setAlignment("second");
+    } else if (url.includes("account")) {
+      setAlignment("third");
+    }
+  }, []);
 
   return (
     <Paper
