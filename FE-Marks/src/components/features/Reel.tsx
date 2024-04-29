@@ -20,6 +20,7 @@ function Reel() {
   const textRef = useRef<HTMLSpanElement>(null);
   const buttonContainerRef = useRef<HTMLDivElement>(null);
   const [alignment, setAlignment] = useState<string>("all");
+  const tags = new Set<string>();
 
   const handleAlignment = (
     _e: React.MouseEvent<HTMLElement>,
@@ -29,6 +30,9 @@ function Reel() {
   };
 
   if (marks && user) {
+    marks
+      .filter((mark) => mark.user.username === user.username)
+      .forEach((mark) => tags.add(mark.tag));
     if (
       marks.filter((mark) => mark.user.username === user.username).length > 0
     ) {
@@ -55,24 +59,20 @@ function Reel() {
             <ToggleButton onClick={() => dispatch(setTag("all"))} value="all">
               <Typography>All</Typography>
             </ToggleButton>
-            {[...marks]
-              .filter((mark) => mark.user.username === user.username)
-              .map((mark) => mark.tag)
-              .filter((value, index, self) => self.indexOf(value) === index)
-              .map((tag) => (
-                <ToggleButton
-                  value={tag}
-                  key={tag}
-                  onClick={() => dispatch(setTag(tag))}
+            {[...tags].map((tag) => (
+              <ToggleButton
+                value={tag}
+                key={tag}
+                onClick={() => dispatch(setTag(tag))}
+              >
+                <Typography
+                  ref={textRef}
+                  className={isFetching ? "fetching " : ""}
                 >
-                  <Typography
-                    ref={textRef}
-                    className={isFetching ? "fetching " : ""}
-                  >
-                    {tag}
-                  </Typography>
-                </ToggleButton>
-              ))}
+                  {tag}
+                </Typography>
+              </ToggleButton>
+            ))}
           </ToggleButtonGroup>
         </Paper>
       );
@@ -95,3 +95,24 @@ function Reel() {
 }
 
 export default Reel;
+
+{
+  /*  {[...marks]
+              .filter((mark) => mark.user.username === user.username)
+              .map((mark) => mark.tag)
+              .filter((value, index, self) => self.indexOf(value) === index)
+              .map((tag) => (
+                <ToggleButton
+                  value={tag}
+                  key={tag}
+                  onClick={() => dispatch(setTag(tag))}
+                >
+                  <Typography
+                    ref={textRef}
+                    className={isFetching ? "fetching " : ""}
+                  >
+                    {tag}
+                  </Typography>
+                </ToggleButton>
+              ))} */
+}
