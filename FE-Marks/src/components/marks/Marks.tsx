@@ -70,11 +70,17 @@ const Marks = ({ user }: { user: TLoggedUser }) => {
                   .filter((mark) => {
                     if (tag === "all") {
                       return mark;
+                    } else {
+                      for (let i = 0; i < mark.tags.length; i++) {
+                        if (mark.tags[i] === tag) {
+                          return mark;
+                        }
+                      }
                     }
-
-                    return tag === mark.tag;
                   })
-                  .sort((a: TMark, b: TMark) => b.likes - a.likes)
+                  .sort((a, b) =>
+                    a.title.toLowerCase().localeCompare(b.title.toLowerCase()),
+                  )
                   .map((mark: TMark) => (
                     <ListItemButton
                       aria-label="button to access marks"
@@ -139,11 +145,17 @@ const Marks = ({ user }: { user: TLoggedUser }) => {
                 .filter((mark) => {
                   if (tag === "all") {
                     return mark;
+                  } else {
+                    for (let i = 0; i < mark.tags.length; i++) {
+                      if (mark.tags[i] === tag) {
+                        return mark;
+                      }
+                    }
                   }
-
-                  return tag === mark.tag;
                 })
-                .sort((a: TMark, b: TMark) => b.likes - a.likes)
+                .sort((a: TMark, b: TMark) =>
+                  a.title.toLowerCase().localeCompare(b.title.toLowerCase()),
+                )
                 .map((mark: TMark) => (
                   <ListItemButton
                     aria-label="button to access marks"
