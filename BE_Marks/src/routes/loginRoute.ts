@@ -5,15 +5,15 @@ import { wrapInPromise } from "../utils/promiseWrapper";
 const loginRouter = express.Router();
 
 loginRouter.post("/", async (req: Request, res: Response) => {
-	const { data: loginData, error: loginError } = await wrapInPromise(
-		login(req.body)
-	);
+  const { data: loginData, error: loginError } = await wrapInPromise(
+    login(req.body),
+  );
 
-	if (loginError || !loginData) {
-		res.status(401).json({ error: loginError.message });
-	}
+  if (loginError || !loginData) {
+    res.status(401).json({ error: loginError.message });
+  }
 
-	res.status(200).json(loginData);
+  res.status(200).json(loginData);
 });
 
 export default loginRouter;

@@ -6,6 +6,6 @@ export type TMark = typeof mark & {
   id: string;
 };
 
-export type TNewMark = Pick<TMark, "title" | "tag" | "url">;
+export type TNewMark = Pick<TMark, "title" | "tags" | "url">;
 
-export type TMarkFE = Pick<TMark, "title" | "tag" | "url" | "likes">;
+export type TMarkFE = Pick<TMark, "title" | "tags" | "url" | "favourite">;

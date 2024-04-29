@@ -89,7 +89,7 @@ const Mark = () => {
               component="h3"
               variant="h5"
             >
-              Tag: {mark.tag}
+              Tags: {mark.tags}
             </Typography>
           </Box>
           <Link href={mark.url}>
