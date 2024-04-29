@@ -2,9 +2,9 @@
 
 type TMark = {
   title: string;
-  tag: string;
+  tags: string[];
   url: string;
-  likes: number;
+  favourite: boolean;
   id: string;
   user: {
     username: string;
@@ -13,7 +13,7 @@ type TMark = {
   createdAt: Date;
 };
 
-type TNewMark = Pick<TMark, "title" | "tag" | "url">;
+type TNewMark = Pick<TMark, "title" | "tags" | "url">;
 
 // type TMark = Optional<Mark, "likes" | "id" | "user">;
 

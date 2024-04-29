@@ -28,27 +28,16 @@ const Mark = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const [like, setLike] = useState(true);
+  const [favourite, setFavourite] = useState(true);
 
   if (mark) {
     const updateLikes = async () => {
-      setLike(!like);
-
-      if (like) {
-        await toast.promise(updateMark({ ...mark, likes: mark.likes + 1 }), {
-          loading: "Updating...",
-          success: <b>Mark updated successfully!</b>,
-          error: <b>Could not update mark.</b>,
-        });
-      }
-
-      if (!like) {
-        await toast.promise(updateMark({ ...mark, likes: mark.likes - 1 }), {
-          loading: "Updating...",
-          success: <b>Mark updated successfully!</b>,
-          error: <b>Could not update mark.</b>,
-        });
-      }
+      setFavourite(!favourite);
+      await toast.promise(updateMark({ ...mark, favourite: mark.favourite }), {
+        loading: "Updating...",
+        success: <b>Mark updated successfully!</b>,
+        error: <b>Could not update mark.</b>,
+      });
     };
 
     const removeMark = async () => {
