@@ -6,63 +6,68 @@ import { newUserParser } from "../utils/parsers/userParser";
 import { wrapInPromise } from "../utils/promiseWrapper";
 
 export const getAllUsers = async () => {
-	const { data: allUserData, error: allUserError } = await wrapInPromise(
-		User.find({})
-	);
+  const { data: allUserData, error: allUserError } = await wrapInPromise(
+    User.find({}),
+  );
 
-	if (allUserError || !allUserData) {
-		throw new Error(
-			"Error while fetching all users: " + allUserError.message
-		);
-	}
+  if (allUserError || !allUserData) {
+    throw new Error("Error while fetching all users: " + allUserError.message);
+  }
 
-	return allUserData;
+  return allUserData;
+};
+
+export const getUserById = async (id?: string) => {
+  const { data, error } = await wrapInPromise(User.findById(stringParser(id)));
+
+  if (error || !data) {
+    throw new Error(
+      "Error while fetching user with provided id: " + error.message,
+    );
+  }
+
+  return data;
 };
 
 export const postNewUser = async (obj: Partial<TNewUser>) => {
-	const { data: allUsersData, error: allUsersError } = await wrapInPromise(
-		getAllUsers()
-	);
+  const { data: allUsersData, error: allUsersError } =
+    await wrapInPromise(getAllUsers());
 
-	if (allUsersError || !allUsersData) {
-		throw new Error(
-			"Error while fetching all users: " + allUsersError.message
-		);
-	}
+  if (allUsersError || !allUsersData) {
+    throw new Error("Error while fetching all users: " + allUsersError.message);
+  }
 
-	const { data: userData, error: userError } = await wrapInPromise(
-		newUserParser(obj, allUsersData)
-	);
+  const { data: userData, error: userError } = await wrapInPromise(
+    newUserParser(obj, allUsersData),
+  );
 
-	if (userError || !userData) {
-		throw new Error(
-			"Error while parsing new user data: " + userError.message
-		);
-	}
+  if (userError || !userData) {
+    throw new Error("Error while parsing new user data: " + userError.message);
+  }
 
-	const { data: passwordHashed, error: passwordHashedError } =
-		await wrapInPromise(bcrypt.hash(stringParser(obj.password), 10));
+  const { data: passwordHashed, error: passwordHashedError } =
+    await wrapInPromise(bcrypt.hash(stringParser(obj.password), 10));
 
-	if (passwordHashedError || !passwordHashed) {
-		throw new Error(
-			"Error while hashing password: " + passwordHashedError.message
-		);
-	}
+  if (passwordHashedError || !passwordHashed) {
+    throw new Error(
+      "Error while hashing password: " + passwordHashedError.message,
+    );
+  }
 
-	const user = new User({
-		...userData,
-		password: passwordHashed,
-	});
+  const user = new User({
+    ...userData,
+    password: passwordHashed,
+  });
 
-	const { data: savedUser, error: savedUserError } = await wrapInPromise(
-		user.save()
-	);
+  const { data: savedUser, error: savedUserError } = await wrapInPromise(
+    user.save(),
+  );
 
-	if (!savedUser || savedUserError) {
-		throw new Error(
-			"Error while saving user to database: " + savedUserError.message
-		);
-	}
+  if (!savedUser || savedUserError) {
+    throw new Error(
+      "Error while saving user to database: " + savedUserError.message,
+    );
+  }
 
-	return savedUser;
+  return savedUser;
 };

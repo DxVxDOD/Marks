@@ -60,15 +60,6 @@ const Menu = () => {
             >
               Marks
             </Button>
-            {user === null ? null : (
-              <Button
-                className={classes.button}
-                component={RouterLink}
-                to={"/users"}
-              >
-                Users
-              </Button>
-            )}
             <Button className={classes.button} component={RouterLink} to={"/"}>
               Home
             </Button>

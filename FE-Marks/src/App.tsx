@@ -1,27 +1,25 @@
-import { Route, Routes } from "react-router-dom";
-import User from "./components/users/User.tsx";
-import Mark from "./components/marks/Mark.tsx";
-import NotLoggedInMarks from "./components/marks/NotLoggedInMarks.tsx";
-import LoggedInMarks from "./components/marks/LoggedInMarks.tsx";
-import Menu from "./components/Menu.tsx";
-import UserInformation from "./components/users/UserInformation.tsx";
-import Home from "./components/Home.tsx";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
-import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import "./index.css";
-import NotLoggedIn from "./components/login/NotLoggedIn.tsx";
-import Footer from "./components/Footer.tsx";
-import HomeNoUser from "./components/HomeNoUser.tsx";
-import theme from "./theme/Theme.tsx";
-import { useAuth } from "./hooks/useAuth.tsx";
+import { ThemeProvider } from "@mui/material/styles";
 import { useEffect } from "react";
-import { setCredentials } from "./redux/slices/auth.ts";
-import { useAppDispatch } from "./redux/hook.ts";
 import { Toaster } from "react-hot-toast";
+import { Route, Routes } from "react-router-dom";
+import Footer from "./components/Footer.tsx";
+import Home from "./components/Home.tsx";
+import HomeNoUser from "./components/HomeNoUser.tsx";
+import Menu from "./components/Menu.tsx";
+import NotLoggedIn from "./components/login/NotLoggedIn.tsx";
+import LoggedInMarks from "./components/marks/LoggedInMarks.tsx";
+import Mark from "./components/marks/Mark.tsx";
+import NotLoggedInMarks from "./components/marks/NotLoggedInMarks.tsx";
+import { useAuth } from "./hooks/useAuth.tsx";
+import "./index.css";
+import { useAppDispatch } from "./redux/hook.ts";
+import { setCredentials } from "./redux/slices/auth.ts";
+import theme from "./theme/Theme.tsx";
 
 const App = () => {
   const { user } = useAuth();
@@ -49,14 +47,11 @@ const App = () => {
         <main className="main">
           <Routes>
             <Route path="/login" element={<NotLoggedIn />} />
-            <Route path="/users/:id" element={<User />} />
             {user === null ? (
               <Route path="/" element={<HomeNoUser />} />
             ) : (
               <Route path="/" element={<Home user={user} />} />
             )}
-
-            <Route path="/users" element={<UserInformation />} />
             {user === null ? (
               <Route path="/marks" element={<NotLoggedInMarks />} />
             ) : (
