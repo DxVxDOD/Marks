@@ -15,14 +15,11 @@
   --c22: rgba(168, 239, 255, 0.2);
 
   border: 1px solid;
-  border-image: conic-gradient(
-      from var(--angle2),
+  border-image: conic-gradient(from var(--angle2),
       var(--c22),
       var(--c12) 0.1turn,
       var(--c12) 0.15turn,
-      var(--c22) 0.25turn
-    )
-    30;
+      var(--c22) 0.25turn) 30;
   animation: borderRotate2 var(--d2) linear infinite forwards;
 }
 
