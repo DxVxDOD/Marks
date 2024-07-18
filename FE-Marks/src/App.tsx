@@ -9,7 +9,6 @@ import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer.tsx";
 import Home from "./components/Home.tsx";
-import HomeNoUser from "./components/HomeNoUser.tsx";
 import Menu from "./components/Menu.tsx";
 import NotLoggedIn from "./components/login/NotLoggedIn.tsx";
 import LoggedInMarks from "./components/marks/LoggedInMarks.tsx";
@@ -20,6 +19,7 @@ import "./index.css";
 import { useAppDispatch } from "./redux/hook.ts";
 import { setCredentials } from "./redux/slices/auth.ts";
 import theme from "./theme/Theme.tsx";
+import { TUserToFE } from "../../BE_Marks/src/types/user.ts";
 
 const App = () => {
   const { user } = useAuth();
@@ -28,13 +28,8 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("logged_in_user");
     if (loggedUserJSON !== null) {
-      const loggedUser = JSON.parse(loggedUserJSON);
-      dispatch(
-        setCredentials({
-          user: { username: loggedUser.username, name: loggedUser.name },
-          token: loggedUser.token,
-        }),
-      );
+      const loggedUser: TUserToFE = JSON.parse(loggedUserJSON);
+      dispatch(setCredentials({ user: loggedUser }));
     }
   }, []);
 
@@ -47,11 +42,7 @@ const App = () => {
         <main className="main">
           <Routes>
             <Route path="/login" element={<NotLoggedIn />} />
-            {user === null ? (
-              <Route path="/" element={<HomeNoUser />} />
-            ) : (
-              <Route path="/" element={<Home user={user} />} />
-            )}
+            {user && <Route path="/" element={<Home user={user} />} />}
             {user === null ? (
               <Route path="/marks" element={<NotLoggedInMarks />} />
             ) : (

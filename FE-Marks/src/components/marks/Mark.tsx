@@ -111,7 +111,7 @@ const Mark = () => {
               }}
               className={isFetching ? " fetching" : "" + classes.otherTxt}
             >
-              \\ {mark.title} \\
+              {mark.title}
             </Typography>
           </Link>
           <Typography
@@ -120,44 +120,28 @@ const Mark = () => {
           >
             {mark.user.username}
           </Typography>
-          {user === null ? (
-            <Typography
-              className={isFetching ? " fetching" : "" + classes.otherTxt}
-              component="p"
-              id="likes"
-            >
-              Likes: {mark.likes}
-            </Typography>
-          ) : (
-            <>
-              <Typography
-                className={isFetching ? " fetching" : "" + classes.otherTxt}
+          {user && (
+            <ButtonGroup aria-label="alignment button group" size="small">
+              <Button
+                className={isFetching ? " fetching" : "" + classes.button}
+                startIcon={<ThumbUpOutlinedIcon />}
+                aria-label="like button"
+                onClick={updateLikes}
+                id="likeButton"
               >
-                Likes: {mark.likes}
-              </Typography>
-
-              <ButtonGroup aria-label="alignment button group" size="small">
+                Like
+              </Button>
+              {mark.user.username === user.username ? (
                 <Button
                   className={isFetching ? " fetching" : "" + classes.button}
-                  startIcon={<ThumbUpOutlinedIcon />}
-                  aria-label="like button"
-                  onClick={updateLikes}
-                  id="likeButton"
+                  aria-label="delete button"
+                  startIcon={<DeleteOutlinedIcon />}
+                  onClick={removeMark}
                 >
-                  Like
+                  Remove
                 </Button>
-                {mark.user.username === user.username ? (
-                  <Button
-                    className={isFetching ? " fetching" : "" + classes.button}
-                    aria-label="delete button"
-                    startIcon={<DeleteOutlinedIcon />}
-                    onClick={removeMark}
-                  >
-                    Remove
-                  </Button>
-                ) : null}
-              </ButtonGroup>
-            </>
+              ) : null}
+            </ButtonGroup>
           )}
         </Paper>
         <Comments markId={`${mark.id}`} />

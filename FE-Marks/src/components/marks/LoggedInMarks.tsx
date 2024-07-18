@@ -1,8 +1,4 @@
-import { Link as RouterLink } from "react-router-dom";
-import { TMark } from "../../types/mark.js";
-import { useRef } from "react";
-import MarkForm from "./MarksForm.js";
-import Toggle, { VisibilityHandle } from "../features/Toggle.tsx";
+import ArticleIcon from "@mui/icons-material/Article";
 import {
   Box,
   List,
@@ -12,14 +8,18 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import ArticleIcon from "@mui/icons-material/Article";
-import markList from "../../theme/MarkList.js";
-import useHome from "../../theme/Home.js";
-import Reel from "../features/Reel.tsx";
+import { useRef } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { useGetAllMarksQuery } from "../../redux/endpoints/marks.ts";
-import { TLoggedUser } from "../../types/user.ts";
-import styles from "./styles/marks.module.css";
 import { useAppSelector } from "../../redux/hook.ts";
+import useHome from "../../theme/Home.js";
+import markList from "../../theme/MarkList.js";
+import { TMark } from "../../types/mark.js";
+import { TLoggedUser } from "../../types/user.ts";
+import Reel from "../features/Reel.tsx";
+import Toggle, { VisibilityHandle } from "../features/Toggle.tsx";
+import MarkForm from "./MarksForm.js";
+import styles from "./styles/marks.module.css";
 
 const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
   const { data: marks, isFetching } = useGetAllMarksQuery();
@@ -121,7 +121,7 @@ const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
           padding: "1rem",
           display: "flex",
           flexDirection: "column",
-          borderRadius: 0,
+          borderRadius: -1,
           minWidth: "75%",
           background: "#121213",
         }}
