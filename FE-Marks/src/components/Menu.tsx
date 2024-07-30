@@ -1,15 +1,7 @@
+import { Box, Button, ButtonGroup, Paper, Stack } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
-import NewspaperIcon from "@mui/icons-material/Newspaper";
-import useHeader from "../theme/Header";
 import { useAuth } from "../hooks/useAuth";
+import useHeader from "../theme/Header";
 
 const Menu = () => {
   const handleLogout = () => {
@@ -66,22 +58,6 @@ const Menu = () => {
           </ButtonGroup>
         </Stack>
       </Box>
-
-      <Button>
-        <Typography
-          className={classes.h1}
-          variant="h3"
-          sx={{
-            display: "flex",
-            alignItems: "center",
-          }}
-          component="h1"
-        >
-          Marks
-          <NewspaperIcon fontSize="inherit" />
-        </Typography>
-      </Button>
-
       {user === null ? (
         <Box
           className={classes.bttnStack}

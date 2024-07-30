@@ -15,13 +15,13 @@ import { useAppSelector } from "../../redux/hook.ts";
 import useHome from "../../theme/Home.js";
 import markList from "../../theme/MarkList.js";
 import { TMark } from "../../types/mark.js";
-import { TLoggedUser } from "../../types/user.ts";
 import Reel from "../features/Reel.tsx";
 import Toggle, { VisibilityHandle } from "../features/Toggle.tsx";
 import MarkForm from "./MarksForm.js";
 import styles from "./styles/marks.module.css";
+import { TUser } from "../../types/user.ts";
 
-const LoggedInMarks = ({ user }: { user: TLoggedUser }) => {
+const LoggedInMarks = ({ user }: { user: TUser }) => {
   const { data: marks, isFetching } = useGetAllMarksQuery();
 
   const markFormRef = useRef<VisibilityHandle>();

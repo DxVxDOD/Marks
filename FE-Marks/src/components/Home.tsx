@@ -1,12 +1,16 @@
-import { Box, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  List,
+  ListItemText,
+  Paper,
+  Typography,
+} from "@mui/material";
 import { TUserToFE } from "../../../BE_Marks/src/types/user.ts";
-import useHome from "../theme/Home";
 import markList from "../theme/MarkList.tsx";
 
 const Home = ({ user }: { user: TUserToFE }) => {
   const { classes } = markList();
-  const button = useHome().classes;
-  console.log(user);
 
   return (
     <Box
@@ -41,15 +45,52 @@ const Home = ({ user }: { user: TUserToFE }) => {
           }}
           className="box"
         >
-          <Typography variant="body2" component="h2">
-            {user.name}
-          </Typography>
-          <div>
-            <Typography>{user.username}</Typography>
-            <Typography>{user.email}</Typography>
-            <Typography>created at</Typography>
-            <Typography>{user.marks_length}</Typography>
-          </div>
+          <List>
+            <ListItemText
+              primary="Username"
+              secondary={
+                <Typography variant="body2" component="span" color="gray">
+                  {user.username}
+                </Typography>
+              }
+            ></ListItemText>
+            <Divider variant="middle" />
+            <ListItemText
+              primary="Name"
+              secondary={
+                <Typography variant="body2" component="span" color="gray">
+                  {user.name}
+                </Typography>
+              }
+            ></ListItemText>
+            <Divider variant="middle" />
+            <ListItemText
+              primary="Email"
+              secondary={
+                <Typography variant="body2" component="span" color="gray">
+                  {user.email}
+                </Typography>
+              }
+            ></ListItemText>
+            <Divider variant="middle" />
+            <ListItemText
+              primary="Created"
+              secondary={
+                <Typography variant="body2" component="span" color="gray">
+                  {user.createdAt}
+                </Typography>
+              }
+            ></ListItemText>
+            <Divider variant="middle" />
+            <ListItemText
+              primary="Number of marks"
+              secondary={
+                <Typography variant="body2" component="span" color="gray">
+                  {user.marks_length}
+                </Typography>
+              }
+            ></ListItemText>
+          </List>
         </Paper>
         <Typography
           className={classes.h3 + " loading"}
