@@ -54,14 +54,11 @@ html::-webkit-scrollbar {
 
 .box {
   border: 1.5px solid;
-  border-image: conic-gradient(
-      from var(--angle),
+  border-image: conic-gradient(from var(--angle),
       var(--c2),
       var(--c1) 0.1turn,
       var(--c1) 0.15turn,
-      var(--c2) 0.25turn
-    )
-    30;
+      var(--c2) 0.25turn) 30;
   animation: borderRotate var(--d) linear infinite forwards;
 }
 
