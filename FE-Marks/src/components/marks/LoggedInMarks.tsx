@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useRef } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { TUserToFE } from "../../../../BE_Marks/src/types/user.ts";
 import { useGetAllMarksQuery } from "../../redux/endpoints/marks.ts";
 import { useAppSelector } from "../../redux/hook.ts";
 import useHome from "../../theme/Home.js";
@@ -19,9 +20,8 @@ import Reel from "../features/Reel.tsx";
 import Toggle, { VisibilityHandle } from "../features/Toggle.tsx";
 import MarkForm from "./MarksForm.js";
 import styles from "./styles/marks.module.css";
-import { TUser } from "../../types/user.ts";
 
-const LoggedInMarks = ({ user }: { user: TUser }) => {
+const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
   const { data: marks, isFetching } = useGetAllMarksQuery();
 
   const markFormRef = useRef<VisibilityHandle>();
