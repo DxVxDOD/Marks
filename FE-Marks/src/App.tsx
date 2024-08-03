@@ -7,6 +7,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
+import { TUserToFE } from "../../BE_Marks/src/types/user.ts";
 import Footer from "./components/Footer.tsx";
 import Home from "./components/Home.tsx";
 import Menu from "./components/Menu.tsx";
@@ -19,7 +20,7 @@ import "./index.css";
 import { useAppDispatch } from "./redux/hook.ts";
 import { setCredentials } from "./redux/slices/auth.ts";
 import theme from "./theme/Theme.tsx";
-import { TUserToFE } from "../../BE_Marks/src/types/user.ts";
+import HomeNoUser from "./components/HomeNoUser.tsx";
 
 const App = () => {
   const { user } = useAuth();
@@ -42,11 +43,17 @@ const App = () => {
         <main className="main">
           <Routes>
             <Route path="/login" element={<NotLoggedIn />} />
-            {user && <Route path="/" element={<Home user={user} />} />}
             {user === null ? (
-              <Route path="/marks" element={<NotLoggedInMarks />} />
+              <>
+                <Route path="/marks" element={<NotLoggedInMarks />} />
+
+                <Route path="/" element={<HomeNoUser />} />
+              </>
             ) : (
-              <Route path="/marks" element={<LoggedInMarks user={user} />} />
+              <>
+                <Route path="/marks" element={<LoggedInMarks user={user} />} />
+                <Route path="/" element={<Home user={user} />} />
+              </>
             )}
             <Route path="/marks/:id" element={<Mark />} />
           </Routes>
