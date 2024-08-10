@@ -1,9 +1,7 @@
 import { Divider, List, ListItemText, Paper, Typography } from "@mui/material";
 import { TUserToFE } from "../../../BE_Marks/src/types/user.ts";
-import useHome from "../theme/Home.tsx";
 
 const Home = ({ user }: { user: TUserToFE }) => {
-  const { classes } = useHome();
   const created_at = user.createdAt
     .toString()
     .split(":")[0]

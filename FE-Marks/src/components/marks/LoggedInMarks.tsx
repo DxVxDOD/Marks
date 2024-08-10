@@ -13,20 +13,18 @@ import { Link as RouterLink } from "react-router-dom";
 import { TUserToFE } from "../../../../BE_Marks/src/types/user.ts";
 import { useGetAllMarksQuery } from "../../redux/endpoints/marks.ts";
 import { useAppSelector } from "../../redux/hook.ts";
-import useHome from "../../theme/Home.js";
-import markList from "../../theme/MarkList.js";
 import { TMark } from "../../types/mark.js";
 import Reel from "../features/Reel.tsx";
 import Toggle, { VisibilityHandle } from "../features/Toggle.tsx";
 import MarkForm from "./MarksForm.js";
 import styles from "./styles/marks.module.css";
+import useStyle from "../../theme/Style.tsx";
 
 const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
   const { data: marks, isFetching } = useGetAllMarksQuery();
 
   const markFormRef = useRef<VisibilityHandle>();
-  const { classes } = markList();
-  const button = useHome().classes;
+  const { classes } = useStyle();
   const tag = useAppSelector((state) => state.filterTag);
 
   if (marks) {
@@ -35,7 +33,7 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
         <Reel />
         {marks.length < 1 ? (
           <Typography component="h2" variant="h4">
-            You haven't posted any marks yet
+            You haven't posted any marks yet :(
           </Typography>
         ) : (
           <Paper
@@ -50,7 +48,7 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
             }}
           >
             <Typography
-              className={isFetching ? " fetching" : "" + classes.h2}
+              className={isFetching ? " fetching" : ""}
               variant="h5"
               component="h2"
             >
@@ -86,7 +84,7 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
                       to={`/marks/${mark.id}`}
                       state={mark}
                     >
-                      <ListItemIcon className={classes.icon}>
+                      <ListItemIcon>
                         <ArticleIcon
                           sx={{
                             display: "flex",
@@ -95,9 +93,7 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
                         />
                       </ListItemIcon>
                       <ListItemText
-                        className={
-                          isFetching ? " fetching" : "" + button.bttnTxt
-                        }
+                        className={isFetching ? " fetching" : "" + classes.text}
                       >
                         {mark.title}
                       </ListItemText>
@@ -127,11 +123,7 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
         }}
         className="box"
       >
-        <Typography
-          className={classes.h2 + " " + "loading"}
-          variant="h5"
-          component="h2"
-        >
+        <Typography className={" " + "loading"} variant="h5" component="h2">
           Loading marks...
         </Typography>
       </Paper>
