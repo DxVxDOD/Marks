@@ -10,17 +10,17 @@ import { Route, Routes } from "react-router-dom";
 import { TUserToFE } from "../../BE_Marks/src/types/user.ts";
 import Footer from "./components/Footer.tsx";
 import Home from "./components/Home.tsx";
+import HomeNoUser from "./components/HomeNoUser.tsx";
 import Menu from "./components/Menu.tsx";
-import NotLoggedIn from "./components/login/NotLoggedIn.tsx";
+import LoginForm from "./components/login/LoginForm.tsx";
 import LoggedInMarks from "./components/marks/LoggedInMarks.tsx";
 import Mark from "./components/marks/Mark.tsx";
-import NotLoggedInMarks from "./components/marks/NotLoggedInMarks.tsx";
 import { useAuth } from "./hooks/useAuth.tsx";
 import "./index.css";
 import { useAppDispatch } from "./redux/hook.ts";
 import { setCredentials } from "./redux/slices/auth.ts";
 import theme from "./theme/Theme.tsx";
-import HomeNoUser from "./components/HomeNoUser.tsx";
+import CreateUserForm from "./components/users/CreateUserForm.tsx";
 
 const App = () => {
   const { user } = useAuth();
@@ -42,11 +42,9 @@ const App = () => {
         <Menu />
         <main className="main">
           <Routes>
-            <Route path="/login" element={<NotLoggedIn />} />
+            <Route path="/login" element={<LoginForm />} />
             {user === null ? (
               <>
-                <Route path="/marks" element={<NotLoggedInMarks />} />
-
                 <Route path="/" element={<HomeNoUser />} />
               </>
             ) : (
@@ -56,6 +54,7 @@ const App = () => {
               </>
             )}
             <Route path="/marks/:id" element={<Mark />} />
+            <Route path="/sign-up" element={<CreateUserForm />} />
           </Routes>
         </main>
         <Footer />
