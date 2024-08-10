@@ -6,15 +6,15 @@ import {
 } from "@mui/material";
 import { useGetAllMarksQuery } from "../../redux/endpoints/marks";
 import styles from "./reel.module.css";
-import reel from "../../theme/Reel";
 import { useAuth } from "../../hooks/useAuth";
 import { useAppDispatch } from "../../redux/hook";
 import { setTag } from "../../redux/slices/filterTag";
 import React, { useRef, useState } from "react";
+import useStyle from "../../theme/Style";
 
 function Reel() {
   const { data: marks, isFetching } = useGetAllMarksQuery();
-  const { classes } = reel();
+  const { classes } = useStyle();
   const { user } = useAuth();
   const dispatch = useAppDispatch();
   const textRef = useRef<HTMLSpanElement>(null);
@@ -41,9 +41,7 @@ function Reel() {
             borderRadius: 0,
             background: "#121213",
           }}
-          className={
-            isFetching ? "box " : "" + styles.reel + " " + classes.tagWidth
-          }
+          className={isFetching ? "box " : "" + styles.reel + " "}
         >
           <ToggleButtonGroup
             exclusive
@@ -86,7 +84,7 @@ function Reel() {
           borderRadius: 0,
           background: "#121213",
         }}
-        className={styles.reel + " " + classes.tagWidth}
+        className={styles.reel + " "}
       >
         <Typography className="loading">Loading tags...</Typography>
       </Paper>

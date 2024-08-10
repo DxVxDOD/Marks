@@ -1,5 +1,4 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import Comments from "./Comments.tsx";
 import {
   Box,
   Button,
@@ -10,7 +9,6 @@ import {
 } from "@mui/material";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import useMark from "../../theme/Mark.tsx";
 import {
   useDeleteMarkMutation,
   useEditMarkMutation,
@@ -19,15 +17,16 @@ import {
 import { useAuth } from "../../hooks/useAuth.tsx";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import useStyle from "../../theme/Style.tsx";
 
 const Mark = () => {
   const { state } = useLocation();
-  const { classes } = useMark();
   const { data: mark, isFetching } = useGetMarkQuery(state.id);
   const [deleteMark, { isLoading: isDeleteLoading }] = useDeleteMarkMutation();
   const [updateMark, { isLoading: isUpdateLoading }] = useEditMarkMutation();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { classes } = useStyle();
 
   const [like, setLike] = useState(true);
 
@@ -90,14 +89,14 @@ const Mark = () => {
         >
           <Box component="section">
             <Typography
-              className={isFetching ? " fetching" : "" + classes.title}
+              className={isFetching ? " fetching" : "" + classes}
               component="h2"
               variant="h5"
             >
               Title: {mark.title}
             </Typography>
             <Typography
-              className={isFetching ? " fetching" : "" + classes.author}
+              className={isFetching ? " fetching" : ""}
               component="h3"
               variant="h5"
             >
@@ -109,21 +108,18 @@ const Mark = () => {
               sx={{
                 color: "rgba(168, 239, 255, 0.4)",
               }}
-              className={isFetching ? " fetching" : "" + classes.otherTxt}
+              className={isFetching ? " fetching" : ""}
             >
               {mark.title}
             </Typography>
           </Link>
-          <Typography
-            className={isFetching ? " fetching" : "" + classes.otherTxt}
-            component="p"
-          >
+          <Typography className={isFetching ? " fetching" : ""} component="p">
             {mark.user.username}
           </Typography>
           {user && (
             <ButtonGroup aria-label="alignment button group" size="small">
               <Button
-                className={isFetching ? " fetching" : "" + classes.button}
+                className={isFetching ? " fetching" : "" + classes.text}
                 startIcon={<ThumbUpOutlinedIcon />}
                 aria-label="like button"
                 onClick={updateLikes}
@@ -133,7 +129,7 @@ const Mark = () => {
               </Button>
               {mark.user.username === user.username ? (
                 <Button
-                  className={isFetching ? " fetching" : "" + classes.button}
+                  className={isFetching ? " fetching" : "" + classes.text}
                   aria-label="delete button"
                   startIcon={<DeleteOutlinedIcon />}
                   onClick={removeMark}
@@ -144,7 +140,6 @@ const Mark = () => {
             </ButtonGroup>
           )}
         </Paper>
-        <Comments markId={`${mark.id}`} />
       </Box>
     );
   }
@@ -172,33 +167,19 @@ const Mark = () => {
           gap: "1rem",
         }}
       >
-        <Typography
-          className={classes.title + " loading"}
-          component="h2"
-          variant="h5"
-        >
+        <Typography className={" loading"} component="h2" variant="h5">
           Loading title...
         </Typography>
-        <Typography
-          className={classes.author + " loading"}
-          component="h3"
-          variant="h5"
-        >
+        <Typography className={" loading"} component="h3" variant="h5">
           Loading tag...
         </Typography>
       </Box>
-      <Typography className={classes.otherTxt + " loading"}>
-        \\ Loading link... \\
-      </Typography>
-      <Typography className={classes.otherTxt + " loading"} component="p">
+      <Typography className={" loading"}>\\ Loading link... \\</Typography>
+      <Typography className={" loading"} component="p">
         Loading username...
       </Typography>
-      <Typography className={classes.otherTxt + " loading"}>
-        Loading likes...
-      </Typography>
-      <Typography className={classes.otherTxt + " loading"}>
-        Loading comments...
-      </Typography>
+      <Typography className={" loading"}>Loading likes...</Typography>
+      <Typography className={" loading"}>Loading comments...</Typography>
     </Paper>
   );
 };
