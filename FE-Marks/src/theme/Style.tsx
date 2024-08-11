@@ -13,6 +13,11 @@ const useStyle = makeStyles()(() => {
         fontSize: "0.8rem",
       },
     },
+    list_heading: {
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "1rem",
+      },
+    },
     paper: {
       [theme.breakpoints.down("sm")]: {
         width: "100%",

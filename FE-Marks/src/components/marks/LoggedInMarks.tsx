@@ -1,6 +1,7 @@
 import ArticleIcon from "@mui/icons-material/Article";
 import {
   Box,
+  Divider,
   List,
   ListItemButton,
   ListItemIcon,
@@ -44,9 +45,10 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
               borderRadius: 0,
             }}
             variant="outlined"
+            className={classes.paper}
           >
             <Typography
-              className={isFetching ? " fetching" : ""}
+              className={classes.list_heading}
               variant="h5"
               component="h2"
             >
@@ -66,36 +68,33 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
                     if (tag === "all") {
                       return mark;
                     }
-
                     return tag === mark.tag;
                   })
                   .sort((a: TMark, b: TMark) => b.likes - a.likes)
                   .map((mark: TMark) => (
-                    <ListItemButton
-                      aria-label="button to access marks"
-                      sx={{
-                        display: "flex",
-                        justifyContent: "flex-start",
-                      }}
-                      key={mark.id}
-                      component={RouterLink}
-                      to={`/marks/${mark.id}`}
-                      state={mark}
-                    >
-                      <ListItemIcon>
-                        <ArticleIcon
-                          sx={{
-                            display: "flex",
-                          }}
-                          fontSize="small"
-                        />
-                      </ListItemIcon>
-                      <ListItemText
-                        className={isFetching ? " fetching" : "" + classes.text}
+                    <>
+                      <ListItemButton
+                        aria-label="button to access marks"
+                        sx={{
+                          display: "flex",
+                          justifyContent: "flex-start",
+                        }}
+                        key={mark.id}
+                        component={RouterLink}
+                        to={`/marks/${mark.id}`}
+                        state={mark}
                       >
-                        {mark.title}
-                      </ListItemText>
-                    </ListItemButton>
+                        <ListItemText>
+                          <Typography className={classes.text}>
+                            {mark.title}
+                          </Typography>
+                        </ListItemText>
+                      </ListItemButton>
+                      <Divider
+                        key={mark.createdAt.toString()}
+                        variant="middle"
+                      />
+                    </>
                   ))}
               </List>
             </Box>
