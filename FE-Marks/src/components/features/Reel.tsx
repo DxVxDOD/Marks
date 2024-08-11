@@ -27,6 +27,8 @@ function Reel() {
     setAlignment(newAlignment);
   };
 
+  const { classes } = useStyle();
+
   if (marks && user) {
     if (
       marks.filter((mark) => mark.user.username === user.username).length > 0
@@ -34,8 +36,11 @@ function Reel() {
       return (
         <Paper
           ref={buttonContainerRef}
-          className={isFetching ? "box " : "" + styles.reel + " "}
+          sx={{
+            padding: "1rem",
+          }}
           variant="outlined"
+          className={classes.paper}
         >
           <ToggleButtonGroup
             exclusive
@@ -45,7 +50,7 @@ function Reel() {
             onChange={handleAlignment}
           >
             <ToggleButton onClick={() => dispatch(setTag("all"))} value="all">
-              <Typography>All</Typography>
+              <Typography className={classes.text}>All</Typography>
             </ToggleButton>
             {[...marks]
               .filter((mark) => mark.user.username === user.username)
@@ -57,10 +62,7 @@ function Reel() {
                   key={tag}
                   onClick={() => dispatch(setTag(tag))}
                 >
-                  <Typography
-                    ref={textRef}
-                    className={isFetching ? "fetching " : ""}
-                  >
+                  <Typography ref={textRef} className={classes.text}>
                     {tag}
                   </Typography>
                 </ToggleButton>
