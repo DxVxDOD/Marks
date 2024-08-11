@@ -14,7 +14,6 @@ import useStyle from "../../theme/Style";
 
 function Reel() {
   const { data: marks, isFetching } = useGetAllMarksQuery();
-  const { classes } = useStyle();
   const { user } = useAuth();
   const dispatch = useAppDispatch();
   const textRef = useRef<HTMLSpanElement>(null);
@@ -35,13 +34,8 @@ function Reel() {
       return (
         <Paper
           ref={buttonContainerRef}
-          sx={{
-            border: "solid 1.5px rgba(168, 239, 255, 0.4)",
-            width: "75%",
-            borderRadius: 0,
-            background: "#121213",
-          }}
           className={isFetching ? "box " : "" + styles.reel + " "}
+          variant="outlined"
         >
           <ToggleButtonGroup
             exclusive

@@ -8,6 +8,16 @@ const useStyle = makeStyles()(() => {
         fontSize: "0.75rem",
       },
     },
+    primary_text: {
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "0.8rem",
+      },
+    },
+    paper: {
+      [theme.breakpoints.down("sm")]: {
+        width: "100%",
+      },
+    },
   };
 });
 

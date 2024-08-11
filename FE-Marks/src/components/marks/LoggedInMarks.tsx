@@ -42,10 +42,8 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
               display: "flex",
               flexDirection: "column",
               borderRadius: 0,
-              minWidth: "75%",
-              border: "1.5px solid rgba(168, 239, 255, 0.4)",
-              background: "#121213",
             }}
+            variant="outlined"
           >
             <Typography
               className={isFetching ? " fetching" : ""}
