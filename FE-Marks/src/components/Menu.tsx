@@ -1,6 +1,7 @@
-import { Button, ButtonGroup, Paper } from "@mui/material";
+import { Button, ButtonGroup, Paper, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import useStyle from "../theme/Style";
 
 const Menu = () => {
   const handleLogout = () => {
@@ -9,6 +10,7 @@ const Menu = () => {
   };
 
   const { user } = useAuth();
+  const { classes } = useStyle();
 
   return (
     <Paper
@@ -27,21 +29,23 @@ const Menu = () => {
       {user === null ? (
         <ButtonGroup variant="text">
           <Button component={RouterLink} to="/sign-up">
-            Sign up
+            <Typography className={classes.text}>Sign up</Typography>
           </Button>
           <Button component={RouterLink} to="/login">
-            Log in
+            <Typography className={classes.text}>Log in</Typography>
           </Button>
         </ButtonGroup>
       ) : (
         <ButtonGroup variant="text">
           <Button component={RouterLink} to={"/marks"}>
-            Marks
+            <Typography className={classes.text}>Marks</Typography>
           </Button>
           <Button component={RouterLink} to={"/"}>
-            Home
+            <Typography className={classes.text}>Home</Typography>
           </Button>
-          <Button onClick={handleLogout}>Log out</Button>
+          <Button onClick={handleLogout}>
+            <Typography className={classes.text}>Log out</Typography>
+          </Button>
         </ButtonGroup>
       )}
     </Paper>
