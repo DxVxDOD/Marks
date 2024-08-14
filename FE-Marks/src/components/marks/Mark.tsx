@@ -1,30 +1,27 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import {
   Box,
   Button,
-  ButtonGroup,
   Divider,
   Link,
   List,
-  ListItem,
   ListItemText,
   Paper,
   Typography,
 } from "@mui/material";
-import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import toast from "react-hot-toast";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuth.tsx";
 import {
   useDeleteMarkMutation,
   useEditMarkMutation,
   useGetMarkQuery,
 } from "../../redux/endpoints/marks";
-import { useAuth } from "../../hooks/useAuth.tsx";
-import toast from "react-hot-toast";
 import useStyle from "../../theme/Style.tsx";
 
 const Mark = () => {
   const { state } = useLocation();
-  const { data: mark, isFetching } = useGetMarkQuery(state.id);
+  const { data: mark, isFetching: isFetchingMarks } = useGetMarkQuery(state.id);
   const [deleteMark, { isLoading: isDeleteLoading }] = useDeleteMarkMutation();
   const [updateMark, { isLoading: isUpdateLoading }] = useEditMarkMutation();
   const { user } = useAuth();
@@ -34,7 +31,7 @@ const Mark = () => {
   if (mark) {
     const removeMark = async () => {
       if (window.confirm(`Would you like to remove ${mark.title} ?`)) {
-        navigate("/");
+        navigate("/marks");
         await toast.promise(deleteMark(mark), {
           loading: "Deleting...",
           success: <b>Mark deleted successfully!</b>,
@@ -105,10 +102,9 @@ const Mark = () => {
   return (
     <Paper
       sx={{
-        width: "75%",
+        width: "100%",
         gap: "1rem",
         padding: "2rem",
-        margin: "2rem",
         display: "flex",
         flexDirection: "column",
         borderRadius: 0,
@@ -117,26 +113,18 @@ const Mark = () => {
       className="box"
       component="section"
     >
-      <Box
-        component="section"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-        }}
-      >
-        <Typography className={" loading"} component="h2" variant="h5">
-          Loading title...
-        </Typography>
-        <Typography className={" loading"} component="h3" variant="h5">
-          Loading tag...
-        </Typography>
-      </Box>
-      <Typography className={" loading"}>\\ Loading link... \\</Typography>
+      <Typography className={" loading"}>Loading title...</Typography>
+      <Divider variant="middle" />
+      <Typography className={" loading"}>Loading tag...</Typography>
+      <Divider variant="middle" />
+      <Typography className={" loading"}>Loading link...</Typography>
+      <Divider variant="middle" />
       <Typography className={" loading"} component="p">
         Loading username...
       </Typography>
+      <Divider variant="middle" />
       <Typography className={" loading"}>Loading likes...</Typography>
+      <Divider variant="middle" />
       <Typography className={" loading"}>Loading comments...</Typography>
     </Paper>
   );

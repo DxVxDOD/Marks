@@ -21,6 +21,7 @@ import { useAppDispatch } from "./redux/hook.ts";
 import { setCredentials } from "./redux/slices/auth.ts";
 import theme from "./theme/Theme.tsx";
 import CreateUserForm from "./components/users/CreateUserForm.tsx";
+import MarkForm from "./components/marks/MarksForm.tsx";
 
 const App = () => {
   const { user } = useAuth();
@@ -55,6 +56,7 @@ const App = () => {
             )}
             <Route path="/marks/:id" element={<Mark />} />
             <Route path="/sign-up" element={<CreateUserForm />} />
+            <Route path="/mark-form" element={<MarkForm />} />
           </Routes>
         </main>
         <Footer />

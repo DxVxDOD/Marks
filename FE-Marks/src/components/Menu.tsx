@@ -37,6 +37,11 @@ const Menu = () => {
         </ButtonGroup>
       ) : (
         <ButtonGroup variant="text">
+          {user && (
+            <Button component={RouterLink} to={"/mark-form"}>
+              <Typography className={classes.text}>New Mark</Typography>
+            </Button>
+          )}
           <Button component={RouterLink} to={"/marks"}>
             <Typography className={classes.text}>Marks</Typography>
           </Button>
