@@ -18,7 +18,6 @@ const Home = ({ user }: { user: TUserToFE }) => {
         padding: "1rem",
         borderRadius: 0,
       }}
-      component="section"
       variant="outlined"
       className={classes.paper}
     >

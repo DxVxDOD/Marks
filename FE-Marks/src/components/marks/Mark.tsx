@@ -1,6 +1,5 @@
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import {
-  Box,
   Button,
   Divider,
   Link,
@@ -14,16 +13,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth.tsx";
 import {
   useDeleteMarkMutation,
-  useEditMarkMutation,
   useGetMarkQuery,
 } from "../../redux/endpoints/marks";
 import useStyle from "../../theme/Style.tsx";
 
 const Mark = () => {
   const { state } = useLocation();
-  const { data: mark, isFetching: isFetchingMarks } = useGetMarkQuery(state.id);
-  const [deleteMark, { isLoading: isDeleteLoading }] = useDeleteMarkMutation();
-  const [updateMark, { isLoading: isUpdateLoading }] = useEditMarkMutation();
+  const { data: mark } = useGetMarkQuery(state.id);
+  const [deleteMark] = useDeleteMarkMutation();
+  // const [updateMark, { isLoading: isUpdateLoading }] = useEditMarkMutation();
   const { user } = useAuth();
   const navigate = useNavigate();
   const { classes } = useStyle();
