@@ -8,6 +8,11 @@ const useStyle = makeStyles()(() => {
         fontSize: "0.75rem",
       },
     },
+    list_text: {
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "0.8rem",
+      },
+    },
     primary_text: {
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.8rem",
