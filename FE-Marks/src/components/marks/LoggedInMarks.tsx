@@ -7,7 +7,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import { Fragment, useRef } from "react";
+import { Fragment } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { TUserToFE } from "../../../../BE_Marks/src/types/user.ts";
 import { useGetAllMarksQuery } from "../../redux/endpoints/marks.ts";
@@ -15,20 +15,16 @@ import { useAppSelector } from "../../redux/hook.ts";
 import useStyle from "../../theme/Style.tsx";
 import { TMark } from "../../types/mark.js";
 import Reel from "../features/Reel.tsx";
-import Toggle, { VisibilityHandle } from "../features/Toggle.tsx";
-import MarkForm from "./MarksForm.js";
-import styles from "./styles/marks.module.css";
 
 const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
   const { data: marks, isFetching } = useGetAllMarksQuery();
 
-  const markFormRef = useRef<VisibilityHandle>();
   const { classes } = useStyle();
   const tag = useAppSelector((state) => state.filterTag);
 
   if (marks) {
     return (
-      <section className={styles.section}>
+      <Box component="section" sx={{ width: "100%" }}>
         <Reel />
         {marks.length < 1 ? (
           <Typography component="h2" variant="h4">
@@ -37,7 +33,8 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
         ) : (
           <Paper
             sx={{
-              padding: "2rem",
+              paddingX: "2rem",
+              paddingY: "1rem",
               display: "flex",
               flexDirection: "column",
               borderRadius: 0,
@@ -50,7 +47,7 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
               variant="h5"
               component="h2"
             >
-              {user.username}s marks
+              {user.username}s marks:
             </Typography>
             <Box
               sx={{
@@ -98,31 +95,24 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
             </Box>
           </Paper>
         )}
-        <Toggle buttonLabel="New mark" ref={markFormRef}>
-          <MarkForm markFormRef={markFormRef} />
-        </Toggle>
-      </section>
+      </Box>
     );
   }
 
   return (
-    <section className={styles.section}>
-      <Paper
-        sx={{
-          padding: "1rem",
-          display: "flex",
-          flexDirection: "column",
-          borderRadius: -1,
-          minWidth: "75%",
-          background: "#121213",
-        }}
-        className="box"
-      >
-        <Typography className={" " + "loading"} variant="h5" component="h2">
-          Loading marks...
-        </Typography>
-      </Paper>
-    </section>
+    <Paper
+      sx={{
+        padding: "2rem",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        background: "#121213",
+      }}
+      className="box"
+      component="section"
+    >
+      <Typography className={" " + "loading"}>Loading your marks...</Typography>
+    </Paper>
   );
 };
 

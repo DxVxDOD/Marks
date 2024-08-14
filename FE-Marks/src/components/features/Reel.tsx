@@ -38,6 +38,9 @@ function Reel() {
           ref={buttonContainerRef}
           sx={{
             padding: "1rem",
+            borderRadius: 0,
+            borderBottom: 0,
+            overflowX: "auto",
           }}
           variant="outlined"
           className={classes.paper}
@@ -61,7 +64,11 @@ function Reel() {
                   key={tag}
                   onClick={() => dispatch(setTag(tag))}
                 >
-                  <Typography key={tag} ref={textRef} className={classes.text}>
+                  <Typography
+                    key={tag}
+                    ref={textRef}
+                    className={classes.reel_text}
+                  >
                     {tag}
                   </Typography>
                 </ToggleButton>
