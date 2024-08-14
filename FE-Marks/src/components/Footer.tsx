@@ -12,10 +12,9 @@ const Footer = () => {
         gap: "1rem",
         marginTop: "auto",
         borderRadius: 0,
-          borderColor: '#8F9094',
-          borderBottom: 'none',
-          borderLeft: 'none',
-          borderRight: 'none'
+        borderBottom: "none",
+        borderLeft: "none",
+        borderRight: "none",
       }}
       variant="outlined"
       component="footer"
@@ -50,7 +49,7 @@ const Footer = () => {
       >
         <LinkedInIcon />
       </Button>
-    </Paper> 
+    </Paper>
   );
 };
 

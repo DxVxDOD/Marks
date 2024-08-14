@@ -1,10 +1,11 @@
-import { TCredentials, TLoggedUser } from "../../types/user";
+import { TCredentials } from "../../types/user";
+import { TUserToFE } from "../../../../BE_Marks/src/types/user";
 import { marksApi } from "../marksBaseApi";
 import { clearCredentials, setCredentials } from "../slices/auth";
 
 const authApi = marksApi.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<TLoggedUser & { token: string }, TCredentials>({
+    login: builder.mutation<TUserToFE & { token: string }, TCredentials>({
       query: (credentials) => ({
         url: "login",
         method: "POST",
@@ -18,8 +19,11 @@ const authApi = marksApi.injectEndpoints({
               user: {
                 username: data.username,
                 name: data.name,
+                createdAt: data.createdAt,
+                marks_length: data.marks_length,
+                email: data.email,
+                token: data.token,
               },
-              token: data.token,
             }),
           );
           window.localStorage.setItem("logged_in_user", JSON.stringify(data));
