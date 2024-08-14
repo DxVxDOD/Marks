@@ -1,36 +1,34 @@
 import { makeStyles } from "tss-react/mui";
+import theme from "./Theme";
 
-const markList = makeStyles()((theme) => {
+const useStyle = makeStyles()(() => {
   return {
-    h2: {
+    text: {
       [theme.breakpoints.down("sm")]: {
-        fontSize: "1rem",
+        fontSize: "0.75rem",
       },
     },
-    h3: {
-      [theme.breakpoints.down("sm")]: {
-        fontSize: "1rem",
-      },
-    },
-    listItem: {
-      [theme.breakpoints.down("sm")]: {
-        fontSize: "1rem",
-        padding: 0,
-        margin: "0",
-      },
-    },
-    icon: {
-      [theme.breakpoints.down("sm")]: {
-        padding: 0,
-        margin: 0,
-      },
-    },
-    otherTxt: {
+    list_text: {
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.8rem",
+      },
+    },
+    primary_text: {
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "0.8rem",
+      },
+    },
+    list_heading: {
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "1rem",
+      },
+    },
+    paper: {
+      [theme.breakpoints.down("sm")]: {
+        width: "100%",
       },
     },
   };
 });
 
-export default markList;
+export default useStyle;

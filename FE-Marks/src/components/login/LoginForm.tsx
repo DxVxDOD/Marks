@@ -1,18 +1,19 @@
+import { Button, Paper, Stack, TextField } from "@mui/material";
 import { FormEvent } from "react";
-import { useForm } from "../../hooks/useForm.js";
-import { Box, Button, Paper, Stack, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "../../hooks/useForm.js";
 import { useLoginMutation } from "../../redux/endpoints/login.js";
+import useStyle from "../../theme/Style.js";
 
 const LoginForm = () => {
   const { reset: usernameReset, ...username } = useForm("text");
   const { reset: passwordReset, ...password } = useForm("password");
   const navigate = useNavigate();
   const [login, { }] = useLoginMutation();
+  const { classes } = useStyle();
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-    navigate("/");
 
     try {
       await login({
@@ -25,63 +26,51 @@ const LoginForm = () => {
     } catch (error) {
       console.log(error);
     }
+
+    navigate("/");
   };
 
   return (
-    <Box
+    <Paper
       sx={{
+        padding: "2em",
         display: "flex",
         flexDirection: "column",
+        gap: "1em",
         alignItems: "center",
       }}
-      component="section"
+      component="form"
+      variant="outlined"
+      onSubmit={handleLogin}
     >
-      <Paper
-        sx={{
-          padding: "1.5em",
-          display: "flex",
-          flexDirection: "column",
-          gap: "1em",
-          marginTop: "2rem",
-          alignItems: "center",
-        }}
-        component="form"
-        onSubmit={handleLogin}
-      >
-        <Stack direction="column" spacing={2}>
-          <TextField
-            size="small"
-            required
-            autoFocus
-            color="success"
-            variant="standard"
-            label="Username"
-            {...username}
-          />
-          <TextField
-            size="small"
-            required
-            variant="standard"
-            label="Password"
-            color="success"
-            {...password}
-          />
-        </Stack>
-        <Button
-          aria-label="login button"
-          sx={{
-            width: "fit-content",
-          }}
-          color="success"
-          variant="outlined"
+      <Stack direction="column" spacing={2}>
+        <TextField
           size="small"
-          id="login-button"
-          type="submit"
-        >
-          Login
-        </Button>
-      </Paper>
-    </Box>
+          required
+          autoFocus
+          variant="outlined"
+          label="Username"
+          {...username}
+        />
+        <TextField
+          size="small"
+          required
+          variant="outlined"
+          label="Password"
+          {...password}
+        />
+      </Stack>
+      <Button
+        className={classes.text}
+        aria-label="login button"
+        variant="outlined"
+        size="small"
+        id="login-button"
+        type="submit"
+      >
+        Login
+      </Button>
+    </Paper>
   );
 };
 
