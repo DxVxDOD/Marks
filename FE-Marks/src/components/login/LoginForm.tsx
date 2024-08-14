@@ -9,7 +9,7 @@ const LoginForm = () => {
   const { reset: usernameReset, ...username } = useForm("text");
   const { reset: passwordReset, ...password } = useForm("password");
   const navigate = useNavigate();
-  const [login, {}] = useLoginMutation();
+  const [login, { }] = useLoginMutation();
   const { classes } = useStyle();
 
   const handleLogin = async (e: FormEvent) => {
@@ -33,11 +33,10 @@ const LoginForm = () => {
   return (
     <Paper
       sx={{
-        padding: "1.5em",
+        padding: "2em",
         display: "flex",
         flexDirection: "column",
         gap: "1em",
-        marginTop: "2rem",
         alignItems: "center",
       }}
       component="form"
@@ -49,17 +48,15 @@ const LoginForm = () => {
           size="small"
           required
           autoFocus
-          color="success"
-          variant="standard"
+          variant="outlined"
           label="Username"
           {...username}
         />
         <TextField
           size="small"
           required
-          variant="standard"
+          variant="outlined"
           label="Password"
-          color="success"
           {...password}
         />
       </Stack>

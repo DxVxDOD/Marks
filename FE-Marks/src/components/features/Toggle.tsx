@@ -1,5 +1,6 @@
 import { Box, Button } from "@mui/material";
 import { useState, forwardRef, useImperativeHandle, ReactNode } from "react";
+import useStyle from "../../theme/Style";
 
 export type VisibilityHandle = {
   toggleVisibility: () => void;
@@ -16,6 +17,7 @@ const Toggle = forwardRef(
     const showWhenVisible = { display: visible ? "" : "none" };
 
     const toggleVisibility = () => setVisible(!visible);
+    const { classes } = useStyle();
 
     useImperativeHandle(refs, () => {
       return {
@@ -42,8 +44,8 @@ const Toggle = forwardRef(
           style={hideWhenVisible}
         >
           <Button
+            className={classes.text}
             aria-label={`${buttonLabel} button`}
-            color="success"
             variant="outlined"
             size="small"
             onClick={toggleVisibility}
@@ -61,11 +63,11 @@ const Toggle = forwardRef(
         >
           {children}
           <Button
+            className={classes.text}
             aria-label="cancel button"
             sx={{
               marginY: "1rem",
             }}
-            color="secondary"
             variant="outlined"
             size="small"
             onClick={toggleVisibility}

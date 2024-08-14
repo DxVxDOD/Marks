@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "../../hooks/useForm";
 import { useAddNewUserMutation } from "../../redux/endpoints/users.ts";
 import { TNewUser } from "../../types/user.ts";
+import useStyle from "../../theme/Style.tsx";
 
 const CreateUserForm = () => {
   const { reset: resetUsername, ...username } = useForm("text");
@@ -13,6 +14,7 @@ const CreateUserForm = () => {
   const { reset: resetEmail, ...email } = useForm("text");
   const navigate = useNavigate();
   const [addNewUser, { }] = useAddNewUserMutation();
+  const { classes } = useStyle();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -43,7 +45,6 @@ const CreateUserForm = () => {
         gap: "1rem",
       }}
       component="form"
-      className="from-field"
       onSubmit={handleSubmit}
       variant="outlined"
     >
@@ -55,9 +56,7 @@ const CreateUserForm = () => {
           variant="outlined"
           placeholder="Username"
           {...username}
-        >
-          <Typography>Username</Typography>
-        </TextField>
+        ></TextField>
         <TextField
           size="small"
           required
@@ -95,7 +94,7 @@ const CreateUserForm = () => {
           aria-label="create user button"
           variant="outlined"
         >
-          Sign up
+          <Typography className={classes.text}>Sign up</Typography>
         </Button>
       </Stack>
     </Paper>

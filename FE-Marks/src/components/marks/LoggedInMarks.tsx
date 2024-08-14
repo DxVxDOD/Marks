@@ -1,25 +1,23 @@
-import ArticleIcon from "@mui/icons-material/Article";
 import {
   Box,
   Divider,
   List,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   Paper,
   Typography,
 } from "@mui/material";
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { TUserToFE } from "../../../../BE_Marks/src/types/user.ts";
 import { useGetAllMarksQuery } from "../../redux/endpoints/marks.ts";
 import { useAppSelector } from "../../redux/hook.ts";
+import useStyle from "../../theme/Style.tsx";
 import { TMark } from "../../types/mark.js";
 import Reel from "../features/Reel.tsx";
 import Toggle, { VisibilityHandle } from "../features/Toggle.tsx";
 import MarkForm from "./MarksForm.js";
 import styles from "./styles/marks.module.css";
-import useStyle from "../../theme/Style.tsx";
 
 const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
   const { data: marks, isFetching } = useGetAllMarksQuery();
@@ -39,7 +37,7 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
         ) : (
           <Paper
             sx={{
-              padding: "1rem",
+              padding: "2rem",
               display: "flex",
               flexDirection: "column",
               borderRadius: 0,
@@ -72,29 +70,29 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
                   })
                   .sort((a: TMark, b: TMark) => b.likes - a.likes)
                   .map((mark: TMark) => (
-                    <>
+                    <Fragment key={mark.id}>
                       <ListItemButton
                         aria-label="button to access marks"
                         sx={{
                           display: "flex",
                           justifyContent: "flex-start",
                         }}
-                        key={mark.id}
                         component={RouterLink}
                         to={`/marks/${mark.id}`}
                         state={mark}
+                        key={mark.id}
                       >
-                        <ListItemText>
-                          <Typography className={classes.text}>
+                        <ListItemText key={mark.id}>
+                          <Typography
+                            key={mark.id}
+                            className={classes.list_text}
+                          >
                             {mark.title}
                           </Typography>
                         </ListItemText>
                       </ListItemButton>
-                      <Divider
-                        key={mark.createdAt.toString()}
-                        variant="middle"
-                      />
-                    </>
+                      <Divider key={mark.url} variant="middle" />
+                    </Fragment>
                   ))}
               </List>
             </Box>
