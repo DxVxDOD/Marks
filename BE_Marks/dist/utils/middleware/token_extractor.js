@@ -4,6 +4,7 @@ exports.tokenExtractor = void 0;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const tokenExtractor = (req, _res, next) => {
     const auth = req.get("authorization");
+    console.log("====>", auth);
     if (!auth) {
         throw new Error("Incorrect header");
     }

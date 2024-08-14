@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postNewUser = exports.getAllUsers = void 0;
+exports.postNewUser = exports.getUserById = exports.getAllUsers = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const userModel_1 = __importDefault(require("../models/userModel"));
 const generalParsers_1 = require("../utils/parsers/generalParsers");
@@ -17,6 +17,14 @@ const getAllUsers = async () => {
     return allUserData;
 };
 exports.getAllUsers = getAllUsers;
+const getUserById = async (id) => {
+    const { data, error } = await (0, promiseWrapper_1.wrapInPromise)(userModel_1.default.findById((0, generalParsers_1.stringParser)(id)));
+    if (error || !data) {
+        throw new Error("Error while fetching user with provided id: " + error.message);
+    }
+    return data;
+};
+exports.getUserById = getUserById;
 const postNewUser = async (obj) => {
     const { data: allUsersData, error: allUsersError } = await (0, promiseWrapper_1.wrapInPromise)((0, exports.getAllUsers)());
     if (allUsersError || !allUsersData) {

@@ -33,11 +33,15 @@ const login = async (obj) => {
     };
     const SECRET = (0, generalParsers_1.stringParser)(config_1.default.SECRET);
     const token = jsonwebtoken_1.default.sign(userForToken, SECRET);
-    return {
+    const user = {
         username: userData.username,
-        token: token,
+        createdAt: userData.createdAt,
         name: userData.name,
+        email: userData.email,
+        token,
+        marks_length: userData.marks.length,
     };
+    return user;
 };
 exports.login = login;
 //# sourceMappingURL=loginService.js.map

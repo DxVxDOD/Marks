@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cors_1 = __importDefault(require("cors"));
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const userRoute_1 = __importDefault(require("./routes/userRoute"));
+const accountRoute_1 = __importDefault(require("./routes/accountRoute"));
 const loginRoute_1 = __importDefault(require("./routes/loginRoute"));
 const markRoute_1 = __importDefault(require("./routes/markRoute"));
 const config_1 = __importDefault(require("./utils/config"));
@@ -32,10 +32,10 @@ app.use(error_handlers_1.requestLogger);
 if (process.env.NODE_ENV === "test") {
     app.use("/api/testing");
 }
-app.use("/api/users", userRoute_1.default);
 app.use("/api/login", loginRoute_1.default);
+app.use("/api/account", accountRoute_1.default);
 app.use("/api/marks", markRoute_1.default);
-app.get("/*", (req, res) => {
+app.get("/*", (_req, res) => {
     res.sendFile("/index.html", { root: "./dist" });
 });
 app.use(error_handlers_1.unknownEndpoint);

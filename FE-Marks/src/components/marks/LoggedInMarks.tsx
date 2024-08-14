@@ -17,7 +17,7 @@ import { TMark } from "../../types/mark.js";
 import Reel from "../features/Reel.tsx";
 
 const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
-  const { data: marks, isFetching } = useGetAllMarksQuery();
+  const { data: marks } = useGetAllMarksQuery();
 
   const { classes } = useStyle();
   const tag = useAppSelector((state) => state.filterTag);

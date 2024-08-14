@@ -2,23 +2,22 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.booleanParser = exports.numberParser = exports.dateParser = exports.stringParser = exports.jwtPayloadParser = void 0;
 const generalGuards_1 = require("../typeGuards/generalGuards");
-const generalGuards_2 = require("../typeGuards/generalGuards");
 const jwtPayloadParser = (param) => {
-    if ((0, generalGuards_2.isJwtPayload)(param)) {
+    if ((0, generalGuards_1.isJwtPayload)(param)) {
         return param;
     }
     throw new Error("while parsing provided token: " + param);
 };
 exports.jwtPayloadParser = jwtPayloadParser;
 const stringParser = (param) => {
-    if (!param || !(0, generalGuards_2.isString)(param)) {
+    if (!param || !(0, generalGuards_1.isString)(param)) {
         throw new Error(`${param} is not a string.`);
     }
     return param;
 };
 exports.stringParser = stringParser;
 const dateParser = (date) => {
-    if (!date || !(0, generalGuards_2.isString)(date) || !(0, generalGuards_1.isDate)(date)) {
+    if (!date || !(0, generalGuards_1.isString)(date) || !(0, generalGuards_1.isDate)(date)) {
         throw new Error("Incorrect or missing date" + date);
     }
     return date;

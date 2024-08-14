@@ -12,8 +12,7 @@ const promiseWrapper_1 = require("../utils/promiseWrapper");
 const getAllMarks = async () => {
     const { data: allMarks, error: allMarksError } = await (0, promiseWrapper_1.wrapInPromise)(markModel_1.default.find({}).populate("user", { username: 1, name: 1 }));
     if (!allMarks || allMarksError) {
-        throw new Error("Error while fetching all Marks from database: " +
-            allMarksError.message);
+        throw new Error("Error while fetching all Marks from database: " + allMarksError.message);
     }
     return allMarks;
 };
@@ -82,13 +81,11 @@ const updateMark = async (mark, userId, markId) => {
     }
     const { data: oldMark, error: oldMarkError } = await (0, promiseWrapper_1.wrapInPromise)(markModel_1.default.findById((0, generalParsers_1.stringParser)(markId)));
     if (!oldMark || oldMarkError) {
-        throw new Error("Cannot find Mark with given id in data base: " +
-            oldMarkError.message);
+        throw new Error("Cannot find Mark with given id in data base: " + oldMarkError.message);
     }
     const { data: user, error: userError } = await (0, promiseWrapper_1.wrapInPromise)(userModel_1.default.findById(userId));
     if (!user || userError) {
-        throw new Error("Cannot find user in data base based on provided id." +
-            userError.message);
+        throw new Error("Cannot find user in data base based on provided id." + userError.message);
     }
     if (oldMark.user.toString() !== user.id) {
         throw new Error("You do not have permission to update this Mark");

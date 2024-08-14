@@ -13,7 +13,7 @@ import React, { useRef, useState } from "react";
 import useStyle from "../../theme/Style";
 
 function Reel() {
-  const { data: marks, isFetching } = useGetAllMarksQuery();
+  const { data: marks } = useGetAllMarksQuery();
   const { user } = useAuth();
   const dispatch = useAppDispatch();
   const textRef = useRef<HTMLSpanElement>(null);
