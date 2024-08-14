@@ -62,7 +62,7 @@ function Reel() {
                   key={tag}
                   onClick={() => dispatch(setTag(tag))}
                 >
-                  <Typography ref={textRef} className={classes.text}>
+                  <Typography key={tag} ref={textRef} className={classes.text}>
                     {tag}
                   </Typography>
                 </ToggleButton>
