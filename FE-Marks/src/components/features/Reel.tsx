@@ -6,15 +6,14 @@ import {
 } from "@mui/material";
 import { useGetAllMarksQuery } from "../../redux/endpoints/marks";
 import styles from "./reel.module.css";
-import reel from "../../theme/Reel";
 import { useAuth } from "../../hooks/useAuth";
 import { useAppDispatch } from "../../redux/hook";
 import { setTag } from "../../redux/slices/filterTag";
 import React, { useRef, useState } from "react";
+import useStyle from "../../theme/Style";
 
 function Reel() {
   const { data: marks, isFetching } = useGetAllMarksQuery();
-  const { classes } = reel();
   const { user } = useAuth();
   const dispatch = useAppDispatch();
   const textRef = useRef<HTMLSpanElement>(null);
@@ -28,6 +27,8 @@ function Reel() {
     setAlignment(newAlignment);
   };
 
+  const { classes } = useStyle();
+
   if (marks && user) {
     if (
       marks.filter((mark) => mark.user.username === user.username).length > 0
@@ -36,14 +37,10 @@ function Reel() {
         <Paper
           ref={buttonContainerRef}
           sx={{
-            border: "solid 1.5px rgba(168, 239, 255, 0.4)",
-            width: "75%",
-            borderRadius: 0,
-            background: "#121213",
+            padding: "1rem",
           }}
-          className={
-            isFetching ? "box " : "" + styles.reel + " " + classes.tagWidth
-          }
+          variant="outlined"
+          className={classes.paper}
         >
           <ToggleButtonGroup
             exclusive
@@ -53,7 +50,7 @@ function Reel() {
             onChange={handleAlignment}
           >
             <ToggleButton onClick={() => dispatch(setTag("all"))} value="all">
-              <Typography>All</Typography>
+              <Typography className={classes.text}>All</Typography>
             </ToggleButton>
             {[...marks]
               .filter((mark) => mark.user.username === user.username)
@@ -65,10 +62,7 @@ function Reel() {
                   key={tag}
                   onClick={() => dispatch(setTag(tag))}
                 >
-                  <Typography
-                    ref={textRef}
-                    className={isFetching ? "fetching " : ""}
-                  >
+                  <Typography key={tag} ref={textRef} className={classes.text}>
                     {tag}
                   </Typography>
                 </ToggleButton>
@@ -86,7 +80,7 @@ function Reel() {
           borderRadius: 0,
           background: "#121213",
         }}
-        className={styles.reel + " " + classes.tagWidth}
+        className={styles.reel + " "}
       >
         <Typography className="loading">Loading tags...</Typography>
       </Paper>

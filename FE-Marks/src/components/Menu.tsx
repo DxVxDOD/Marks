@@ -1,7 +1,7 @@
-import { Box, Button, ButtonGroup, Paper, Stack } from "@mui/material";
+import { Button, ButtonGroup, Paper, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import useHeader from "../theme/Header";
+import useStyle from "../theme/Style";
 
 const Menu = () => {
   const handleLogout = () => {
@@ -10,96 +10,43 @@ const Menu = () => {
   };
 
   const { user } = useAuth();
-
-  const { classes } = useHeader();
+  const { classes } = useStyle();
 
   return (
     <Paper
       component="header"
       sx={{
-        borderRadius: 0,
         display: "flex",
-        width: "100%",
-        alignItems: "center",
         padding: "0.5em",
-        borderColor: "#8F9094",
+        justifyContent: "flex-end",
+        borderRadius: 0,
         borderTop: "none",
         borderLeft: "none",
         borderRight: "none",
-        justifyContent: "space-between",
       }}
       variant="outlined"
     >
-      <Box
-        component="nav"
-        sx={{
-          width: "33.33%",
-        }}
-      >
-        <Stack
-          className={classes.bttnStack}
-          sx={{
-            display: "flex",
-            marginLeft: "4rem",
-          }}
-          direction="column"
-        >
-          <ButtonGroup variant="outlined" aria-label="alignment button group">
-            <Button
-              className={classes.button}
-              component={RouterLink}
-              to={"/marks"}
-            >
-              Marks
-            </Button>
-            <Button className={classes.button} component={RouterLink} to={"/"}>
-              Home
-            </Button>
-          </ButtonGroup>
-        </Stack>
-      </Box>
       {user === null ? (
-        <Box
-          className={classes.bttnStack}
-          sx={{
-            width: "33.33%",
-            display: "flex",
-            justifyContent: "flex-end",
-          }}
-        >
-          <Button
-            className={classes.button}
-            variant="outlined"
-            color="success"
-            component={RouterLink}
-            to={"/login"}
-          >
-            Login
+        <ButtonGroup variant="text">
+          <Button component={RouterLink} to="/sign-up">
+            <Typography className={classes.text}>Sign up</Typography>
           </Button>
-        </Box>
+          <Button component={RouterLink} to="/login">
+            <Typography className={classes.text}>Log in</Typography>
+          </Button>
+        </ButtonGroup>
       ) : (
-        <Box
-          className={classes.bttnStack}
-          sx={{
-            width: "33.33%",
-            display: "flex",
-
-            justifyContent: "flex-end",
-          }}
-        >
-          <Button
-            sx={{
-              marginRight: "1rem",
-            }}
-            size="small"
-            className={classes.button}
-            variant="outlined"
-            color="success"
-            onClick={handleLogout}
-          >
-            Log out
+        <ButtonGroup variant="text">
+          <Button component={RouterLink} to={"/marks"}>
+            <Typography className={classes.text}>Marks</Typography>
           </Button>
-        </Box>
+          <Button component={RouterLink} to={"/"}>
+            <Typography className={classes.text}>Home</Typography>
+          </Button>
+          <Button onClick={handleLogout}>
+            <Typography className={classes.text}>Log out</Typography>
+          </Button>
+        </ButtonGroup>
       )}
     </Paper>
   );
