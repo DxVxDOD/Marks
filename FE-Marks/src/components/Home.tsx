@@ -72,22 +72,6 @@ const Home = ({ user }: { user: TUserToFE }) => {
         <Divider variant="middle" />
         <ListItemText
           primary={
-            <Typography className={classes.primary_text}>Created at</Typography>
-          }
-          secondary={
-            <Typography
-              className={classes.text}
-              variant="body2"
-              component="span"
-              color="gray"
-            >
-              {user.createdAt.toString()}
-            </Typography>
-          }
-        ></ListItemText>
-        <Divider variant="middle" />
-        <ListItemText
-          primary={
             <Typography className={classes.primary_text}>
               Number of marks
             </Typography>
