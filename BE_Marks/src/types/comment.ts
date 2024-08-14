@@ -10,12 +10,12 @@
 // >;
 
 export type TComment = {
-	content: string;
-	userId: string;
-	markId: string;
-	id: string;
-	numberOfLikes: number;
-	like: boolean;
+  content: string;
+  userId: string;
+  markId: string;
+  id: string;
+  numberOfLikes: number;
+  like: boolean;
 };
 
 export type TNewComment = Pick<TComment, "content" | "markId">;

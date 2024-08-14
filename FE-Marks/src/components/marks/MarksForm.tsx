@@ -10,7 +10,7 @@ const MarkForm = () => {
   const { reset: resetTitle, ...title } = useForm("text");
   const { reset: resetUrl, ...url } = useForm("text");
 
-  const [postMark, { isLoading }] = useAddNewMarkMutation();
+  const [postMark] = useAddNewMarkMutation();
   const { classes } = useStyle();
   const navigate = useNavigate();
 
