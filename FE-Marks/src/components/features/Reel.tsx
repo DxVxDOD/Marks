@@ -44,7 +44,6 @@ function Reel() {
         >
           <ToggleButtonGroup
             exclusive
-            color="info"
             value={alignment}
             aria-label="tag button group"
             onChange={handleAlignment}
