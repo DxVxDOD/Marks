@@ -6,10 +6,10 @@ export const marksApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "/api/",
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).auth.token;
+      const user = (getState() as RootState).auth.user;
 
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
+      if (user) {
+        headers.set("authorization", `Bearer ${user.token}`);
       }
       return headers;
     },

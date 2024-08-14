@@ -1,26 +1,21 @@
-import React, { FormEvent } from "react";
-import { VisibilityHandle } from "../features/Toggle.tsx";
+import { Button, Paper, Stack, TextField } from "@mui/material";
+import { FormEvent } from "react";
 import { useForm } from "../../hooks/useForm";
-import { Box, Button, Paper, Stack, TextField } from "@mui/material";
 import { useAddNewMarkMutation } from "../../redux/endpoints/marks.ts";
 import useStyle from "../../theme/Style.tsx";
+import { useNavigate } from "react-router-dom";
 
-const MarkForm = ({
-  markFormRef: markFormRef,
-}: {
-  markFormRef: React.MutableRefObject<VisibilityHandle | undefined>;
-}) => {
+const MarkForm = () => {
   const { reset: resetTag, ...tag } = useForm("text");
   const { reset: resetTitle, ...title } = useForm("text");
   const { reset: resetUrl, ...url } = useForm("text");
 
   const [postMark, { isLoading }] = useAddNewMarkMutation();
   const { classes } = useStyle();
+  const navigate = useNavigate();
 
   const handleNewMark = async (e: FormEvent) => {
     e.preventDefault();
-
-    markFormRef.current?.toggleVisibility();
 
     const markObject = {
       title: title.value,
@@ -29,6 +24,8 @@ const MarkForm = ({
     };
 
     postMark(markObject);
+
+    navigate("/marks");
 
     resetTag();
     resetTitle();

@@ -15,7 +15,7 @@ const useStyle = makeStyles()(() => {
     },
     primary_text: {
       [theme.breakpoints.down("sm")]: {
-        fontSize: "0.8rem",
+        fontSize: "1rem",
       },
     },
     list_heading: {
@@ -27,6 +27,12 @@ const useStyle = makeStyles()(() => {
       [theme.breakpoints.down("sm")]: {
         width: "100%",
       },
+    },
+    reel_text: {
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "0.75rem",
+      },
+      textWrap: "nowrap",
     },
   };
 });
