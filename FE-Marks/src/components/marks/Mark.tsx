@@ -3,7 +3,11 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Divider,
   Link,
+  List,
+  ListItem,
+  ListItemText,
   Paper,
   Typography,
 } from "@mui/material";
@@ -16,7 +20,6 @@ import {
 } from "../../redux/endpoints/marks";
 import { useAuth } from "../../hooks/useAuth.tsx";
 import toast from "react-hot-toast";
-import { useState } from "react";
 import useStyle from "../../theme/Style.tsx";
 
 const Mark = () => {
@@ -28,29 +31,7 @@ const Mark = () => {
   const navigate = useNavigate();
   const { classes } = useStyle();
 
-  const [like, setLike] = useState(true);
-
   if (mark) {
-    const updateLikes = async () => {
-      setLike(!like);
-
-      if (like) {
-        await toast.promise(updateMark({ ...mark, likes: mark.likes + 1 }), {
-          loading: "Updating...",
-          success: <b>Mark updated successfully!</b>,
-          error: <b>Could not update mark.</b>,
-        });
-      }
-
-      if (!like) {
-        await toast.promise(updateMark({ ...mark, likes: mark.likes - 1 }), {
-          loading: "Updating...",
-          success: <b>Mark updated successfully!</b>,
-          error: <b>Could not update mark.</b>,
-        });
-      }
-    };
-
     const removeMark = async () => {
       if (window.confirm(`Would you like to remove ${mark.title} ?`)) {
         navigate("/");
@@ -63,84 +44,61 @@ const Mark = () => {
     };
 
     return (
-      <Box
+      <Paper
         sx={{
+          gap: "1rem",
+          padding: "2rem",
           display: "flex",
           flexDirection: "column",
+          borderRadius: 0,
           width: "100%",
           alignItems: "center",
         }}
         component="article"
+        variant="outlined"
       >
-        <Paper
-          sx={{
-            width: "75%",
-            gap: "1rem",
-            padding: "2rem",
-            margin: "2rem",
-            display: "flex",
-            flexDirection: "column",
-            border: "solid 1.5px rgba(168, 239, 255, 0.4)",
-            borderRadius: 0,
-            background: "#121213",
-          }}
-          component="section"
-          className={isDeleteLoading || isUpdateLoading ? "box" : ""}
-        >
-          <Box component="section">
-            <Typography
-              className={isFetching ? " fetching" : "" + classes}
-              component="h2"
-              variant="h5"
-            >
-              Title: {mark.title}
-            </Typography>
-            <Typography
-              className={isFetching ? " fetching" : ""}
-              component="h3"
-              variant="h5"
-            >
-              Tag: {mark.tag}
-            </Typography>
-          </Box>
-          <Link href={mark.url}>
-            <Typography
-              sx={{
-                color: "rgba(168, 239, 255, 0.4)",
-              }}
-              className={isFetching ? " fetching" : ""}
-            >
-              {mark.title}
-            </Typography>
-          </Link>
-          <Typography className={isFetching ? " fetching" : ""} component="p">
-            {mark.user.username}
-          </Typography>
-          {user && (
-            <ButtonGroup aria-label="alignment button group" size="small">
-              <Button
-                className={isFetching ? " fetching" : "" + classes.text}
-                startIcon={<ThumbUpOutlinedIcon />}
-                aria-label="like button"
-                onClick={updateLikes}
-                id="likeButton"
-              >
-                Like
-              </Button>
-              {mark.user.username === user.username ? (
-                <Button
-                  className={isFetching ? " fetching" : "" + classes.text}
-                  aria-label="delete button"
-                  startIcon={<DeleteOutlinedIcon />}
-                  onClick={removeMark}
-                >
-                  Remove
-                </Button>
-              ) : null}
-            </ButtonGroup>
-          )}
-        </Paper>
-      </Box>
+        <List sx={{ width: "100%" }}>
+          <ListItemText
+            primary={
+              <Typography className={classes.primary_text}>Title</Typography>
+            }
+            secondary={
+              <Typography className={classes.text}>{mark.title}</Typography>
+            }
+          />
+          <Divider />
+          <ListItemText
+            primary={
+              <Typography className={classes.primary_text}>Tag</Typography>
+            }
+            secondary={
+              <Typography className={classes.text}>{mark.tag}</Typography>
+            }
+          />
+          <Divider />
+          <ListItemText
+            primary={
+              <Typography className={classes.primary_text}>Link</Typography>
+            }
+            secondary={
+              <Link className={classes.text} href={mark.url}>
+                {mark.title}
+              </Link>
+            }
+          />
+        </List>
+        {user && user.username === mark.user.username ? (
+          <Button
+            size="small"
+            aria-label="delete button"
+            startIcon={<DeleteOutlinedIcon />}
+            onClick={removeMark}
+            variant="outlined"
+          >
+            <Typography className={classes.text}>Remove</Typography>
+          </Button>
+        ) : null}
+      </Paper>
     );
   }
 
