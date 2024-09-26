@@ -29,7 +29,7 @@ const marksSliceApi = marksApi.injectEndpoints({
       }),
       invalidatesTags: ["Mark"],
     }),
-    editMark: builder.mutation<TMark, TMark & Pick<TMark, "id">>({
+    editMark: builder.mutation<TNewMark, TMark & Pick<TMark, "id">>({
       query: ({ id, ...mark }) => ({
         url: `marks/${id}`,
         method: "PUT",

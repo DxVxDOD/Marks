@@ -28,11 +28,22 @@ const useStyle = makeStyles()(() => {
         width: "100%",
       },
     },
+
     reel_text: {
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.75rem",
       },
       textWrap: "nowrap",
+    },
+    text_field: {
+      [theme.breakpoints.up("sm")]: {
+        width: "100%",
+      },
+    },
+    home_paper: {
+      [theme.breakpoints.up("sm")]: {
+        width: "50%",
+      },
     },
   };
 });

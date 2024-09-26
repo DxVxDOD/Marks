@@ -50,8 +50,7 @@ const App = () => {
               </>
             ) : (
               <>
-                <Route path="/marks" element={<LoggedInMarks user={user} />} />
-                <Route path="/" element={<Home user={user} />} />
+                <Route path="/" element={<LoggedInMarks user={user} />} />
               </>
             )}
             <Route path="/marks/:id" element={<Mark />} />

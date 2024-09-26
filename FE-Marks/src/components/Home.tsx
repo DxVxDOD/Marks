@@ -3,11 +3,6 @@ import { TUserToFE } from "../../../BE_Marks/src/types/user.ts";
 import useStyle from "../theme/Style.tsx";
 
 const Home = ({ user }: { user: TUserToFE }) => {
-  // const created_at = user.createdAt
-  //   .toString()
-  //   .split(":")[0]
-  //   .split("T")[0]
-  //   .replaceAll("-", " ");
   const { classes } = useStyle();
 
   return (
