@@ -1,6 +1,8 @@
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Button,
+  ButtonGroup,
   Divider,
   Link,
   List,
@@ -16,12 +18,14 @@ import {
   useGetMarkQuery,
 } from "../../redux/endpoints/marks";
 import useStyle from "../../theme/Style.tsx";
+import { useState } from "react";
 
 const Mark = () => {
+  const [open, setOpen] = useState(false);
+
   const { state } = useLocation();
   const { data: mark } = useGetMarkQuery(state.id);
   const [deleteMark] = useDeleteMarkMutation();
-  // const [updateMark, { isLoading: isUpdateLoading }] = useEditMarkMutation();
   const { user } = useAuth();
   const navigate = useNavigate();
   const { classes } = useStyle();
@@ -83,15 +87,24 @@ const Mark = () => {
           />
         </List>
         {user && user.username === mark.user.username ? (
-          <Button
-            size="small"
-            aria-label="delete button"
-            startIcon={<DeleteOutlinedIcon />}
-            onClick={removeMark}
-            variant="outlined"
-          >
-            <Typography className={classes.text}>Remove</Typography>
-          </Button>
+          <ButtonGroup variant="text">
+            <Button
+              size="small"
+              aria-label="delete button"
+              startIcon={<EditIcon />}
+              onClick={() => setOpen(true)}
+            >
+              <Typography className={classes.text}>Edit</Typography>
+            </Button>
+            <Button
+              size="small"
+              aria-label="delete button"
+              startIcon={<DeleteOutlinedIcon />}
+              onClick={removeMark}
+            >
+              <Typography className={classes.text}>Remove</Typography>
+            </Button>
+          </ButtonGroup>
         ) : null}
       </Paper>
     );
