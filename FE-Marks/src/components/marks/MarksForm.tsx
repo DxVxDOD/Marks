@@ -40,9 +40,9 @@ const MarkForm = () => {
         flexDirection: "column",
         alignItems: "center",
         borderRadius: 0,
-        width: "100%",
         gap: "1rem",
       }}
+      className={classes.paper}
       component="form"
       onSubmit={handleNewMark}
       variant="outlined"
