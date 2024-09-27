@@ -1,5 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { isMarkFromFE } from "./markGuards";
+import { wrapInPromise } from "../promiseWrapper";
 
 const test_object = {
   tag: "tag",
@@ -7,7 +8,6 @@ const test_object = {
   title: "title",
 };
 const bad_tag_test_object = {
-  tag: 10,
   url: "url",
   title: "title",
 };
@@ -17,7 +17,8 @@ describe("isMarkFromFe", () => {
     expect(isMarkFromFE(test_object)).toBe(true);
   });
 
-  test("number in tag field ", () => {
-    expect(isMarkFromFE(bad_tag_test_object)).toThrowError();
+  test("missing tag", () => {
+    const { data, error } = wrapInPromise(isMarkFromFE(bad_tag_test_object));
+    expect().toThrowError();
   });
 });

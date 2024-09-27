@@ -1,10 +1,10 @@
 import logger from "./logger";
 
 export const wrapInPromise = async <T>(func: T) => {
-	const [result] = await Promise.allSettled([func]);
-	if (result.status === "rejected") {
-		logger.error(result.reason);
-		return { data: undefined, error: result.reason };
-	}
-	return { data: result.value, error: undefined };
+  const [result] = await Promise.allSettled([func]);
+  if (result.status === "rejected") {
+    logger.error(result.reason);
+    return { data: undefined, error: result.reason };
+  }
+  return { data: result.value, error: undefined };
 };
