@@ -39,7 +39,7 @@ router.post("/", userExtractor, async (req: Request, res: Response) => {
     postNewMark(req.body, user),
   );
 
-  if (!newMark || newMarkError) {
+  if (newMarkError) {
     res.status(400).json({ error: newMarkError.message });
   }
 

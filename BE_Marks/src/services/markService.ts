@@ -42,9 +42,7 @@ export const postNewMark = async (obj: Partial<TNewMark>, user: TUser) => {
     newMarkParser(obj),
   );
 
-  if (!markData || markError) {
-    throw new Error(markError.message);
-  }
+  if (markError) return markError;
 
   const mark = new Mark({
     title: markData.title,
@@ -58,20 +56,16 @@ export const postNewMark = async (obj: Partial<TNewMark>, user: TUser) => {
     mark.save(),
   );
 
-  if (!savedMark || savedMarkError) {
-    throw new Error("Error while saving Marks to database: " + savedMarkError);
+  if (savedMarkError) {
+    return "Error while saving Marks to database: " + savedMarkError.message;
   }
 
   user.marks = user.marks.concat(savedMark._id);
 
-  const { data: updatedUser, error: updatedUserError } = await wrapInPromise(
-    user.save(),
-  );
+  const { error: updatedUserError } = await wrapInPromise(user.save());
 
-  if (updatedUserError || !updatedUser) {
-    throw new Error(
-      "Error while saving user's Mark: " + updatedUserError.message,
-    );
+  if (updatedUserError) {
+    return "Error while saving user's Mark: " + updatedUserError.message;
   }
 
   return savedMark;
@@ -82,10 +76,10 @@ export const deleteMark = async (user: TUser, markId: string | undefined) => {
     Mark.findById(stringParser(markId)),
   );
 
-  if (!mark || markError) {
-    throw new Error(
+  if (markError) {
+    return (
       "Error while trying to fetch Mark with provided id from database: " +
-      markError.message,
+      markError.message
     );
   }
 
@@ -97,10 +91,8 @@ export const deleteMark = async (user: TUser, markId: string | undefined) => {
     Mark.findByIdAndDelete(markId),
   );
 
-  if (!deleteData || deleteError) {
-    throw new Error(
-      "Error while finding and deleting Mark: " + deleteError.message,
-    );
+  if (deleteError) {
+    return "Error while finding and deleting Mark: " + deleteError.message;
   }
 
   user.marks = user.marks.filter(

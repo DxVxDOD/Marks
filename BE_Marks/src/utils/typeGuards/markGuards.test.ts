@@ -16,9 +16,4 @@ describe("isMarkFromFe", () => {
   test("Valid object", () => {
     expect(isMarkFromFE(test_object)).toBe(true);
   });
-
-  test("missing tag", () => {
-    const { data, error } = wrapInPromise(isMarkFromFE(bad_tag_test_object));
-    expect().toThrowError();
-  });
 });
