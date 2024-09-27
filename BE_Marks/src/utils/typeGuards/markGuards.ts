@@ -1,5 +1,4 @@
 import { TMarkFE, TNewMark } from "../../types/mark";
-import { stringParser } from "../parsers/generalParsers";
 
 export const isNewMark = (obj: Partial<TNewMark>) => {
   if (!obj || typeof obj !== "object") {
@@ -27,24 +26,18 @@ export const isMarkFromFE = (obj: Partial<TMarkFE>) => {
     throw new Error("Error object does not exist" + obj);
   }
 
-  // const schema: Record<keyof TMarkFE, string> = {
-  //   tag: "string",
-  //   url: "string",
-  //   title: "string",
-  // };
-  //
-  // const missingProperties = Object.keys(schema)
-  //   .filter((key) => obj[key as keyof Partial<TMarkFE>] === undefined)
-  //   .map((key) => key as keyof TMarkFE)
-  //   .map((key) => {
-  //     throw new Error(`Object is missing: ${key} ${schema[key]}`);
-  //   });
-  //
-  // return missingProperties.length === 0;
+  const schema: Record<keyof TMarkFE, string> = {
+    tag: "string",
+    url: "string",
+    title: "string",
+  };
 
-  stringParser(obj.tag);
-  stringParser(obj.url);
-  stringParser(obj.title);
+  const missingProperties = Object.keys(schema)
+    .filter((key) => obj[key as keyof Partial<TMarkFE>] === undefined)
+    .map((key) => key as keyof TMarkFE)
+    .map((key) => {
+      throw new Error(`Object is missing: ${key} ${schema[key]}`);
+    });
 
-  return true;
+  return missingProperties.length === 0;
 };
