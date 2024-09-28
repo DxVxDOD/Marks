@@ -4,16 +4,24 @@ import { stringParser } from "./generalParsers";
 
 export const newMarkParser = (obj: Partial<TNewMark>) => {
   if (isNewMark(obj)) {
+    const tag = stringParser(obj.tag);
+    if (tag instanceof Error) return tag;
+
+    const url = stringParser(obj.url);
+    if (url instanceof Error) return url;
+
+    const title = stringParser(obj.title);
+    if (title instanceof Error) return title;
+
     const newMark: TNewMark = {
-      tag: stringParser(obj.tag),
-      url: stringParser(obj.url),
-      title: stringParser(obj.title),
+      tag,
+      url,
+      title,
     };
 
     return newMark;
   }
-
-  throw new Error("Failed parsing new Mark");
+  return new Error("Failed parsing new Mark");
 };
 
 export const markParser = (obj: Partial<TMarkFE>) => {
