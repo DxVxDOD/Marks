@@ -2,12 +2,15 @@ package app
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log/slog"
 	"marks/app/db"
+	"marks/app/middleware"
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/redis/go-redis/v9"
@@ -57,6 +60,28 @@ func (a *App) Start(ctx context.Context) error {
 	}
 
 	server := http.Server{
-		Addr: ":" + string(port),
+		Addr:    ":" + string(port),
+		Handler: middleware.Logging(a.logger, a.router),
 	}
+
+	done := make(chan struct{})
+	go func() {
+		err := server.ListenAndServe()
+		if err != nil && !errors.Is(err, http.ErrServerClosed) {
+			a.logger.Error("failed to listen and serve", slog.Any("error", err))
+		}
+		close(done)
+	}()
+
+	a.logger.Info("Server listening", slog.String("addr", ":"+string(port)))
+	select {
+	case <-done:
+		break
+	case <-ctx.Done():
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+		server.Shutdown(ctx)
+		cancel()
+	}
+
+	return nil
 }
