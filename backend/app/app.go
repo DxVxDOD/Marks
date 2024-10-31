@@ -2,9 +2,12 @@ package app
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
+	"marks/app/db"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/redis/go-redis/v9"
@@ -37,5 +40,23 @@ func New(logger *slog.Logger) *App {
 }
 
 func (a *App) Start(ctx context.Context) error {
+	db, err := db.Connect(ctx, a.logger)
+	if err != nil {
+		return fmt.Errorf("failed to connect to database: %w", err)
+	}
 
+	a.db = db
+
+	port_string, ok := os.LookupEnv("PORT")
+	if !ok {
+		return fmt.Errorf("failed to load port env var")
+	}
+	port, err := strconv.Atoi(string(port_string))
+	if err != nil {
+		return fmt.Errorf("failed to convert string to int: %w", err)
+	}
+
+	server := http.Server{
+		Addr: ":" + string(port),
+	}
 }
