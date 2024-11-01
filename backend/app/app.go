@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"embed"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -23,6 +24,26 @@ type App struct {
 	rdb    *redis.Client
 }
 
+var (
+	// go:embed all:dist
+	dist embed.FS
+
+	// go:embed all:public
+	public embed.FS
+
+	index_template = `<!doctype html>
+	<html lang="en" class="h-full scroll-smooth">
+	  <head>
+		<meta charset="UTF-8" />
+			{{ .Vite.Tags }}
+	 </head>
+	  <body class="min-h-screen antialiased">
+		<div id="root"></div>
+	  </body>
+	</html>
+	`
+)
+
 func New(logger *slog.Logger) *App {
 	router := http.NewServeMux()
 
@@ -40,6 +61,27 @@ func New(logger *slog.Logger) *App {
 	}
 
 	return app
+}
+
+func (a *App) Start_dev(ctx context.Context) error {
+	db, err := db.Connect(ctx, a.logger)
+	if err != nil {
+		return fmt.Errorf("failed to connect to database: %w", err)
+	}
+
+	a.db = db
+
+	port_string, ok := os.LookupEnv("PORT")
+	if !ok {
+		return fmt.Errorf("failed to load port env var")
+	}
+
+	port, err := strconv.Atoi(string(port_string))
+	if err != nil {
+		fmt.Errorf("failed to convert string to int: %w", err)
+	}
+
+	return nil
 }
 
 func (a *App) Start(ctx context.Context) error {
