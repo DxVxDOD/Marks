@@ -8,12 +8,14 @@ import (
 	"log/slog"
 	"marks/app/db"
 	"marks/app/middleware"
+	"marks/utils"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/olivere/vite"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -42,6 +44,40 @@ var (
 	  </body>
 	</html>
 	`
+	nestedHTML = `<!doctype html>
+<html lang="en" class="h-full scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+	{{- if .Metadata }}
+		{{ .Metadata }}
+	{{- end }}
+	{{- if .IsDev }}
+		{{ .PluginReactPreamble }}
+		<script type="module" src="{{ .ViteURL }}/@vite/client"></script>
+		{{ if ne .ViteEntry "" }}
+			<script type="module" src="{{ .ViteURL }}/{{ .ViteEntry }}"></script>
+		{{ else }}
+			<script type="module" src="{{ .ViteURL }}/src/main.tsx"></script>
+		{{ end }}
+	{{- else }}
+		{{- if .StyleSheets }}
+		{{ .StyleSheets }}
+		{{- end }}
+		{{- if .Modules }}
+		{{ .Modules }}
+		{{- end }}
+		{{- if .PreloadModules }}
+		{{ .PreloadModules }}
+		{{- end }}
+	{{- end }}
+	{{- if .Scripts }}
+		{{ .Scripts }}
+	{{- end }}
+ </head>
+  <body class="min-h-screen antialiased">
+    <div id="root"></div>
+  </body>
+</html>`
 )
 
 func New(logger *slog.Logger) *App {
@@ -80,6 +116,31 @@ func (a *App) Start_dev(ctx context.Context) error {
 	if err != nil {
 		fmt.Errorf("failed to convert string to int: %w", err)
 	}
+
+	a.router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		vite_handler, err := vite.NewHandler(vite.Config{
+			FS:      os.DirFS("."),
+			IsDev:   true,
+			ViteURL: "http://localhost:5173",
+		})
+		if err != nil {
+			utils.Respond_error(w, 500, http.StatusText(http.StatusInternalServerError))
+			return
+		}
+
+		if r.URL.Path == "/" || r.URL.Path == "/index.html" {
+			// Server the index.html file
+			ctx := r.Context()
+			ctx = vite.MetadataToContext(ctx, vite.Metadata{
+				Title: "Hello Puffy",
+			})
+			ctx = vite.ScriptsToContext(ctx, `<script>console.log('Hello, nice to meet you in the console!')</script>`)
+			vite_handler.ServeHTTP(w, r)
+			return
+		}
+
+		vite_handler.ServeHTTP(w, r)
+	})
 
 	return nil
 }

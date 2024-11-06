@@ -13,7 +13,7 @@ type error_response struct {
 func Respond_JSON(w http.ResponseWriter, status int, payload interface{}) {
 	data, err := json.Marshal(payload)
 	if err != nil {
-		log.Printf("failed to marshal json response: %w", err.Error())
+		log.Printf("failed to marshal json response: %v", err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(http.StatusText(http.StatusInternalServerError)))
 		return
@@ -26,7 +26,7 @@ func Respond_JSON(w http.ResponseWriter, status int, payload interface{}) {
 
 func Respond_error(w http.ResponseWriter, status int, message string) {
 	if status >= 500 {
-		log.Printf("responding with 5xx level error: %w", message)
+		log.Printf("responding with 5xx level error: %v", message)
 	}
 
 	Respond_JSON(w, status, error_response{Error: message})
