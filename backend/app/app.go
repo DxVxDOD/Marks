@@ -33,18 +33,7 @@ var (
 	// go:embed all:public
 	public embed.FS
 
-	index_template = `<!doctype html>
-	<html lang="en" class="h-full scroll-smooth">
-	  <head>
-		<meta charset="UTF-8" />
-			{{ .Vite.Tags }}
-	 </head>
-	  <body class="min-h-screen antialiased">
-		<div id="root"></div>
-	  </body>
-	</html>
-	`
-	nestedHTML = `<!doctype html>
+	account_html = `<!doctype html>
 <html lang="en" class="h-full scroll-smooth">
   <head>
     <meta charset="UTF-8" />
@@ -135,12 +124,62 @@ func (a *App) Start_dev(ctx context.Context) error {
 				Title: "Hello Puffy",
 			})
 			ctx = vite.ScriptsToContext(ctx, `<script>console.log('Hello, nice to meet you in the console!')</script>`)
-			vite_handler.ServeHTTP(w, r)
+			vite_handler.ServeHTTP(w, r.WithContext(ctx))
 			return
 		}
 
 		vite_handler.ServeHTTP(w, r)
 	})
+
+	a.router.HandleFunc("/account", func(w http.ResponseWriter, r *http.Request) {
+		// Handle the vite server
+		vite_handler, err := vite.NewHandler(vite.Config{
+			FS:        os.DirFS("."),
+			IsDev:     true,
+			ViteEntry: "frontend/account.tsx",
+			ViteURL:   "http://loaclhost:5173",
+		})
+		if err != nil {
+			utils.Respond_error(w, 500, http.StatusText(http.StatusInternalServerError))
+			return
+		}
+
+		vite_handler.RegisterTemplate("/account", account_html)
+
+		if r.URL.Path == "/account" {
+			// Server the index.html.file
+			ctx := r.Context()
+			ctx = vite.MetadataToContext(ctx, vite.Metadata{
+				Title: "Hello puff",
+			})
+			ctx = vite.ScriptsToContext(ctx, `<script>console.log('Hello Nested!, nice to meet you in the console!')</script>`)
+			vite_handler.ServeHTTP(w, r.WithContext(ctx))
+		}
+	})
+
+	server := http.Server{
+		Addr:    ":" + string(port),
+		Handler: middleware.Logging(a.logger, a.router),
+	}
+
+	done := make(chan struct{})
+	go func() {
+		err := server.ListenAndServe()
+		if err != nil && !errors.Is(err, http.ErrServerClosed) {
+			a.logger.Error("failed to listen and serve", slog.Any("error", err))
+		}
+		close(done)
+	}()
+
+	a.logger.Info("Server listening", slog.String("addr", ":"+string(port)))
+	select {
+	case <-done:
+		break
+	case <-ctx.Done():
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+		server.Shutdown(ctx)
+		cancel()
+	}
 
 	return nil
 }
