@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"log/slog"
 	"marks/app/db"
 	"marks/app/middleware"
@@ -55,10 +56,14 @@ func (a *App) Start_dev(ctx context.Context) error {
 		return fmt.Errorf("failed to load port env var")
 	}
 
+	log.Print(port_string)
+
 	port, err := strconv.Atoi(string(port_string))
 	if err != nil {
 		return fmt.Errorf("failed to convert string to int: %w", err)
 	}
+
+	log.Print(port)
 
 	a.load_dev_routes()
 

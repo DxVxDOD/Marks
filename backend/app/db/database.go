@@ -9,6 +9,8 @@ import (
 	"os"
 
 	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -72,7 +74,7 @@ func Connect(ctx context.Context, logger *slog.Logger) (*pgxpool.Pool, error) {
 
 	migrations_url, exists := os.LookupEnv("MIGRATIONS_URL")
 	if !exists {
-		migrations_url = "file://migrations"
+		migrations_url = "file://sql/migrations"
 	}
 
 	url, err := db_url()

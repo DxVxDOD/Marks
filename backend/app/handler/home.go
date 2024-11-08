@@ -40,7 +40,8 @@ func (h *Marks) Home(w http.ResponseWriter, r *http.Request) {
 		IsDev: false,
 	})
 	if err != nil {
-		panic(err)
+		utils.Respond_error(w, 500, http.StatusText(http.StatusInternalServerError))
+		return
 	}
 
 	if r.URL.Path == "/" || r.URL.Path == "index.html" {

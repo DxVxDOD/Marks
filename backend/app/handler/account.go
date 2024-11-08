@@ -82,7 +82,8 @@ func (h *Marks) Account(w http.ResponseWriter, r *http.Request) {
 		ViteEntry: "frontend/account.tsx",
 	})
 	if err != nil {
-		panic(err)
+		utils.Respond_error(w, 500, http.StatusText(http.StatusInternalServerError))
+		return
 	}
 
 	vite_handler.RegisterTemplate("/account", account_html)
