@@ -4,7 +4,11 @@ import react from '@vitejs/plugin-react-swc'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-    build: {
+  root: ".",
+  server: {
+    port: 5173
+  },
+  build: {
     manifest: true,
     emptyOutDir: false,
     rollupOptions: {

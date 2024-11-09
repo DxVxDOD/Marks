@@ -18,7 +18,7 @@ func (a *App) load_dev_routes() {
 	a.Router.Handle("/", http.HandlerFunc(public.Home_Dev))
 
 	// User access routes
-	a.Router.Handle("/account", http.HandlerFunc(user.Account))
+	a.Router.Handle("/account", http.HandlerFunc(user.Account_dev))
 
 }
 
@@ -30,5 +30,5 @@ func (a *App) load_routes() {
 	a.Router.Handle("/", http.HandlerFunc(public.Home))
 
 	// User access routes
-	a.Router.HandleFunc("/account", http.HandlerFunc(user.Account_dev))
+	a.Router.HandleFunc("/account", http.HandlerFunc(user.Account))
 }

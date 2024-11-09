@@ -11,48 +11,49 @@ import (
 var account_html = `<!doctype html>
 <html lang="en" class="h-full scroll-smooth">
   <head>
-    <meta charset="utf-8" />
-	{{- if .metadata }}
-		{{ .metadata }}
+    <meta charset="UTF-8" />
+	{{- if .Metadata }}
+		{{ .Metadata }}
 	{{- end }}
-	{{- if .isdev }}
-		{{ .pluginreactpreamble }}
-		<script type="module" src="{{ .viteurl }}/@vite/client"></script>
-		{{ if ne .viteentry "" }}
-			<script type="module" src="{{ .viteurl }}/{{ .viteentry }}"></script>
+	{{- if .IsDev }}
+		{{ .PluginReactPreamble }}
+		<script type="module" src="{{ .ViteURL }}/@vite/client"></script>
+		{{ if ne .ViteEntry "" }}
+			<script type="module" src="{{ .ViteURL }}/{{ .ViteEntry }}"></script>
 		{{ else }}
-			<script type="module" src="{{ .viteurl }}/src/main.tsx"></script>
+			<script type="module" src="{{ .ViteURL }}/src/main.tsx"></script>
 		{{ end }}
 	{{- else }}
-		{{- if .stylesheets }}
-		{{ .stylesheets }}
+		{{- if .StyleSheets }}
+		{{ .StyleSheets }}
 		{{- end }}
-		{{- if .modules }}
-		{{ .modules }}
+		{{- if .Modules }}
+		{{ .Modules }}
 		{{- end }}
-		{{- if .preloadmodules }}
-		{{ .preloadmodules }}
+		{{- if .PreloadModules }}
+		{{ .PreloadModules }}
 		{{- end }}
 	{{- end }}
-	{{- if .scripts }}
-		{{ .scripts }}
+	{{- if .Scripts }}
+		{{ .Scripts }}
 	{{- end }}
  </head>
   <body class="min-h-screen antialiased">
     <div id="root"></div>
   </body>
-</html>`
+</html>
+`
 
 func (h *Marks) Account_dev(w http.ResponseWriter, r *http.Request) {
 	// Handle the vite server
 	vite_handler, err := vite.NewHandler(vite.Config{
-		FS:        os.DirFS("."),
+		FS:        os.DirFS("frontend"),
 		IsDev:     true,
-		ViteEntry: "frontend/account.tsx",
-		ViteURL:   "http://loaclhost:5173",
+		ViteEntry: "src/account.tsx",
+		ViteURL:   "http://localhost:5173",
 	})
 	if err != nil {
-		utils.Respond_error(w, 500, http.StatusText(http.StatusInternalServerError))
+		utils.Respond_error(w, 500, http.StatusText(http.StatusInternalServerError)+err.Error())
 		return
 	}
 
