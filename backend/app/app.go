@@ -63,12 +63,14 @@ func (a *App) Start_dev(ctx context.Context) error {
 		return fmt.Errorf("failed to convert string to int: %w", err)
 	}
 
+	port_verified := strconv.Itoa(port)
+
 	log.Print(port)
 
 	a.load_dev_routes()
 
 	server := http.Server{
-		Addr:    ":" + string(port),
+		Addr:    ":" + port_verified,
 		Handler: middleware.Logging(a.Logger, a.Router),
 	}
 
@@ -81,7 +83,7 @@ func (a *App) Start_dev(ctx context.Context) error {
 		close(done)
 	}()
 
-	a.Logger.Info("Server listening", slog.String("addr", ":"+string(port)))
+	a.Logger.Info("Server listening", slog.String("addr", ":"+port_verified))
 	select {
 	case <-done:
 		break
@@ -111,8 +113,10 @@ func (a *App) Start(ctx context.Context) error {
 		return fmt.Errorf("failed to convert string to int: %w", err)
 	}
 
+	port_verified := strconv.Itoa(port)
+
 	server := http.Server{
-		Addr:    ":" + string(port),
+		Addr:    ":" + port_verified,
 		Handler: middleware.Logging(a.Logger, a.Router),
 	}
 
@@ -127,7 +131,7 @@ func (a *App) Start(ctx context.Context) error {
 		close(done)
 	}()
 
-	a.Logger.Info("Server listening", slog.String("addr", ":"+string(port)))
+	a.Logger.Info("Server listening", slog.String("addr", ":"+port_verified))
 	select {
 	case <-done:
 		break
