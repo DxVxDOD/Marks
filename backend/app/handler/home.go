@@ -10,7 +10,7 @@ import (
 
 func (h *Marks) Home_Dev(w http.ResponseWriter, r *http.Request) {
 	vite_handler, err := vite.NewHandler(vite.Config{
-		FS:      os.DirFS("."),
+		FS:      os.DirFS("./frontend"),
 		IsDev:   true,
 		ViteURL: "http://localhost:5173",
 	})
