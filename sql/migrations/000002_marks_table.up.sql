@@ -5,5 +5,6 @@ CREATE TABLE marks (
     title TEXT NOT NULL UNIQUE,
     tag TEXT NOT NULL,
     url TEXT NOT NULL UNIQUE,
+    favorites BOOLEAN NO NULL,
     user_id UUID REFERENCES users(id)
 );
