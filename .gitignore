@@ -1,3 +1,6 @@
+node_modules
+Marks
+
 # Binaries
 bin/
 *.exe
@@ -27,3 +30,11 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+static/css/style.css
+*_templ.go
+*_templ.txt
+internal/repository
+.env
+
+pnpm-lock.yaml
