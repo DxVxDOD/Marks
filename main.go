@@ -3,13 +3,16 @@ package main
 import (
 	"log"
 	"net/http"
+
+	"Marks/components"
+	"Marks/handler"
 )
 
 func main() {
 	router := http.NewServeMux()
-	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		log.Println("Hello, Puff, Mom, Dad, Ari")
-	})
+
+	router.Handle("GET /", handler.Component(components.Home()))
+	router.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
 	server := http.Server{
 		Addr:    ":8080",
