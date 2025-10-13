@@ -56,8 +56,9 @@ var countries = []string{
 
 templ Home() {
 @layout() {
-<section class="h-full w-full flex justify-center p-3">
+<section class="h-full w-full flex flex-col p-3">
   @tags(countries)
+  @cards()
 </section>
 }
 }
