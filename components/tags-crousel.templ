@@ -1,9 +1,9 @@
 package components
 
 templ tags(tags []string) {
-<div class="scroll-auto overflow-auto w-full flex h-fit p-2 gap-2">
+<div class="tags scroll-auto overflow-auto w-full flex h-fit p-2 gap-2">
   for _, tag := range tags {
-  <button class="border border-(--fg) cursor-pointer p-2 text-center">&quot;{ tag }&quot;</button>
+  <button class="border border-(--fg) cursor-pointer p-2 text-center text-nowrap">&quot;{ tag }&quot;</button>
   }
 </div>
 }

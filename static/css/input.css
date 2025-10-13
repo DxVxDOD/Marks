@@ -15,8 +15,58 @@
 
   --orange: #d6560e;
   --light-orange: #fe8019;
+
+  --red: #cc241d;
+  --ligh-red: #fb4934;
 }
 
 .header-height {
   height: calc(3rem + 1px);
+}
+
+.tags::-webkit-scrollbar {
+  height: 1rem;
+}
+
+
+.tags::-webkit-scrollbar-button {
+  background-color: var(--light-yellow);
+  cursor: pointer;
+  border: var(--orange) solid 1px;
+}
+
+
+.tags::-webkit-scrollbar-button:active {
+  background-color: var(--yellow);
+}
+
+/* TODO: Make this to show up on Mac and Widnows */
+/* .tags::-webkit-scrollbar-button:single-button:vertical:decrement { */
+/*   border-width: 6px; */
+/*   border-style: solid; */
+/*   border-color: transparent transparent var(--blue) transparent; */
+/*   background: none; */
+/* } */
+/**/
+/* .tags::-webkit-scrollbar-button:single-button:vertical:increment { */
+/*   border-width: 6px; */
+/*   border-style: solid; */
+/*   border-color: var(--blue) transparent transparent transparent; */
+/*   background: none; */
+/* } */
+
+.tags::-webkit-scrollbar-track {
+  background-color: var(--bg0_h);
+}
+
+.tags::-webkit-scrollbar-thumb {
+  cursor: pointer;
+
+  background-color: var(--bg0_h);
+  border: var(--red) solid 1px;
+}
+
+
+.tags::-webkit-scrollbar-thumb:active {
+  background-color: var(--yellow);
 }
