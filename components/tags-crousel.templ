@@ -1,0 +1,9 @@
+package components
+
+templ tags(tags []string) {
+<div class="border border-(--fg) w-full h-10 flex">
+  for _, tag := range tags {
+  <span>{ tag }</span>
+  }
+</div>
+}

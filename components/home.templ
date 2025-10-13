@@ -1,7 +1,11 @@
 package components
 
+var countries = []string{"Czech Republic", "Slovakia", "United Kingdom", "Germany", "Austria", "Slovenia"}
+
 templ Home() {
 @layout() {
-<section class="h-full w-full">This is going to be the main thing</section>
+<section class="h-full w-full flex justify-center p-3">
+  @tags(countries)
+</section>
 }
 }
