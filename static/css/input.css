@@ -18,10 +18,20 @@
 
   --red: #cc241d;
   --ligh-red: #fb4934;
+
+  --green: #98971a;
+  --light-green: #b8bb26;
+
+  --aqua: #689d6a;
+  --light-aqua: #8ec07c;
 }
 
 .header-height {
   height: calc(3rem + 1px);
+}
+
+body::-webkit-scrollbar {
+  height: 0;
 }
 
 .tags::-webkit-scrollbar {
@@ -30,7 +40,6 @@
 
 
 .tags::-webkit-scrollbar-button {
-  background-color: var(--light-yellow);
   cursor: pointer;
   border: var(--orange) solid 1px;
 }
@@ -65,7 +74,6 @@
   background-color: var(--bg0_h);
   border: var(--red) solid 1px;
 }
-
 
 .tags::-webkit-scrollbar-thumb:active {
   background-color: var(--yellow);

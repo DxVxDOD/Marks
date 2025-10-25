@@ -1,24 +1,21 @@
 package components
 
 templ layout() {
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Marks</title>
-  <link rel="stylesheet" href="/static/css/output.css" />
-</head>
-
-<body class="w-screen h-screen bg-(--bg0_h) text-(--fg) p-3 flex flex-col">
-  @header()
-  <main class="flex grow-1">
-    { children... }
-  </main>
-  @footer()
-</body>
-
-</html>
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+			<title>Marks</title>
+			<link rel="stylesheet" href="/static/css/output.css?v={{ time.Now().Unix }}"/>
+		</head>
+		<body class="w-screen h-screen bg-(--bg0_h) text-(--fg) p-3 flex flex-col overflow-x-hidden">
+			@header()
+			<main class="flex grow">
+				{ children... }
+			</main>
+			@footer()
+		</body>
+	</html>
 }

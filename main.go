@@ -20,5 +20,5 @@ func main() {
 	}
 
 	log.Println("Starting server on port :8080")
-	server.ListenAndServe()
+	log.Fatal(server.ListenAndServe())
 }

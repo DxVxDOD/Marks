@@ -15,7 +15,7 @@ live/server:
 
 # run tailwindcss to generate the styles.css bundle in watch mode.
 live/tailwind:
-	npx tailwindcss -i ./static/css/input.css -o ./static/css/output.css --minify --watch=forever
+	npx tailwindcss -i ./static/css/input.css -o ./static/css/output.css --minify --watch
 
 # watch for any js or css change in the assets/ folder, then reload the browser via templ proxy.
 live/sync_assets:
