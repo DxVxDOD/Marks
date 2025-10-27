@@ -1,14 +1,25 @@
 package components
 
 templ header() {
-	<header class="header-height w-full flex content-center items-center align-middle justify-center">
-		<div class="absolute top-3 left-3">
-			<button class="border border-(--yellow) p-3 cursor-pointer">
-				<span>drop_down</span>
-			</button>
-		</div>
-		<div class="h-full w-full flex justify-center items-center">
-			<span class="border border-(--aqua) p-3">marks</span>
-		</div>
-	</header>
+<header class="header-height w-full flex justify-between">
+  <button class="border border-(--yellow) p-3 cursor-pointer">
+    <span>drop_down</span>
+  </button>
+  <div class="h-full flex justify-center items-center">
+    <span class="border border-(--aqua) p-3">marks</span>
+  </div>
+  <!-- <button popovertarget="deletepopup" popovertargetaction="hide"></button> -->
+  <button popovertarget="addMarkPopUp" class="border border-(--yellow) p-3 cursor-pointer mr-[3px]">
+    <span>&#43;</span>
+  </button>
+  <div id="addMarkPopUp" popover>
+    <form class="flex flex-col" method="post">
+      <input required autocapitalize type="text" placeholder="Title: " />
+      <input required type="text" placeholder="Tag: " />
+      <input required type="url" placeholder="URL: " />
+      <input autocapitalize type="text" placeholder="Description: " />
+      <input class="cursor-pointer" type="submit" />
+    </form>
+  </div>
+</header>
 }

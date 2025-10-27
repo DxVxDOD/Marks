@@ -13,7 +13,7 @@ import (
 func (a *App) loadPages(router *http.ServeMux) {
 	h := handler.New(a.logger, a.sqliteDB)
 
-	router.Handle("Get /", handler.Component(components.Home()))
+	router.Handle("GET /", h.Component(components.Home()))
 
 	router.HandleFunc("GET /api/marks/{user_id}", h.GetUserMarks)
 }

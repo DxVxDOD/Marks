@@ -84,7 +84,7 @@ func (a *App) Start(ctx context.Context) error {
 	port := getPort(3000)
 
 	server := &http.Server{
-		Addr:           fmt.Sprintf(": %d", port),
+		Addr:           fmt.Sprintf(":%d", port),
 		Handler:        middlewares(router),
 		MaxHeaderBytes: 1 << 20,
 	}
