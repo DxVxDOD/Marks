@@ -38,5 +38,5 @@ internal/repository
 .env
 
 pnpm-lock.yaml
-
+internal/database
 db

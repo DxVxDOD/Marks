@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"database/sql"
+	_ "embed"
 	"errors"
 	"fmt"
 	"io/fs"

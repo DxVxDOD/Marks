@@ -1,7 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE bookmarks (
-    id INTEGER PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS bookmarks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     url TEXT NOT NULL,
     title TEXT NOT NULL UNIQUE,
@@ -14,5 +14,5 @@ CREATE TABLE bookmarks (
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE bookmarks;
+DROP TABLE IF EXISTS bookmarks;
 -- +goose StatementEnd

@@ -15,7 +15,8 @@ func (a *App) loadPages(router *http.ServeMux) {
 
 	router.Handle("GET /", h.Component(components.Home()))
 
-	router.HandleFunc("GET /api/marks/{user_id}", h.GetUserMarks)
+	router.HandleFunc("GET /api/user/{id}", h.GetUserMarks)
+	router.HandleFunc("POST /api/user", h.AddUser)
 }
 
 func (a *App) loadStaticFiles() (http.Handler, error) {
