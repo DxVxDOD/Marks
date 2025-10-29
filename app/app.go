@@ -16,13 +16,14 @@ import (
 	"Marks/middleware"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/pressly/goose/v3"
 )
 
 type App struct {
-	files    fs.FS
-	logger   *slog.Logger
-	config   Config
-	sqliteDB *sql.DB
+	files  fs.FS
+	logger *slog.Logger
+	config Config
+	db     *sql.DB
 }
 
 func getPort(defaultPort int) int {
@@ -62,16 +63,26 @@ func New(logger *slog.Logger, config Config, files fs.FS) (*App, error) {
 		return nil, fmt.Errorf("could not set WAL mode: %v", err)
 	}
 
+	goose.SetBaseFS(files)
+
+	if err := goose.SetDialect("sqlite"); err != nil {
+		return nil, fmt.Errorf("could not set db dialect: %v", err)
+	}
+
+	if err := goose.Up(db, "sql/migrations"); err != nil {
+		return nil, fmt.Errorf("could not run up migrations: %v", err)
+	}
+
 	return &App{
-		config:   config,
-		logger:   logger,
-		files:    files,
-		sqliteDB: db,
+		config: config,
+		logger: logger,
+		files:  files,
+		db:     db,
 	}, nil
 }
 
 func (a *App) Start(ctx context.Context) error {
-	if err := a.sqliteDB.PingContext(ctx); err != nil {
+	if err := a.db.PingContext(ctx); err != nil {
 		return fmt.Errorf("pinged sqlite: %v", err)
 	}
 

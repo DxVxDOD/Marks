@@ -4,33 +4,22 @@ package handler
 import (
 	"database/sql"
 	"log/slog"
-	"net/http"
 
-	"github.com/a-h/templ"
+	"Marks/internal/database"
 )
 
 type Handler struct {
-	logger   *slog.Logger
-	sqliteDB *sql.DB
+	logger  *slog.Logger
+	queries *database.Queries
 }
 
 func New(
 	logger *slog.Logger,
-	sqliteDB *sql.DB,
+	db *sql.DB,
 ) *Handler {
+	queries := database.New(db)
 	return &Handler{
-		logger:   logger,
-		sqliteDB: sqliteDB,
+		logger:  logger,
+		queries: queries,
 	}
-}
-
-func (h *Handler) Component(comp templ.Component) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Add("Content-Type", "text/html")
-		if err := comp.Render(r.Context(), w); err != nil {
-			h.logger.Error("failed to render component", slog.Any("error", err))
-			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-			return
-		}
-	})
 }
