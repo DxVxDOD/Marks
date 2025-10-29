@@ -35,6 +35,7 @@ func (a *App) loadAPIs(router *http.ServeMux) {
 
 	router.HandleFunc("GET /api/user/{id}", h.GetUserMarks)
 	router.HandleFunc("POST /api/user", h.AddUser)
+	router.HandleFunc("POST /api/bookmark", h.AddUser)
 }
 
 func (a *App) loadStaticFiles() (http.Handler, error) {
@@ -42,7 +43,7 @@ func (a *App) loadStaticFiles() (http.Handler, error) {
 		return http.FileServer(http.Dir("static")), nil
 	}
 
-	static, err := fs.Sub(a.files, "static")
+	static, err := fs.Sub(a.staticFiles, "static")
 	if err != nil {
 		return nil, fmt.Errorf("failed to load subdir static: %w", err)
 	}

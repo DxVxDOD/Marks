@@ -15,7 +15,10 @@ import (
 )
 
 //go:embed sql/migrations
-var files embed.FS
+var sqlFiles embed.FS
+
+//go:embed static
+var staticFiles embed.FS
 
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
@@ -27,7 +30,7 @@ func main() {
 	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer cancel()
 
-	app, err := app.New(logger, app.Config{}, files)
+	app, err := app.New(logger, app.Config{}, staticFiles, sqlFiles)
 	if err != nil {
 		logger.Error("failed to create app", slog.Any("error", err))
 	}

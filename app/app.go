@@ -20,10 +20,11 @@ import (
 )
 
 type App struct {
-	files  fs.FS
-	logger *slog.Logger
-	config Config
-	db     *sql.DB
+	staticFiles fs.FS
+	sqlFiles    fs.FS
+	logger      *slog.Logger
+	config      Config
+	db          *sql.DB
 }
 
 func getPort(defaultPort int) int {
@@ -40,7 +41,7 @@ func getPort(defaultPort int) int {
 	return port
 }
 
-func New(logger *slog.Logger, config Config, files fs.FS) (*App, error) {
+func New(logger *slog.Logger, config Config, staticFiles fs.FS, sqlFiles fs.FS) (*App, error) {
 	sqlitePath, ok := os.LookupEnv("SQLITE_PATH")
 	if !ok {
 		return nil, fmt.Errorf("missing SQLITE_PATH")
@@ -63,7 +64,7 @@ func New(logger *slog.Logger, config Config, files fs.FS) (*App, error) {
 		return nil, fmt.Errorf("could not set WAL mode: %v", err)
 	}
 
-	goose.SetBaseFS(files)
+	goose.SetBaseFS(sqlFiles)
 
 	if err := goose.SetDialect("sqlite"); err != nil {
 		return nil, fmt.Errorf("could not set db dialect: %v", err)
@@ -74,10 +75,11 @@ func New(logger *slog.Logger, config Config, files fs.FS) (*App, error) {
 	}
 
 	return &App{
-		config: config,
-		logger: logger,
-		files:  files,
-		db:     db,
+		config:      config,
+		logger:      logger,
+		staticFiles: staticFiles,
+		sqlFiles:    sqlFiles,
+		db:          db,
 	}, nil
 }
 
