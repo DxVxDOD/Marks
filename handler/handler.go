@@ -1,14 +1,25 @@
+// Package handler contains tools to creat various new handlers
 package handler
 
 import (
-	"net/http"
+	"database/sql"
+	"log/slog"
 
-	"github.com/a-h/templ"
+	"Marks/internal/database"
 )
 
-func Component(comp templ.Component) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Add("Content-Type", "text/html")
-		comp.Render(r.Context(), w)
-	})
+type Handler struct {
+	logger  *slog.Logger
+	queries *database.Queries
+}
+
+func New(
+	logger *slog.Logger,
+	db *sql.DB,
+) *Handler {
+	queries := database.New(db)
+	return &Handler{
+		logger:  logger,
+		queries: queries,
+	}
 }

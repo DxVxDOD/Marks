@@ -1,0 +1,22 @@
+package components
+
+import "Marks/internal/database"
+
+templ card(bookmark database.Bookmark) {
+	<div class="p-2 w-[25%]">
+		<div class="border border-(--blue) w-full p-3">
+			<p>
+				Title: { bookmark.Title }
+			</p>
+			<p>
+				URL: { bookmark.Url }
+			</p>
+			<button class="cursor-pointer" type="button">
+				<span>
+					Description:
+				</span>
+				>
+			</button>
+		</div>
+	</div>
+}
