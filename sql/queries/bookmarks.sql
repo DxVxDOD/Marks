@@ -18,3 +18,6 @@ description
   ?,?,?,?
 )
 RETURNING *;
+
+-- name: GetAllUserBookmarks :many
+SELECT * from bookmarks WHERE user_id = ?;

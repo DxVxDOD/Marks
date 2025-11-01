@@ -1,25 +1,26 @@
 package components
 
 templ header() {
-<header class="header-height w-full flex justify-between">
-  <button class="border border-(--yellow) p-3 cursor-pointer">
-    <span>drop_down</span>
-  </button>
-  <div class="h-full flex justify-center items-center">
-    <span class="border border-(--aqua) p-3">marks</span>
-  </div>
-  <!-- <button popovertarget="deletepopup" popovertargetaction="hide"></button> -->
-  <button popovertarget="addMarkPopUp" class="border border-(--yellow) p-3 cursor-pointer mr-[3px]">
-    <span>&#43;</span>
-  </button>
-  <div id="addMarkPopUp" popover>
-    <form class="flex flex-col" method="post">
-      <input required autocapitalize type="text" placeholder="Title: " />
-      <input required type="text" placeholder="Tag: " />
-      <input required type="url" placeholder="URL: " />
-      <input autocapitalize type="text" placeholder="Description: " />
-      <input class="cursor-pointer" type="submit" />
-    </form>
-  </div>
-</header>
+	<header class="header-height w-full flex justify-between">
+		<button class="border border-(--yellow) p-3 cursor-pointer">
+			<span>drop_down</span>
+		</button>
+		<div class="h-full flex justify-center items-center">
+			<span class="border border-(--aqua) p-3">marks</span>
+		</div>
+		<!-- <button popovertarget="deletepopup" popovertargetaction="hide"></button> -->
+		<button popovertarget="addMarkPopUp" class="border border-(--yellow) p-3 cursor-pointer mr-[3px]">
+			<span>&#43;</span>
+		</button>
+		<div id="addMarkPopUp" popover>
+			<form action="http://localhost:3000/api/bookmark/0" class="flex flex-col" method="post">
+				<input required autocapitalize type="text" placeholder="Title: "/>
+				<!-- <input required type="text" placeholder="Tag: "/> -->
+				<input required type="url" placeholder="URL: "/>
+				<input required type="number" placeholder="TEMP USER ID: "/>
+				<input autocapitalize type="text" placeholder="Description: "/>
+				<input class="cursor-pointer" type="submit"/>
+			</form>
+		</div>
+	</header>
 }

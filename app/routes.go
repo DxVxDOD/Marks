@@ -28,6 +28,7 @@ func (a *App) component(comp templ.Component) http.Handler {
 
 func (a *App) loadPages(router *http.ServeMux) {
 	router.Handle("GET /", a.component(components.Home()))
+	router.Handle("GET /bookmarks/{user_id}", a.component(components.Home()))
 }
 
 func (a *App) loadAPIs(router *http.ServeMux) {
@@ -35,7 +36,7 @@ func (a *App) loadAPIs(router *http.ServeMux) {
 
 	router.HandleFunc("GET /api/user/{id}", h.GetUserMarks)
 	router.HandleFunc("POST /api/user", h.AddUser)
-	router.HandleFunc("POST /api/bookmark", h.AddUser)
+	router.HandleFunc("POST /api/bookmark/{user_id}", h.AddUser)
 }
 
 func (a *App) loadStaticFiles() (http.Handler, error) {

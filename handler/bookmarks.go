@@ -1,12 +1,14 @@
 package handler
 
 import (
+	"database/sql"
 	"fmt"
 	"log/slog"
 	"net/http"
 	"strconv"
 	"strings"
 
+	"Marks/components"
 	"Marks/internal/database"
 )
 
@@ -42,11 +44,14 @@ func parseBookmarkForm(r http.Request) (*database.AddBookmarkWithDescriptionPara
 	description := strings.Join(descriptionSlice, " ")
 
 	return &database.AddBookmarkWithDescriptionParams{
-		UserID:      userID,
-		Url:         url,
-		Title:       title,
-		Description: description,
-	}
+		UserID: userID,
+		Url:    url,
+		Title:  title,
+		Description: sql.NullString{
+			String: description,
+			Valid:  description != "",
+		},
+	}, nil
 }
 
 func (h *Handler) AddBookmark(w http.ResponseWriter, r http.Request) {
@@ -56,9 +61,38 @@ func (h *Handler) AddBookmark(w http.ResponseWriter, r http.Request) {
 		return
 	}
 
-	// bookmarkData := &database.AddBookmarkWithDescriptionParams{}
-	// newBookmark, err := h.queries.AddBookmarkWithDescription(r.Context(), &database.AddBookmarkWithDescriptionParams{
-	// 	userID,
-	// 	url,
-	// })
+	bookmark, err := parseBookmarkForm(r)
+	if err != nil {
+		h.logger.Error("Malformed request", slog.Any("error", err))
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	if _, err := h.queries.AddBookmarkWithDescription(r.Context(), *bookmark); err != nil {
+		h.logger.Error("could not write to DB", slog.Any("error", err))
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	scheme := "http"
+	if r.TLS != nil {
+		scheme = "https"
+	}
+
+	uri := fmt.Sprintf("%s://%s/%d", scheme, r.Host, bookmark.UserID)
+
+	http.Redirect(w, &r, uri, http.StatusCreated)
+}
+
+func (h *Handler) RenderBookmarksByUserID(w http.ResponseWriter, r http.Request) {
+	bookmarks, err := h.queries.GetAllUserBookmarks(r.Context(), 0)
+	if err != nil {
+		h.logger.Error("could not retrieve bookmarks", slog.Any("error", err))
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	if err := components.BookmarksByUserID(bookmarks).Render(r.Context(), w); err != nil {
+		h.logger.Error("Failed to render user bookmarks page", slog.Any("error", err))
+	}
 }
