@@ -56,9 +56,9 @@ func (h *Handler) AddBookmark(w http.ResponseWriter, r http.Request) {
 		return
 	}
 
-	bookmarkData := &database.AddBookmarkWithDescriptionParams{}
-	newBookmark, err := h.queries.AddBookmarkWithDescription(r.Context(), &database.AddBookmarkWithDescriptionParams{
-		userID,
-		url,
-	})
+	// bookmarkData := &database.AddBookmarkWithDescriptionParams{}
+	// newBookmark, err := h.queries.AddBookmarkWithDescription(r.Context(), &database.AddBookmarkWithDescriptionParams{
+	// 	userID,
+	// 	url,
+	// })
 }
