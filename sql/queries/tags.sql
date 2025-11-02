@@ -6,3 +6,6 @@ name
 ?,?
 )
 RETURNING *;
+
+-- name: GetAllUserTags :many
+SELECT * FROM tags WHERE user_id = ?;

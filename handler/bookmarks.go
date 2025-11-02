@@ -4,20 +4,13 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
 
 	"Marks/components"
 	"Marks/internal/database"
 )
 
-func parseBookmarkWithDescriptionForm(r *http.Request) (*database.AddBookmarkWithDescriptionParams, error) {
-	strUserID := r.PathValue("userID")
-	userID, err := strconv.ParseInt(strUserID, 10, 64)
-	if err != nil {
-		return nil, fmt.Errorf("userID not int")
-	}
-
+func parseBookmarkWithDescriptionForm(r *http.Request, userID int64) (*database.AddBookmarkWithDescriptionParams, error) {
 	titleSlice, ok := r.Form["title"]
 	if !ok {
 		return nil, fmt.Errorf("missing title")
@@ -53,25 +46,56 @@ func (h *Handler) AddBookmark(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	bookmark, err := parseBookmarkWithDescriptionForm(r)
+	username := r.PathValue("username")
+	user, err := h.queries.GetUserByUsername(r.Context(), username)
+	if err != nil {
+		h.handleError(w, "could not get user by username", err, http.StatusNotFound)
+		return
+	}
+
+	tagSlice, ok := r.Form["tag"]
+	if !ok {
+		h.handleErrorNoObject(w, "missing tag", http.StatusBadRequest)
+		return
+	}
+	tagName := strings.Join(tagSlice, " ")
+
+	bookmarkData, err := parseBookmarkWithDescriptionForm(r, user.ID)
 	if err != nil {
 		h.handleError(w, "malformed request", err, http.StatusBadRequest)
 		return
 	}
 
-	if _, err := h.queries.AddBookmarkWithDescription(r.Context(), *bookmark); err != nil {
+	newBookmark, err := h.queries.AddBookmarkWithDescription(r.Context(), *bookmarkData)
+	if err != nil {
 		h.handleError(w, "could not write to DB", err, http.StatusInternalServerError)
 		return
 	}
 
-	// scheme := "http"
-	// if r.TLS != nil {
-	// 	scheme = "https"
-	// }
-	//
-	// uri := fmt.Sprintf("%s://%s/%d", scheme, r.Host, bookmark.UserID)
+	tag, err := h.queries.AddTag(r.Context(), database.AddTagParams{
+		UserID: user.ID,
+		Name:   tagName,
+	})
+	if err != nil {
+		h.handleError(w, "could not write to DB", err, http.StatusInternalServerError)
+		return
+	}
 
-	// http.Redirect(w, r, uri, http.StatusCreated)
+	if _, err := h.queries.AddBookmarkTag(r.Context(), database.AddBookmarkTagParams{
+		BookmarkID: newBookmark.ID,
+		TagID:      tag.ID,
+	}); err != nil {
+		h.handleError(w, "could not write to DB", err, http.StatusInternalServerError)
+	}
+
+	scheme := "http"
+	if r.TLS != nil {
+		scheme = "https"
+	}
+
+	uri := fmt.Sprintf("%s://%s/%d", scheme, r.Host, bookmarkData.UserID)
+
+	http.Redirect(w, r, uri, http.StatusSeeOther)
 }
 
 func (h *Handler) RenderBookmarksByUserID(w http.ResponseWriter, r *http.Request) {
@@ -81,7 +105,5 @@ func (h *Handler) RenderBookmarksByUserID(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	if err := components.BookmarksByUserID(bookmarks).Render(r.Context(), w); err != nil {
-		h.handleError(w, "failed to render user bookmarks page", err, http.StatusInternalServerError)
-	}
+	h.renderComponent(components.BookmarksByUserID(bookmarks), w, r)
 }

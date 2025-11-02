@@ -15,7 +15,7 @@ templ header() {
 		<div id="addBookmarkPopup" popover>
 			<form action="http://localhost:3000/api/bookmark/1" class="flex flex-col" method="post">
 				<input name="title" required autocapitalize type="text" placeholder="Title: "/>
-				<!-- <input required type="text" placeholder="Tag: "/> -->
+				<input name="tag" required type="text" placeholder="Tag: "/>
 				<input name="url" required type="url" placeholder="URL: "/>
 				<input name="description" autocapitalize type="text" placeholder="Description: "/>
 				<input class="cursor-pointer" type="submit"/>

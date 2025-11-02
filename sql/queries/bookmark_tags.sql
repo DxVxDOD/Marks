@@ -6,3 +6,6 @@ tag_id
 ?,?
 )
 RETURNING *;
+
+-- name: GetAllBookmarkTags :many
+SELECT * FROM bookmark_tags WHERE tag_id = ?;

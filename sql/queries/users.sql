@@ -1,4 +1,4 @@
--- name: GetUser :one
+-- name: GetUserByUsername :one
 SELECT * FROM users
 WHERE username = ?;
 

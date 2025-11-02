@@ -47,12 +47,11 @@ func (h *Handler) AddUser(w http.ResponseWriter, r *http.Request) {
 		h.handleError(w, "failed to create user", err, http.StatusInternalServerError)
 		return
 	}
-	// TODO: Add redirect to home
 }
 
-func (h *Handler) GetUser(w http.ResponseWriter, r *http.Request) {
-	userID := r.PathValue("userID")
-	user, err := h.queries.GetUser(r.Context(), userID)
+func (h *Handler) GetUserByUsername(w http.ResponseWriter, r *http.Request) {
+	username := r.PathValue("username")
+	user, err := h.queries.GetUserByUsername(r.Context(), username)
 	if err != nil {
 		h.handleError(w, "could not get user by id", err, http.StatusNotFound)
 		return
@@ -62,5 +61,3 @@ func (h *Handler) GetUser(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(user)
 }
-
-func (h *Handler) GetUserMarks(w http.ResponseWriter, r *http.Request) {}

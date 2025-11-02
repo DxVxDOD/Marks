@@ -7,23 +7,7 @@ import (
 	"os"
 
 	"Marks/handler"
-
-	"github.com/a-h/templ"
 )
-
-func (a *App) component(comp templ.Component) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Add("Content-Type", "text/html")
-		if err := comp.Render(r.Context(), w); err != nil {
-			a.logger.Error("failed to render component",
-				"error", err,
-				"path", r.URL.Path,
-			)
-			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-			return
-		}
-	})
-}
 
 func (a *App) loadPages(router *http.ServeMux) {
 	h := handler.New(a.logger, a.db)
@@ -33,8 +17,8 @@ func (a *App) loadPages(router *http.ServeMux) {
 func (a *App) loadAPIs(router *http.ServeMux) {
 	h := handler.New(a.logger, a.db)
 
+	router.HandleFunc("GET /api/user/{userID}", h.GetUserByUsername)
 	router.HandleFunc("POST /api/user", h.AddUser)
-	router.HandleFunc("GET /api/user/{userID}", h.GetUser)
 	router.HandleFunc("POST /api/bookmark/{userID}", h.AddBookmark)
 }
 
