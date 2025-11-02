@@ -4,6 +4,7 @@ package handler
 import (
 	"database/sql"
 	"log/slog"
+	"net/http"
 
 	"Marks/internal/database"
 )
@@ -22,4 +23,9 @@ func New(
 		logger:  logger,
 		queries: queries,
 	}
+}
+
+func (h *Handler) handleError(w http.ResponseWriter, message string, err error, statusCode int) {
+	h.logger.Error(message, slog.Any("error", err))
+	w.WriteHeader(statusCode)
 }

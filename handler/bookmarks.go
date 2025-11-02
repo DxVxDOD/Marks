@@ -3,7 +3,6 @@ package handler
 import (
 	"database/sql"
 	"fmt"
-	"log/slog"
 	"net/http"
 	"strconv"
 	"strings"
@@ -12,14 +11,8 @@ import (
 	"Marks/internal/database"
 )
 
-func parseBookmarkForm(r http.Request) (*database.AddBookmarkWithDescriptionParams, error) {
-	userIDSlice, ok := r.Form["userID"]
-	if !ok {
-		return nil, fmt.Errorf("missing userID")
-	}
-
-	strUserID := strings.Join(userIDSlice, " ")
-
+func parseBookmarkWithDescriptionForm(r *http.Request) (*database.AddBookmarkWithDescriptionParams, error) {
+	strUserID := r.PathValue("userID")
 	userID, err := strconv.ParseInt(strUserID, 10, 64)
 	if err != nil {
 		return nil, fmt.Errorf("userID not int")
@@ -54,45 +47,41 @@ func parseBookmarkForm(r http.Request) (*database.AddBookmarkWithDescriptionPara
 	}, nil
 }
 
-func (h *Handler) AddBookmark(w http.ResponseWriter, r http.Request) {
+func (h *Handler) AddBookmark(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
-		h.logger.Error("fialed to parse form", slog.Any("error", err))
-		w.WriteHeader(http.StatusInternalServerError)
+		h.handleError(w, "fialed to parse form", err, http.StatusInternalServerError)
 		return
 	}
 
-	bookmark, err := parseBookmarkForm(r)
+	bookmark, err := parseBookmarkWithDescriptionForm(r)
 	if err != nil {
-		h.logger.Error("Malformed request", slog.Any("error", err))
-		w.WriteHeader(http.StatusBadRequest)
+		h.handleError(w, "malformed request", err, http.StatusBadRequest)
 		return
 	}
 
 	if _, err := h.queries.AddBookmarkWithDescription(r.Context(), *bookmark); err != nil {
-		h.logger.Error("could not write to DB", slog.Any("error", err))
-		w.WriteHeader(http.StatusInternalServerError)
+		h.handleError(w, "could not write to DB", err, http.StatusInternalServerError)
 		return
 	}
 
-	scheme := "http"
-	if r.TLS != nil {
-		scheme = "https"
-	}
+	// scheme := "http"
+	// if r.TLS != nil {
+	// 	scheme = "https"
+	// }
+	//
+	// uri := fmt.Sprintf("%s://%s/%d", scheme, r.Host, bookmark.UserID)
 
-	uri := fmt.Sprintf("%s://%s/%d", scheme, r.Host, bookmark.UserID)
-
-	http.Redirect(w, &r, uri, http.StatusCreated)
+	// http.Redirect(w, r, uri, http.StatusCreated)
 }
 
-func (h *Handler) RenderBookmarksByUserID(w http.ResponseWriter, r http.Request) {
-	bookmarks, err := h.queries.GetAllUserBookmarks(r.Context(), 0)
+func (h *Handler) RenderBookmarksByUserID(w http.ResponseWriter, r *http.Request) {
+	bookmarks, err := h.queries.GetAllUserBookmarks(r.Context(), 1)
 	if err != nil {
-		h.logger.Error("could not retrieve bookmarks", slog.Any("error", err))
-		w.WriteHeader(http.StatusNotFound)
+		h.handleError(w, "could not write to DB could not retrieve bookmarks", err, http.StatusNotFound)
 		return
 	}
 
 	if err := components.BookmarksByUserID(bookmarks).Render(r.Context(), w); err != nil {
-		h.logger.Error("Failed to render user bookmarks page", slog.Any("error", err))
+		h.handleError(w, "failed to render user bookmarks page", err, http.StatusInternalServerError)
 	}
 }

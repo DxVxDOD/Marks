@@ -1,5 +1,7 @@
 package components
 
+import "Marks/internal/database"
+
 var countries = []string{
 	"Czech Republic",
 	"Slovakia",
@@ -54,11 +56,15 @@ var countries = []string{
 	"Vietnam",
 }
 
-templ Home() {
+templ Home(bookmarks []database.Bookmark) {
 	@layout() {
 		<section class="h-full w-full flex flex-col p-3 gap-4 overflow-auto">
 			@tags(countries)
-			@card_list()
+			<div class="flex flex-wrap w-full border border-(--orange) p-3">
+				for _,bookmark := range bookmarks {
+					@card(bookmark)
+				}
+			</div>
 		</section>
 	}
 }

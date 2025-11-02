@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"os"
 
-	"Marks/components"
 	"Marks/handler"
 
 	"github.com/a-h/templ"
@@ -27,16 +26,16 @@ func (a *App) component(comp templ.Component) http.Handler {
 }
 
 func (a *App) loadPages(router *http.ServeMux) {
-	router.Handle("GET /", a.component(components.Home()))
-	router.Handle("GET /bookmarks/{user_id}", a.component(components.Home()))
+	h := handler.New(a.logger, a.db)
+	router.HandleFunc("GET /{user_id}", h.RenderBookmarksByUserID)
 }
 
 func (a *App) loadAPIs(router *http.ServeMux) {
 	h := handler.New(a.logger, a.db)
 
-	router.HandleFunc("GET /api/user/{id}", h.GetUserMarks)
 	router.HandleFunc("POST /api/user", h.AddUser)
-	router.HandleFunc("POST /api/bookmark/{user_id}", h.AddUser)
+	router.HandleFunc("GET /api/user/{userID}", h.GetUser)
+	router.HandleFunc("POST /api/bookmark/{userID}", h.AddBookmark)
 }
 
 func (a *App) loadStaticFiles() (http.Handler, error) {

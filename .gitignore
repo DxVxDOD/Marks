@@ -40,3 +40,5 @@ internal/repository
 pnpm-lock.yaml
 internal/database
 db
+
+http

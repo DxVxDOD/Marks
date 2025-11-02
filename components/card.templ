@@ -11,12 +11,14 @@ templ card(bookmark database.Bookmark) {
 			<p>
 				URL: { bookmark.Url }
 			</p>
-			<button class="cursor-pointer" type="button">
-				<span>
-					Description:
-				</span>
-				>
-			</button>
+			if bookmark.Description.Valid {
+				<button class="cursor-pointer" type="button">
+					<span>
+						Description: { bookmark.Description.String }
+					</span>
+					>
+				</button>
+			}
 		</div>
 	</div>
 }
