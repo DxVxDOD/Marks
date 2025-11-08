@@ -18,6 +18,8 @@ require (
 	github.com/cli/browser v1.3.0 // indirect
 	github.com/fatih/color v1.16.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
+	github.com/gorilla/csrf v1.7.3 // indirect
+	github.com/gorilla/securecookie v1.1.2 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mfridman/interpolate v0.0.2 // indirect

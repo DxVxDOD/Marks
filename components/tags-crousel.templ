@@ -1,11 +1,17 @@
 package components
 
-import "Marks/internal/database"
+import (
+	"Marks/internal/database"
+	"fmt"
+)
 
 templ tags_carousel(tags []database.Tag) {
 	<div class="tags scroll-auto overflow-auto w-full flex h-20 p-2 gap-2">
 		for _, tag := range tags {
-			<button class="border border-(--green) cursor-pointer p-2 text-center text-nowrap">{ tag.Name }</button>
+			{{ location := fmt.Sprintf("/%d/%s", tag.UserID, tag.Name) }}
+			<a href={ location } class="border border-(--green) cursor-pointer p-2 text-center text-nowrap">
+				{ tag.Name }
+			</a>
 		}
 	</div>
 }
