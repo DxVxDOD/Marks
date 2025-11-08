@@ -11,15 +11,14 @@ import (
 
 func (a *App) loadPages(router *http.ServeMux) {
 	h := handler.New(a.logger, a.db)
-	router.HandleFunc("GET /{user_id}", h.RenderBookmarksByUserID)
+	router.HandleFunc("GET /{username}", h.Home)
 }
 
 func (a *App) loadAPIs(router *http.ServeMux) {
 	h := handler.New(a.logger, a.db)
 
-	router.HandleFunc("GET /api/user/{userID}", h.GetUserByUsername)
 	router.HandleFunc("POST /api/user", h.AddUser)
-	router.HandleFunc("POST /api/bookmark/{userID}", h.AddBookmark)
+	router.HandleFunc("POST /api/bookmark/{username}", h.AddBookmark)
 }
 
 func (a *App) loadStaticFiles() (http.Handler, error) {

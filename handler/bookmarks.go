@@ -3,6 +3,7 @@ package handler
 import (
 	"database/sql"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"strings"
 
@@ -49,6 +50,7 @@ func (h *Handler) AddBookmark(w http.ResponseWriter, r *http.Request) {
 	username := r.PathValue("username")
 	user, err := h.queries.GetUserByUsername(r.Context(), username)
 	if err != nil {
+		h.logger.Info("username: ", slog.String("username", username))
 		h.handleError(w, "could not get user by username", err, http.StatusNotFound)
 		return
 	}
@@ -93,17 +95,31 @@ func (h *Handler) AddBookmark(w http.ResponseWriter, r *http.Request) {
 		scheme = "https"
 	}
 
-	uri := fmt.Sprintf("%s://%s/%d", scheme, r.Host, bookmarkData.UserID)
+	uri := fmt.Sprintf("%s://%s/%s", scheme, r.Host, username)
 
 	http.Redirect(w, r, uri, http.StatusSeeOther)
 }
 
-func (h *Handler) RenderBookmarksByUserID(w http.ResponseWriter, r *http.Request) {
-	bookmarks, err := h.queries.GetAllUserBookmarks(r.Context(), 1)
+func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
+	username := r.PathValue("username")
+
+	user, err := h.queries.GetUserByUsername(r.Context(), username)
 	if err != nil {
-		h.handleError(w, "could not write to DB could not retrieve bookmarks", err, http.StatusNotFound)
+		h.logger.Info("username: ", slog.String("username", username))
+		h.handleError(w, "could not get user by username", err, http.StatusNotFound)
 		return
 	}
 
-	h.renderComponent(components.BookmarksByUserID(bookmarks), w, r)
+	tags, err := h.queries.GetAllUserTags(r.Context(), user.ID)
+	if err != nil {
+		h.handleError(w, "could not retrieve tags", err, http.StatusNotFound)
+		return
+	}
+	bookmarks, err := h.queries.GetAllUserBookmarks(r.Context(), user.ID)
+	if err != nil {
+		h.handleError(w, "could not retrieve bookmarks", err, http.StatusNotFound)
+		return
+	}
+
+	h.renderComponent(components.Home(bookmarks, tags), w, r)
 }

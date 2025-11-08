@@ -1,9 +1,11 @@
 package components
 
-templ tags(tags []string) {
+import "Marks/internal/database"
+
+templ tags_carousel(tags []database.Tag) {
 	<div class="tags scroll-auto overflow-auto w-full flex h-20 p-2 gap-2">
 		for _, tag := range tags {
-			<button class="border border-(--green) cursor-pointer p-2 text-center text-nowrap">{ tag }</button>
+			<button class="border border-(--green) cursor-pointer p-2 text-center text-nowrap">{ tag.Name }</button>
 		}
 	</div>
 }
