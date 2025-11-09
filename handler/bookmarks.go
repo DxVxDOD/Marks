@@ -41,16 +41,16 @@ func parseBookmarkWithDescriptionForm(r *http.Request, userID int64) (*database.
 	}, nil
 }
 
-func (h *Handler) AddBookmark(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) PostBookmark(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		h.handleError(w, "fialed to parse form", err, http.StatusInternalServerError)
 		return
 	}
 
 	username := r.PathValue("username")
+
 	user, err := h.queries.GetUserByUsername(r.Context(), username)
 	if err != nil {
-		h.logger.Info("username: ", slog.String("username", username))
 		h.handleError(w, "could not get user by username", err, http.StatusNotFound)
 		return
 	}
@@ -70,7 +70,7 @@ func (h *Handler) AddBookmark(w http.ResponseWriter, r *http.Request) {
 
 	newBookmark, err := h.queries.AddBookmarkWithDescription(r.Context(), *bookmarkData)
 	if err != nil {
-		h.handleError(w, "could not write to DB", err, http.StatusInternalServerError)
+		h.handleError(w, "could not add bookmark to DB", err, http.StatusInternalServerError)
 		return
 	}
 
@@ -79,9 +79,11 @@ func (h *Handler) AddBookmark(w http.ResponseWriter, r *http.Request) {
 		Name:   tagName,
 	})
 	if err != nil {
-		h.handleError(w, "could not write to DB", err, http.StatusInternalServerError)
+		h.handleError(w, "could not add tag to DB", err, http.StatusInternalServerError)
 		return
 	}
+
+	// tag := &database.Tag{}
 
 	if _, err := h.queries.AddBookmarkTag(r.Context(), database.AddBookmarkTagParams{
 		BookmarkID: newBookmark.ID,
@@ -90,13 +92,13 @@ func (h *Handler) AddBookmark(w http.ResponseWriter, r *http.Request) {
 		h.handleError(w, "could not write to DB", err, http.StatusInternalServerError)
 	}
 
-	h.doRedirect(w, r, username, http.StatusSeeOther)
+	h.doRedirect(w, r, fmt.Sprintf("/home/%v", username), http.StatusSeeOther)
 }
 
 func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 	username := r.PathValue("username")
 	if len(username) < 1 {
-		h.doRedirect(w, r, "/", http.StatusBadRequest)
+		h.doRedirect(w, r, "/login", http.StatusBadRequest)
 		return
 	}
 
@@ -121,7 +123,7 @@ func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if len(bookmarks) < 1 {
-		h.renderComponent(components.HomeNoBookmarks(), w, r)
+		h.renderComponent(components.HomeNoBookmarks(username), w, r)
 		return
 	}
 

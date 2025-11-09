@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS bookmarks (
     description TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (user_id, title)
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 -- +goose StatementEnd
