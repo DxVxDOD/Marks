@@ -2,15 +2,15 @@ package components
 
 import "Marks/internal/database"
 
-templ Home(bookmarks []database.Bookmark, tags []database.Tag) {
-	@layout() {
-		<section class="h-full w-full flex flex-col p-3 gap-4 overflow-auto">
-			@tags_carousel(tags)
-			<div class="flex flex-wrap w-full border border-(--orange) p-3">
-				for _,bookmark := range bookmarks {
-					@card(bookmark)
-				}
-			</div>
-		</section>
-	}
+templ Home(bookmarks []database.Bookmark, tags []database.Tag, username string) {
+@layout(username) {
+<section class="h-full w-full flex flex-col p-3 gap-4 overflow-auto">
+  @tags_carousel(tags)
+  <div class="flex flex-wrap w-full border border-(--orange) p-3">
+    for _,bookmark := range bookmarks {
+    @card(bookmark)
+    }
+  </div>
+</section>
+}
 }

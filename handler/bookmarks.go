@@ -90,37 +90,40 @@ func (h *Handler) AddBookmark(w http.ResponseWriter, r *http.Request) {
 		h.handleError(w, "could not write to DB", err, http.StatusInternalServerError)
 	}
 
-	scheme := "http"
-	if r.TLS != nil {
-		scheme = "https"
-	}
-
-	uri := fmt.Sprintf("%s://%s/%s", scheme, r.Host, username)
-
-	http.Redirect(w, r, uri, http.StatusSeeOther)
+	h.doRedirect(w, r, username, http.StatusSeeOther)
 }
 
 func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 	username := r.PathValue("username")
+	if len(username) < 1 {
+		h.doRedirect(w, r, "/", http.StatusBadRequest)
+		return
+	}
 
 	user, err := h.queries.GetUserByUsername(r.Context(), username)
 	if err != nil {
-		h.logger.Info("username: ", slog.String("username", username))
-		h.handleError(w, "could not get user by username", err, http.StatusNotFound)
+		h.logger.Error("could not get user by username", slog.Any("Error: ", err))
+		h.doRedirect(w, r, fmt.Sprintf("error/%v", http.StatusNotFound), http.StatusNotFound)
 		return
 	}
 
 	tags, err := h.queries.GetAllUserTags(r.Context(), user.ID)
 	if err != nil {
-		h.handleError(w, "could not retrieve tags", err, http.StatusNotFound)
+		h.logger.Error("could not get tags by userID", slog.Any("Error: ", err))
+		h.doRedirect(w, r, fmt.Sprintf("error/%v", http.StatusNotFound), http.StatusNotFound)
 		return
 	}
+
 	bookmarks, err := h.queries.GetAllUserBookmarks(r.Context(), user.ID)
 	if err != nil {
-		// h.handleError(w, "could not retrieve bookmarks", err, http.StatusNotFound)
+		h.logger.Error("could not get bookmarks by userID", slog.Any("Error: ", err))
+		h.doRedirect(w, r, fmt.Sprintf("error/%v", http.StatusNotFound), http.StatusNotFound)
+		return
+	}
+	if len(bookmarks) < 1 {
 		h.renderComponent(components.HomeNoBookmarks(), w, r)
 		return
 	}
 
-	h.renderComponent(components.Home(bookmarks, tags), w, r)
+	h.renderComponent(components.Home(bookmarks, tags, username), w, r)
 }

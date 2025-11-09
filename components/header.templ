@@ -1,35 +1,37 @@
 package components
 
-templ header() {
-	<header class="header-height w-full flex justify-between">
-		<button class="border border-(--yellow) p-3 cursor-pointer">
-			<span>drop_down</span>
-		</button>
-		<div class="h-full flex justify-center items-center">
-			<span class="border border-(--aqua) p-3">marks</span>
-		</div>
-		<!-- <button popovertarget="deletepopup" popovertargetaction="hide"></button> -->
-		<button popovertarget="addBookmarkPopup" class="border border-(--yellow) p-3 cursor-pointer mr-[3px]">
-			<span>&#43; Bookmark</span>
-		</button>
-		<div id="addBookmarkPopup" popover>
-			<form action="/api/bookmark/test" class="flex flex-col" method="post">
-				<input name="title" required autocapitalize type="text" placeholder="Title: "/>
-				<input name="tag" required type="text" placeholder="Tag: "/>
-				<input name="url" required type="url" placeholder="URL: "/>
-				<input name="description" autocapitalize type="text" placeholder="Description: "/>
-				<input class="cursor-pointer" type="submit"/>
-			</form>
-		</div>
-		<button popovertarget="addUserPopup" class="border border-(--yellow) p-3 cursor-pointer mr-[3px]">
-			<span>&#43; User</span>
-		</button>
-		<div id="addUserPopup" popover>
-			<form action="/api/user" class="flex flex-col" method="post">
-				<input name="username" required autocapitalize type="text" placeholder="Username: "/>
-				<input name="password" required type="password" placeholder="Password: "/>
-				<input class="cursor-pointer" type="submit"/>
-			</form>
-		</div>
-	</header>
+import "fmt"
+
+templ header(username string) {
+<header class="header-height w-full flex justify-between">
+  <button class="border border-(--yellow) p-3 cursor-pointer">
+    <span>drop_down</span>
+  </button>
+  <div class="h-full flex justify-center items-center">
+    <span class="border border-(--aqua) p-3">marks</span>
+  </div>
+  <!-- <button popovertarget="deletepopup" popovertargetaction="hide"></button> -->
+  <button popovertarget="addBookmarkPopup" class="border border-(--yellow) p-3 cursor-pointer mr-[3px]">
+    <span>&#43; Bookmark</span>
+  </button>
+  <div id="addBookmarkPopup" popover>
+    <form action={ fmt.Sprintf("/api/bookmark/%v", username) } class="flex flex-col" method="post">
+      <input name="title" required autocapitalize type="text" placeholder="Title: " />
+      <input name="tag" required type="text" placeholder="Tag: " />
+      <input name="url" required type="url" placeholder="URL: " />
+      <input name="description" autocapitalize type="text" placeholder="Description: " />
+      <input class="cursor-pointer" type="submit" />
+    </form>
+  </div>
+  <button popovertarget="addUserPopup" class="border border-(--yellow) p-3 cursor-pointer mr-[3px]">
+    <span>&#43; User</span>
+  </button>
+  <div id="addUserPopup" popover>
+    <form action="/api/user" class="flex flex-col" method="post">
+      <input name="username" required autocapitalize type="text" placeholder="Username: " />
+      <input name="password" required type="password" placeholder="Password: " />
+      <input class="cursor-pointer" type="submit" />
+    </form>
+  </div>
+</header>
 }

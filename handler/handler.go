@@ -3,9 +3,11 @@ package handler
 
 import (
 	"database/sql"
+	"fmt"
 	"log/slog"
 	"net/http"
 
+	"Marks/components"
 	"Marks/internal/database"
 
 	"github.com/a-h/templ"
@@ -43,4 +45,19 @@ func (h *Handler) renderComponent(comp templ.Component, w http.ResponseWriter, r
 		h.handleError(w, "failed to render user bookmarks page", err, http.StatusInternalServerError)
 		return
 	}
+}
+
+func (h *Handler) doRedirect(w http.ResponseWriter, r *http.Request, location string, code int) {
+	scheme := "http"
+	if r.TLS != nil {
+		scheme = "https"
+	}
+
+	uri := fmt.Sprintf("%s://%s/%s", scheme, r.Host, location)
+	http.Redirect(w, r, uri, code)
+}
+
+func (h *Handler) ErrorPage(w http.ResponseWriter, r *http.Request) {
+	statusCode := r.PathValue("statusCode")
+	h.renderComponent(components.Error(statusCode), w, r)
 }

@@ -12,6 +12,7 @@ import (
 func (a *App) loadPages(router *http.ServeMux) {
 	h := handler.New(a.logger, a.db)
 	router.HandleFunc("GET /{username}", h.Home)
+	router.HandleFunc("GET /error/{statusCode}", h.ErrorPage)
 }
 
 func (a *App) loadAPIs(router *http.ServeMux) {
