@@ -117,7 +117,8 @@ func (h *Handler) Home(w http.ResponseWriter, r *http.Request) {
 	}
 	bookmarks, err := h.queries.GetAllUserBookmarks(r.Context(), user.ID)
 	if err != nil {
-		h.handleError(w, "could not retrieve bookmarks", err, http.StatusNotFound)
+		// h.handleError(w, "could not retrieve bookmarks", err, http.StatusNotFound)
+		h.renderComponent(components.HomeNoBookmarks(), w, r)
 		return
 	}
 
