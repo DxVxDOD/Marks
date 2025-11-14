@@ -2,6 +2,8 @@ package app
 
 import (
 	"context"
+	"database/sql"
+	"log/slog"
 
 	"Marks/internal/database"
 )
@@ -11,7 +13,11 @@ func (a *App) WriteBookmark(ctx context.Context, queries *database.Queries, user
 	if err != nil {
 		return err
 	}
-	defer tx.Rollback()
+	defer func() {
+		if err := tx.Rollback(); err != nil && err != sql.ErrTxDone {
+			a.logger.Error("failed to rollback transaction", slog.Any("error", err))
+		}
+	}()
 
 	qtx := queries.WithTx(tx)
 
