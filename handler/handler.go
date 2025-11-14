@@ -16,6 +16,7 @@ import (
 type Handler struct {
 	logger  *slog.Logger
 	queries *database.Queries
+	db      *sql.DB
 }
 
 func New(
@@ -26,6 +27,7 @@ func New(
 	return &Handler{
 		logger:  logger,
 		queries: queries,
+		db:      db,
 	}
 }
 

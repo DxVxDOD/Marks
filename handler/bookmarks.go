@@ -41,6 +41,29 @@ func parseBookmarkWithDescriptionForm(r *http.Request, userID int64) (*database.
 	}, nil
 }
 
+func parseBookmarkForm(r *http.Request, userID int64) (*database.AddBookmarkWithDescriptionParams, error) {
+	titleSlice, ok := r.Form["title"]
+	if !ok {
+		return nil, fmt.Errorf("missing title")
+	}
+	title := strings.Join(titleSlice, " ")
+
+	urlSlice, ok := r.Form["url"]
+	if !ok {
+		return nil, fmt.Errorf("missing url")
+	}
+	url := strings.Join(urlSlice, " ")
+
+	return &database.AddBookmarkWithDescriptionParams{
+		UserID: userID,
+		Url:    url,
+		Title:  title,
+		Description: sql.NullString{
+			Valid: false,
+		},
+	}, nil
+}
+
 func (h *Handler) PostBookmark(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		h.handleError(w, "fialed to parse form", err, http.StatusInternalServerError)
@@ -62,7 +85,7 @@ func (h *Handler) PostBookmark(w http.ResponseWriter, r *http.Request) {
 	}
 	tagName := strings.Join(tagSlice, " ")
 
-	bookmarkData, err := parseBookmarkWithDescriptionForm(r, user.ID)
+	bookmarkData, err := parseBookmarkForm(r, user.ID)
 	if err != nil {
 		h.handleError(w, "malformed request", err, http.StatusBadRequest)
 		return
@@ -91,6 +114,8 @@ func (h *Handler) PostBookmark(w http.ResponseWriter, r *http.Request) {
 	}); err != nil {
 		h.handleError(w, "could not write to DB", err, http.StatusInternalServerError)
 	}
+
+	h.WriteBookmark(r.Context(), username, tagName, bookmarkData)
 
 	h.doRedirect(w, r, fmt.Sprintf("/home/%v", username), http.StatusSeeOther)
 }

@@ -20,7 +20,7 @@ func (a *App) loadAPIs(router *http.ServeMux) {
 	h := handler.New(a.logger, a.db)
 
 	router.HandleFunc("POST /api/user", h.AddUser)
-	router.HandleFunc("POST /api/bookmark/{username}", h.PostBookmark)
+	router.HandleFunc("POST /api/bookmarks/{username}", h.PostBookmark)
 }
 
 func (a *App) loadStaticFiles() (http.Handler, error) {
