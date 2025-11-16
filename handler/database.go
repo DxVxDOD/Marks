@@ -110,7 +110,7 @@ func (h *Handler) RemoveBookmark(ctx context.Context, username string, title str
 
 	user, err := qtx.GetUserByUsername(ctx, username)
 	if err != nil {
-		return fmt.Errorf("could not get user by username: %e", err)
+		return fmt.Errorf("failed to get user by username: %e", err)
 	}
 
 	if err := qtx.RemoveBookmark(ctx, database.RemoveBookmarkParams{

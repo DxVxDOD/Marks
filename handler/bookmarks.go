@@ -37,4 +37,12 @@ func (h *Handler) DeleteBookmark(w http.ResponseWriter, r *http.Request) {
 	}
 
 	username := r.PathValue("username")
+	title := r.PathValue("title")
+
+	if err := h.RemoveBookmark(r.Context(), username, title); err != nil {
+		h.handleError(w, "fialed to parse form", err, http.StatusInternalServerError)
+		return
+	}
+
+	h.doRedirect(w, r, fmt.Sprintf("/home/%v", username), http.StatusSeeOther)
 }
