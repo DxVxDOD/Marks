@@ -9,7 +9,7 @@ import (
 	"Marks/internal/database"
 )
 
-func (h *Handler) WriteBookmark(ctx context.Context, username string, tagName string, bookmarkData *database.AddBookmarkParams) error {
+func (h *Handler) WriteBookmark(ctx context.Context, username string, bookmarkForm *BookmarkForm) error {
 	tx, err := h.db.Begin()
 	if err != nil {
 		return err
@@ -27,6 +27,12 @@ func (h *Handler) WriteBookmark(ctx context.Context, username string, tagName st
 		return fmt.Errorf("could not get user by username: %e", err)
 	}
 
+	bookmarkData := &database.AddBookmarkParams{
+		UserID: user.ID,
+		Title:  bookmarkForm.Title,
+		Url:    bookmarkForm.URL,
+	}
+
 	newBookmark, err := qtx.AddBookmark(ctx, *bookmarkData)
 	if err != nil {
 		return fmt.Errorf("could not add bookmark to DB: %e", err)
@@ -41,7 +47,7 @@ func (h *Handler) WriteBookmark(ctx context.Context, username string, tagName st
 
 	shouldAddTag := true
 	for _, t := range tags {
-		if t.Name == tagName {
+		if t.Name == bookmarkForm.TagName {
 			shouldAddTag = false
 			tag = &t
 		}
@@ -50,7 +56,7 @@ func (h *Handler) WriteBookmark(ctx context.Context, username string, tagName st
 	if shouldAddTag {
 		newTag, err := qtx.AddTag(ctx, database.AddTagParams{
 			UserID: user.ID,
-			Name:   tagName,
+			Name:   bookmarkForm.TagName,
 		})
 		if err != nil {
 			return fmt.Errorf("could not add tag: %e", err)
