@@ -7,9 +7,10 @@ import (
 )
 
 type BookmarkForm struct {
-	URL     string
-	Title   string
-	TagName string
+	URL         string
+	Title       string
+	TagName     string
+	Description string
 }
 
 func parseBookmarkForm(r *http.Request) (*BookmarkForm, error) {
@@ -31,9 +32,13 @@ func parseBookmarkForm(r *http.Request) (*BookmarkForm, error) {
 	}
 	tagName := strings.Join(tagSlice, " ")
 
+	descriptionSlice := r.Form["description"]
+	description := strings.Join(descriptionSlice, " ")
+
 	return &BookmarkForm{
-		URL:     url,
-		Title:   title,
-		TagName: tagName,
+		URL:         url,
+		Title:       title,
+		TagName:     tagName,
+		Description: description,
 	}, nil
 }

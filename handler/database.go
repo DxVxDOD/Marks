@@ -27,15 +27,36 @@ func (h *Handler) WriteBookmark(ctx context.Context, username string, bookmarkFo
 		return fmt.Errorf("could not get user by username: %e", err)
 	}
 
-	bookmarkData := &database.AddBookmarkParams{
-		UserID: user.ID,
-		Title:  bookmarkForm.Title,
-		Url:    bookmarkForm.URL,
-	}
+	newBookmark := &database.Bookmark{}
 
-	newBookmark, err := qtx.AddBookmark(ctx, *bookmarkData)
-	if err != nil {
-		return fmt.Errorf("could not add bookmark to DB: %e", err)
+	if len(bookmarkForm.Description) < 1 {
+		bookmarkData := &database.AddBookmarkParams{
+			UserID: user.ID,
+			Title:  bookmarkForm.Title,
+			Url:    bookmarkForm.URL,
+		}
+
+		bookmark, err := qtx.AddBookmark(ctx, *bookmarkData)
+		if err != nil {
+			return fmt.Errorf("could not add bookmark to DB: %e", err)
+		}
+		newBookmark = &bookmark
+	} else {
+		bookmarkData := &database.AddBookmarkWithDescriptionParams{
+			UserID: user.ID,
+			Title:  bookmarkForm.Title,
+			Url:    bookmarkForm.URL,
+			Description: sql.NullString{
+				Valid:  true,
+				String: bookmarkForm.Description,
+			},
+		}
+
+		bookmark, err := qtx.AddBookmarkWithDescription(ctx, *bookmarkData)
+		if err != nil {
+			return fmt.Errorf("could not add bookmark to DB: %e", err)
+		}
+		newBookmark = &bookmark
 	}
 
 	tag := &database.Tag{}

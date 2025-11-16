@@ -36,11 +36,6 @@ func (h *Handler) handleError(w http.ResponseWriter, message string, err error, 
 	w.WriteHeader(statusCode)
 }
 
-func (h *Handler) handleErrorNoObject(w http.ResponseWriter, message string, statusCode int) {
-	h.logger.Error(message)
-	w.WriteHeader(statusCode)
-}
-
 func (h *Handler) renderComponent(comp templ.Component, w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Content-Type", "text/html")
 	if err := comp.Render(r.Context(), w); err != nil {
