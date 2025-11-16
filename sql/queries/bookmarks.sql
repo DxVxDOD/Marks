@@ -21,3 +21,8 @@ RETURNING *;
 
 -- name: GetAllUserBookmarks :many
 SELECT * from bookmarks WHERE user_id = ?;
+
+-- name: RemoveBookmark :exec
+DELETE FROM bookmarks
+WHERE user_id = ?
+AND title = ?;

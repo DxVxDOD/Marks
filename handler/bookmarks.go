@@ -29,3 +29,12 @@ func (h *Handler) PostBookmark(w http.ResponseWriter, r *http.Request) {
 
 	h.doRedirect(w, r, fmt.Sprintf("/home/%v", username), http.StatusSeeOther)
 }
+
+func (h *Handler) DeleteBookmark(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		h.handleError(w, "fialed to parse form", err, http.StatusInternalServerError)
+		return
+	}
+
+	username := r.PathValue("username")
+}

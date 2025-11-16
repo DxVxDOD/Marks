@@ -16,7 +16,7 @@ func (h *Handler) WriteBookmark(ctx context.Context, username string, bookmarkFo
 	}
 	defer func() {
 		if err := tx.Rollback(); err != nil && err != sql.ErrTxDone {
-			h.logger.Error("failed to rollback transaction", slog.Any("error", err))
+			h.logger.Error("failed to rollback transaction on bookmark write", slog.Any("error", err))
 		}
 	}()
 
@@ -90,6 +90,34 @@ func (h *Handler) WriteBookmark(ctx context.Context, username string, bookmarkFo
 		TagID:      tag.ID,
 	}); err != nil {
 		return fmt.Errorf("could not add bookmark tag: %e", err)
+	}
+
+	return tx.Commit()
+}
+
+func (h *Handler) RemoveBookmark(ctx context.Context, username string, title string) error {
+	tx, err := h.db.Begin()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err := tx.Rollback(); err != nil && err != sql.ErrTxDone {
+			h.logger.Error("failed to rollback transaction on bookmark delete: ", slog.Any("error", err))
+		}
+	}()
+
+	qtx := h.queries.WithTx(tx)
+
+	user, err := qtx.GetUserByUsername(ctx, username)
+	if err != nil {
+		return fmt.Errorf("could not get user by username: %e", err)
+	}
+
+	if err := qtx.RemoveBookmark(ctx, database.RemoveBookmarkParams{
+		UserID: user.ID,
+		Title:  title,
+	}); err != nil {
+		return fmt.Errorf("could not get user by username: %e", err)
 	}
 
 	return tx.Commit()
