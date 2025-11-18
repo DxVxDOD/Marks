@@ -1,10 +1,17 @@
 package components
 
-import "Marks/internal/database"
+import (
+	"Marks/internal/database"
+	"fmt"
+)
 
-templ card(bookmark database.Bookmark) {
+templ card(bookmark database.Bookmark, username string) {
 	<div class="p-2 w-[25%]">
-		<div class="border border-(--blue) w-full p-3">
+		<div class="border border-(--blue) w-full p-3 flex flex-col gap-2">
+			<form action={ fmt.Sprintf("/api/bookmarks/%v/%v", username, bookmark.Title) } method="post">
+				<input type="hidden" name="_method" value="DELETE"/>
+				<input value="Delete" type="submit" class="cursor-pointer border border-(--red) p-2"/>
+			</form>
 			<p>
 				Title: { bookmark.Title }
 			</p>

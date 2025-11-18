@@ -21,7 +21,7 @@ func (a *App) loadAPIs(router *http.ServeMux) {
 
 	router.HandleFunc("POST /api/user", h.AddUser)
 	router.HandleFunc("POST /api/bookmarks/{username}", h.PostBookmark)
-	router.HandleFunc("DELETE /api/bookmarks/{username}&{title}", h.DeleteBookmark)
+	router.HandleFunc("DELETE /api/bookmarks/{username}/{title}", h.DeleteBookmark)
 }
 
 func (a *App) loadStaticFiles() (http.Handler, error) {
