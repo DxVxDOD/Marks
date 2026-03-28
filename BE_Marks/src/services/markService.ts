@@ -27,11 +27,9 @@ export const getMarkById = async (id: string | undefined) => {
       name: 1,
     }),
   );
-
-  if (!data || error) {
-    throw new Error(
-      "Error while fetching mark from database with provided id: " + error,
-    );
+  if (error) throw error;
+  if (!data) {
+    throw new Error("No mark returned from database with provided id");
   }
 
   return data;
@@ -41,8 +39,7 @@ export const postNewMark = async (obj: Partial<TNewMark>, user: TUser) => {
   const { data: markData, error: markError } = await wrapInPromise(
     newMarkParser(obj),
   );
-
-  if (markError) return markError;
+  if (markError) throw markError;
 
   const mark = new Mark({
     title: markData.title,
@@ -55,23 +52,28 @@ export const postNewMark = async (obj: Partial<TNewMark>, user: TUser) => {
   const { data: savedMark, error: savedMarkError } = await wrapInPromise(
     mark.save(),
   );
-
   if (savedMarkError) {
-    return "Error while saving Marks to database: " + savedMarkError.message;
+    throw new Error(
+      `Error while saving Marks to database: ${savedMarkError.message}`,
+    );
   }
 
   user.marks = user.marks.concat(savedMark._id);
 
   const { error: updatedUserError } = await wrapInPromise(user.save());
-
   if (updatedUserError) {
-    return "Error while saving user's Mark: " + updatedUserError.message;
+    throw new Error(
+      `Error while saving user's Mark: ${updatedUserError.message}`,
+    );
   }
 
   return savedMark;
 };
 
-export const deleteMark = async (user: TUser, markId: string | undefined) => {
+export const deleteMark = async (
+  user: TUser,
+  markId: string | undefined,
+): Promise<true> => {
   const { data: mark, error: markError } = await wrapInPromise(
     Mark.findById(stringParser(markId)),
   );
@@ -162,12 +164,10 @@ export const updateMark = async (
     .filter((m) => m.id !== oldMark.id)
     .concat(updatedMark.id);
 
-  const updatedUser = await wrapInPromise(user.save());
-
-  if (updatedUser.error) {
+  const { error: updatedUser } = await wrapInPromise(user.save());
+  if (updatedUser) {
     throw new Error(
-      "Error while updating user's Mark array with updated Mark: " +
-        updatedUser.error.message,
+      `Error while updating user's Mark array with updated Mark: ${updatedUser.message}`,
     );
   }
 
