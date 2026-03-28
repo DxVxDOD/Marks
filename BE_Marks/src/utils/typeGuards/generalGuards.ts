@@ -23,9 +23,10 @@ export const isCredentials = (obj: Partial<TCredentials>) => {
   };
   const missingProperties = Object.keys(schema)
     .filter((key) => obj[key as keyof Partial<TCredentials>] === undefined)
-    .map((key) => key as keyof TCredentials)
     .map((key) => {
-      throw new Error(`Object is missing: ${key} ${schema[key]}`);
+      throw new Error(
+        `Object is missing: ${key} ${schema[key as keyof TCredentials]}`,
+      );
     });
 
   return missingProperties.length === 0;

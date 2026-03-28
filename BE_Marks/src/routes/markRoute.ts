@@ -73,11 +73,11 @@ router.put("/:id/like", async (req: Request, res: Response) => {
 });
 
 router.delete("/:id", userExtractor, async (req: Request, res: Response) => {
-  const { data, error } = await wrapInPromise(
+  const { error } = await wrapInPromise(
     deleteMark(res.locals.user, req.params.id),
   );
 
-  if (!data || error) {
+  if (error) {
     res.status(401).json({ error: error.message });
   }
 

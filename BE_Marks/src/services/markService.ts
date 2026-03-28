@@ -75,12 +75,11 @@ export const deleteMark = async (user: TUser, markId: string | undefined) => {
   const { data: mark, error: markError } = await wrapInPromise(
     Mark.findById(stringParser(markId)),
   );
-
   if (markError) {
-    return (
-      "Error while trying to fetch Mark with provided id from database: " +
-      markError.message
-    );
+    throw markError;
+  }
+  if (!mark) {
+    throw new Error("There was no mark with provided id.");
   }
 
   if (mark.user.toString() !== user.id.toString()) {
@@ -90,9 +89,11 @@ export const deleteMark = async (user: TUser, markId: string | undefined) => {
   const { data: deleteData, error: deleteError } = await wrapInPromise(
     Mark.findByIdAndDelete(markId),
   );
-
   if (deleteError) {
-    return "Error while finding and deleting Mark: " + deleteError.message;
+    throw deleteError;
+  }
+  if (!deleteData) {
+    throw new Error("There was no mark to delete.");
   }
 
   user.marks = user.marks.filter(
@@ -104,7 +105,7 @@ export const deleteMark = async (user: TUser, markId: string | undefined) => {
   if (!updatedUser.data || updatedUser.error) {
     throw new Error(
       "Error while updating user after Mark's deletion: " +
-      updatedUser.error.message,
+        updatedUser.error.message,
     );
   }
 
@@ -119,29 +120,28 @@ export const updateMark = async (
   const { data: markData, error: markError } = await wrapInPromise(
     markParser(mark),
   );
-
-  if (!markData || markError) {
-    throw new Error(markError.message);
+  if (markError) {
+    throw markError;
   }
 
   const { data: oldMark, error: oldMarkError } = await wrapInPromise(
     Mark.findById(stringParser(markId)),
   );
-
-  if (!oldMark || oldMarkError) {
-    throw new Error(
-      "Cannot find Mark with given id in data base: " + oldMarkError.message,
-    );
+  if (oldMarkError) {
+    throw oldMarkError;
+  }
+  if (!oldMark) {
+    throw new Error("Cannot find Mark with given id in data base: ");
   }
 
   const { data: user, error: userError } = await wrapInPromise(
     User.findById(userId),
   );
-
-  if (!user || userError) {
-    throw new Error(
-      "Cannot find user in data base based on provided id." + userError.message,
-    );
+  if (userError) {
+    throw userError;
+  }
+  if (!user) {
+    throw new Error("Cannot find user in data base based on provided id.");
   }
 
   if (oldMark.user.toString() !== user.id) {
@@ -151,22 +151,23 @@ export const updateMark = async (
   const { data: updatedMark, error: updatedMarkError } = await wrapInPromise(
     Mark.findByIdAndUpdate(oldMark.id, markData, { new: true }),
   );
-
-  if (!updatedMark || updatedMarkError) {
-    throw new Error(
-      "Error while trying to update Mark: " + updatedMarkError.message,
-    );
+  if (updatedMarkError) {
+    throw updatedMarkError;
   }
+  if (!updatedMark) {
+    throw new Error("Error while trying to update Mark: ");
+  }
+
   user.marks = user.marks
     .filter((m) => m.id !== oldMark.id)
     .concat(updatedMark.id);
 
   const updatedUser = await wrapInPromise(user.save());
 
-  if (!updatedUser.data || updatedUser.error) {
+  if (updatedUser.error) {
     throw new Error(
       "Error while updating user's Mark array with updated Mark: " +
-      updatedUser.error.message,
+        updatedUser.error.message,
     );
   }
 

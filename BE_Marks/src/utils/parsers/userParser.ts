@@ -2,7 +2,10 @@ import { TNewUser, TUser } from "../../types/user";
 import { isNewUser } from "../typeGuards/userGuards";
 import { stringParser } from "./generalParsers";
 
-export const newUserParser = (obj: Partial<TNewUser>, users: TUser[]) => {
+export const newUserParser = (
+  obj: Partial<TNewUser>,
+  users: TUser[],
+): TNewUser => {
   if (!isNewUser(obj)) {
     throw Error("Missing fields or incorrectly formatted data for new user");
   }
@@ -21,17 +24,14 @@ export const newUserParser = (obj: Partial<TNewUser>, users: TUser[]) => {
   const username = stringParser(obj.username);
 
   const checkUniqueUser = users.find((user) => user.username === username);
-
   if (checkUniqueUser) {
     throw new Error("This username already exits, please choose another.");
   }
 
-  const newUser = {
+  return {
     username,
     name: stringParser(obj.name),
     password: stringParser(obj.password),
     email: stringParser(obj.email),
   };
-
-  return newUser;
 };
