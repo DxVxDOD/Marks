@@ -13,14 +13,12 @@ import { TUser } from "../types/user";
 const router = express.Router();
 
 router.get("/", async (_req: Request, res: Response) => {
-  const { data: allMarks, error: allMarksError } =
-    await wrapInPromise(getAllMarks());
-
-  if (!allMarks || allMarksError) {
-    res.status(400).json({ error: allMarksError.message });
+  try {
+    const data = await getAllMarks();
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(400).json({ error });
   }
-
-  res.status(200).json(allMarks);
 });
 
 router.get("/:id", async (req: Request, res: Response) => {
