@@ -10,11 +10,11 @@ export const getAllMarks = async () => {
   const { data: allMarks, error: allMarksError } = await wrapInPromise(
     Mark.find({}).populate("user", { username: 1, name: 1 }),
   );
-
-  if (!allMarks || allMarksError) {
-    throw new Error(
-      "Error while fetching all Marks from database: " + allMarksError.message,
-    );
+  if (allMarksError) {
+    throw allMarksError;
+  }
+  if (!allMarks) {
+    throw new Error("No marks returned");
   }
 
   return allMarks;
