@@ -1,6 +1,12 @@
+import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 
 const markSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   title: {
     required: true,
     type: String,
@@ -34,16 +40,16 @@ const markSchema = new mongoose.Schema({
 markSchema.set("toJSON", {
   transform(_document, returnedObject) {
     returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__V;
+    returnedObject._id = {} as ObjectId;
+    returnedObject.__v = 0;
   },
 });
 
 markSchema.set("toObject", {
   transform(_document, returnedObject) {
     returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__V;
+    returnedObject._id = {} as ObjectId;
+    returnedObject.__v = 0;
   },
 });
 

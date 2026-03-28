@@ -14,7 +14,7 @@ import {
 
 const app = express();
 
-const MONGO_URI = config.MONGO_URI;
+const { MONGO_URI } = config;
 
 logger.info("Connecting to: ", MONGO_URI);
 
