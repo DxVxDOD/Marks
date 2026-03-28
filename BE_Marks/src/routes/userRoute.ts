@@ -1,29 +1,24 @@
-import express, { Response, Request } from "express";
+import express, { Request, Response } from "express";
 import { getAllUsers, postNewUser } from "../services/userService";
-import { wrapInPromise } from "../utils/promiseWrapper";
 
 const router = express.Router();
 
 router.get("/", async (_req: Request, res: Response) => {
-  const allUsers = await wrapInPromise(getAllUsers());
-
-  if (allUsers.error) {
-    res.status(400).json({ error: allUsers.error });
+  try {
+    const data = await getAllUsers();
+    res.status(201).json(data);
+  } catch (error) {
+    res.status(400).json({ error });
   }
-
-  res.status(201).json(allUsers.data);
 });
 
 router.post("/", async (req: Request, res: Response) => {
-  const { data: newUserData, error: newUserError } = await wrapInPromise(
-    postNewUser(req.body),
-  );
-
-  if (newUserError && !newUserData) {
-    res.status(400).json({ error: newUserError.message });
+  try {
+    const data = await postNewUser(req.body);
+    res.status(201).json(data);
+  } catch (error) {
+    res.status(400).json({ error });
   }
-
-  res.status(201).json(newUserData);
 });
 
 export default router;

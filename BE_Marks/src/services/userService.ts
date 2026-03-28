@@ -28,13 +28,7 @@ export const getUserById = async (id?: string) => {
 export const postNewUser = async (obj: Partial<TNewUser>) => {
   const { data: allUsersData, error: allUsersError } =
     await wrapInPromise(getAllUsers());
-
-  if (allUsersError || !allUsersData) {
-    throw allUsersError;
-  }
-  if (!allUsersData) {
-    throw new Error("No users fetched");
-  }
+  if (allUsersError) throw allUsersError;
 
   const { data: userData, error: userError } = await wrapInPromise(
     newUserParser(obj, allUsersData),
