@@ -8,6 +8,8 @@ loginRouter.post("/", async (req: Request, res: Response) => {
     const data = await login(req.body);
     res.status(200).json(data);
   } catch (error) {
+    console.log("Something happened", error);
+
     res.status(401).json({ error });
   }
 });
