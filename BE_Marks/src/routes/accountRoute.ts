@@ -9,7 +9,6 @@ router.get("/:id", async (req: Request, res: Response) => {
   if (data) {
     res.status(200).json(data);
   }
-
   res.status(400).json({ error });
 });
 
