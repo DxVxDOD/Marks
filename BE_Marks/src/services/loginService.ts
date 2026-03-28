@@ -6,7 +6,6 @@ import config from "../utils/config";
 import { stringParser } from "../utils/parsers/generalParsers";
 import { wrapInPromise } from "../utils/promiseWrapper";
 import { isCredentials } from "../utils/typeGuards/generalGuards";
-import { TUserToFE } from "../types/user";
 
 export const login = async (obj: Partial<TCredentials>) => {
   if (!isCredentials(obj)) {
@@ -21,33 +20,28 @@ export const login = async (obj: Partial<TCredentials>) => {
   const { data: userData, error: userError } = await wrapInPromise(
     User.findOne({ username }),
   );
-
-  if (userError || !userData) {
-    throw new Error(
-      "Error while fetching user by username: " + userError.message,
-    );
+  if (userError) throw userError;
+  if (!userData) {
+    throw new Error("No user found with provided username");
   }
 
-  const correctPassword = await wrapInPromise(
-    bcrypt.compare(password, userData.password),
-  );
-
-  if (!correctPassword.data || correctPassword.error) {
-    throw new Error(
-      "Error wrong password provided: " + correctPassword.error.message,
-    );
+  const { data: correctPassword, error: correctPasswordError } =
+    await wrapInPromise(bcrypt.compare(password, userData.password));
+  if (correctPasswordError) throw correctPasswordError;
+  if (!correctPassword) {
+    throw new Error("Wrong password provided");
   }
-
-  const userForToken = {
-    username: userData.username,
-    id: userData.id,
-  };
 
   const SECRET = stringParser(config.SECRET);
+  const token = jwt.sign(
+    {
+      username: userData.username,
+      id: userData.id,
+    },
+    SECRET,
+  );
 
-  const token = jwt.sign(userForToken, SECRET);
-
-  const user: TUserToFE = {
+  return {
     username: userData.username,
     createdAt: userData.createdAt,
     name: userData.name,
@@ -55,6 +49,4 @@ export const login = async (obj: Partial<TCredentials>) => {
     token,
     marks_length: userData.marks.length,
   };
-
-  return user;
 };
