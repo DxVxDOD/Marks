@@ -15,7 +15,7 @@ export const jwtPayloadParser = (param: unknown) => {
 
 export const stringParser = (param: unknown) => {
   if (!param || !isString(param)) {
-    return new Error(`${param} is not a string.`);
+    throw new Error(`${param} is not a string.`);
   }
   return param;
 };

@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/", async (_req: Request, res: Response) => {
   const allUsers = await wrapInPromise(getAllUsers());
 
-  if (!allUsers.data || allUsers.error) {
+  if (allUsers.error) {
     res.status(400).json({ error: allUsers.error });
   }
 
@@ -19,7 +19,7 @@ router.post("/", async (req: Request, res: Response) => {
     postNewUser(req.body),
   );
 
-  if (newUserError || !newUserData) {
+  if (newUserError && !newUserData) {
     res.status(400).json({ error: newUserError.message });
   }
 

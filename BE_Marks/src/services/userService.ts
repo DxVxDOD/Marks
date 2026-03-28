@@ -1,31 +1,27 @@
 import bcrypt from "bcrypt";
 import User from "../models/userModel";
-import { TNewUser } from "../types/user";
+import { TNewUser, TUser } from "../types/user";
 import { stringParser } from "../utils/parsers/generalParsers";
 import { newUserParser } from "../utils/parsers/userParser";
 import { wrapInPromise } from "../utils/promiseWrapper";
 
-export const getAllUsers = async () => {
-  const { data: allUserData, error: allUserError } = await wrapInPromise(
-    User.find({}),
-  );
-
-  if (allUserError || !allUserData) {
-    throw new Error("Error while fetching all users: " + allUserError.message);
+export const getAllUsers = async (): Promise<TUser[]> => {
+  const { data, error } = await wrapInPromise(User.find({}));
+  if (error) throw error;
+  if (!data) {
+    throw new Error("Could not get all users");
   }
-
-  return allUserData;
+  return data;
 };
 
 export const getUserById = async (id?: string) => {
   const { data, error } = await wrapInPromise(User.findById(stringParser(id)));
-
-  if (error || !data) {
-    throw new Error(
-      "Error while fetching user with provided id: " + error.message,
-    );
+  if (error) {
+    throw error;
   }
-
+  if (!data) {
+    throw new Error("No user returned");
+  }
   return data;
 };
 
@@ -34,21 +30,22 @@ export const postNewUser = async (obj: Partial<TNewUser>) => {
     await wrapInPromise(getAllUsers());
 
   if (allUsersError || !allUsersData) {
-    throw new Error("Error while fetching all users: " + allUsersError.message);
+    throw allUsersError;
+  }
+  if (!allUsersData) {
+    throw new Error("No users fetched");
   }
 
   const { data: userData, error: userError } = await wrapInPromise(
     newUserParser(obj, allUsersData),
   );
-
-  if (userError || !userData) {
+  if (userError) {
     throw new Error("Error while parsing new user data: " + userError.message);
   }
 
   const { data: passwordHashed, error: passwordHashedError } =
     await wrapInPromise(bcrypt.hash(stringParser(obj.password), 10));
-
-  if (passwordHashedError || !passwordHashed) {
+  if (passwordHashedError) {
     throw new Error(
       "Error while hashing password: " + passwordHashedError.message,
     );
@@ -62,8 +59,7 @@ export const postNewUser = async (obj: Partial<TNewUser>) => {
   const { data: savedUser, error: savedUserError } = await wrapInPromise(
     user.save(),
   );
-
-  if (!savedUser || savedUserError) {
+  if (savedUserError) {
     throw new Error(
       "Error while saving user to database: " + savedUserError.message,
     );
