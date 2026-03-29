@@ -22,43 +22,43 @@ import { setCredentials } from "./redux/slices/auth.ts";
 import theme from "./theme/Theme.tsx";
 
 const App = () => {
-  const { user } = useAuth();
-  const dispatch = useAppDispatch();
+	const { user } = useAuth();
+	const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("logged_in_user");
-    if (loggedUserJSON !== null) {
-      dispatch(setCredentials({ user: JSON.parse(loggedUserJSON) }));
-    }
-  }, []);
+	useEffect(() => {
+		const loggedUserJSON = window.localStorage.getItem("logged_in_user");
+		if (loggedUserJSON !== null) {
+			dispatch(setCredentials({ user: JSON.parse(loggedUserJSON) }));
+		}
+	}, []);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <>
-        <Toaster position="top-center" reverseOrder={false} />
-        <Menu />
-        <main className="main">
-          <Routes>
-            <Route path="/login" element={<LoginForm />} />
-            {user === null ? (
-              <>
-                <Route path="/" element={<HomeNoUser />} />
-              </>
-            ) : (
-              <>
-                <Route path="/" element={<LoggedInMarks user={user} />} />
-              </>
-            )}
-            <Route path="/marks/:id" element={<Mark />} />
-            <Route path="/sign-up" element={<CreateUserForm />} />
-            <Route path="/mark-form" element={<MarkForm />} />
-          </Routes>
-        </main>
-        <Footer />
-      </>
-    </ThemeProvider>
-  );
+	return (
+		<ThemeProvider theme={theme}>
+			<CssBaseline />
+			<>
+				<Toaster position="top-center" reverseOrder={false} />
+				<Menu />
+				<main className="main">
+					<Routes>
+						<Route path="/login" element={<LoginForm />} />
+						{user === null ? (
+							<>
+								<Route path="/" element={<HomeNoUser />} />
+							</>
+						) : (
+							<>
+								<Route path="/" element={<LoggedInMarks user={user} />} />
+							</>
+						)}
+						<Route path="/marks/:id" element={<Mark />} />
+						<Route path="/sign-up" element={<CreateUserForm />} />
+						<Route path="/mark-form" element={<MarkForm />} />
+					</Routes>
+				</main>
+				<Footer />
+			</>
+		</ThemeProvider>
+	);
 };
 
 export default App;

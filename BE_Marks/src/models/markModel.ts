@@ -1,34 +1,34 @@
 import mongoose from "mongoose";
 
 const markSchema = new mongoose.Schema({
-  title: {
-    required: true,
-    type: String,
-  },
-  tag: {
-    required: true,
-    type: String,
-  },
-  url: {
-    required: true,
-    type: String,
-  },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  // comments: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: "Comment",
-  //   },
-  // ],
-  createdAt: {
-    required: true,
-    type: Date,
-    default: Date.now(),
-  },
+	title: {
+		required: true,
+		type: String,
+	},
+	tag: {
+		required: true,
+		type: String,
+	},
+	url: {
+		required: true,
+		type: String,
+	},
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User",
+		required: true,
+	},
+	// comments: [
+	//   {
+	//     type: mongoose.Schema.Types.ObjectId,
+	//     ref: "Comment",
+	//   },
+	// ],
+	createdAt: {
+		required: true,
+		type: Date,
+		default: Date.now(),
+	},
 });
 
 // markSchema.set("toJSON", {

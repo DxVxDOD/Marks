@@ -1,5 +1,5 @@
 export type TUserLoginRes = {
-  username: string;
-  name: string;
-  token: string;
+	username: string;
+	name: string;
+	token: string;
 };

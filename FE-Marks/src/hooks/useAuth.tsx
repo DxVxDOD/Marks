@@ -3,7 +3,7 @@ import { useAppSelector } from "../redux/hook";
 import { selectCurrentUser } from "../redux/slices/auth";
 
 export const useAuth = () => {
-  const user = useAppSelector(selectCurrentUser);
+	const user = useAppSelector(selectCurrentUser);
 
-  return useMemo(() => ({ user }), [user]);
+	return useMemo(() => ({ user }), [user]);
 };
