@@ -7,9 +7,9 @@ export type TUser = typeof user;
 export type TNewUser = Pick<TUser, "username" | "name" | "password" | "email">;
 
 export type TUserToFE = Pick<
-  TUser,
-  "username" | "name" | "email" | "createdAt"
+	TUser,
+	"username" | "name" | "email" | "createdAt"
 > & {
-  token: string;
-  marks_length: number;
+	token: string;
+	marks_length: number;
 };

@@ -1,45 +1,45 @@
 import { TMarkFE, TNewMark } from "../../types/mark";
 
 export const isNewMark = (obj: Partial<TNewMark>) => {
-  if (!obj || typeof obj !== "object") {
-    throw new Error("Error object does not exist: " + obj);
-  }
+	if (!obj || typeof obj !== "object") {
+		throw new Error("Error object does not exist: " + obj);
+	}
 
-  const schema: Record<keyof TNewMark, string> = {
-    tag: "string",
-    url: "string",
-    title: "string",
-  };
+	const schema: Record<keyof TNewMark, string> = {
+		tag: "string",
+		url: "string",
+		title: "string",
+	};
 
-  const missingProperties = Object.keys(schema)
-    .filter((key) => obj[key as keyof Partial<TNewMark>] === undefined)
-    .map((key) => {
-      throw new Error(
-        `Object is missing: ${key} ${schema[key as keyof TNewMark]}`,
-      );
-    });
+	const missingProperties = Object.keys(schema)
+		.filter((key) => obj[key as keyof Partial<TNewMark>] === undefined)
+		.map((key) => {
+			throw new Error(
+				`Object is missing: ${key} ${schema[key as keyof TNewMark]}`,
+			);
+		});
 
-  return missingProperties.length === 0;
+	return missingProperties.length === 0;
 };
 
 export const isMarkFromFE = (obj: Partial<TMarkFE>) => {
-  if (!obj || typeof obj !== "object") {
-    throw new Error("Error object does not exist" + obj);
-  }
+	if (!obj || typeof obj !== "object") {
+		throw new Error("Error object does not exist" + obj);
+	}
 
-  const schema: Record<keyof TMarkFE, string> = {
-    tag: "string",
-    url: "string",
-    title: "string",
-  };
+	const schema: Record<keyof TMarkFE, string> = {
+		tag: "string",
+		url: "string",
+		title: "string",
+	};
 
-  const missingProperties = Object.keys(schema)
-    .filter((key) => obj[key as keyof Partial<TMarkFE>] === undefined)
-    .map((key) => {
-      throw new Error(
-        `Object is missing: ${key} ${schema[key as keyof TMarkFE]}`,
-      );
-    });
+	const missingProperties = Object.keys(schema)
+		.filter((key) => obj[key as keyof Partial<TMarkFE>] === undefined)
+		.map((key) => {
+			throw new Error(
+				`Object is missing: ${key} ${schema[key as keyof TMarkFE]}`,
+			);
+		});
 
-  return missingProperties.length === 0;
+	return missingProperties.length === 0;
 };

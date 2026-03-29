@@ -4,35 +4,35 @@ import { TMark, TNewMark } from "../../types/mark";
 import { useEditMarkMutation } from "../../redux/endpoints/marks";
 
 const EditMarkFrom = ({
-  mark,
-  setOpen,
+	mark,
+	setOpen,
 }: {
-  mark: TMark;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+	mark: TMark;
+	setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  const { reset: resetTag, ...tag } = useForm("text");
-  const { reset: resetTitle, ...title } = useForm("text");
-  const { reset: resetUrl, ...url } = useForm("text");
+	const { reset: resetTag, ...tag } = useForm("text");
+	const { reset: resetTitle, ...title } = useForm("text");
+	const { reset: resetUrl, ...url } = useForm("text");
 
-  const [updateMark, { isLoading: isUpdateLoading }] = useEditMarkMutation();
+	const [updateMark, { isLoading: isUpdateLoading }] = useEditMarkMutation();
 
-  const editMark = async (e: FormEvent) => {
-    e.preventDefault();
+	const editMark = async (e: FormEvent) => {
+		e.preventDefault();
 
-    const markObject: TNewMark = {
-      title: title.value,
-      tag: tag.value,
-      url: url.value,
-    };
+		const markObject: TNewMark = {
+			title: title.value,
+			tag: tag.value,
+			url: url.value,
+		};
 
-    updateMark(markObject);
+		updateMark(markObject);
 
-    setOpen(false);
+		setOpen(false);
 
-    resetTag();
-    resetUrl();
-    resetTitle();
-  };
+		resetTag();
+		resetUrl();
+		resetTitle();
+	};
 };
 
 export default EditMarkFrom;

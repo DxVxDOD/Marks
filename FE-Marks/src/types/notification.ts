@@ -1,4 +1,4 @@
 export type TNotification = {
-  value: string | null;
-  status: string | null;
+	value: string | null;
+	status: string | null;
 };
