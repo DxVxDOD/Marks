@@ -30,6 +30,8 @@ export const postNewUser = async (obj: Partial<TNewUser>) => {
     await wrapInPromise(getAllUsers());
   if (allUsersError) throw allUsersError;
 
+  const userz = User.findById("");
+
   const { data: userData, error: userError } = await wrapInPromise(
     newUserParser(obj, allUsersData),
   );
@@ -59,5 +61,5 @@ export const postNewUser = async (obj: Partial<TNewUser>) => {
     );
   }
 
-  return savedUser;
+  return savedUser.toJSON();
 };

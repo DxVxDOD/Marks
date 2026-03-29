@@ -12,6 +12,8 @@ export const login = async (obj: Partial<TCredentials>) => {
     throw new Error("Wrong fields provided for credentials");
   }
 
+  console.log(obj);
+
   const { username, password }: TCredentials = {
     username: stringParser(obj.username),
     password: stringParser(obj.password),

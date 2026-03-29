@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import accountRoute from "./routes/accountRoute";
 import loginRoute from "./routes/loginRoute";
 import markRoute from "./routes/markRoute";
+import usersRoute from "./routes/userRoute";
 import config from "./utils/config";
 import logger from "./utils/logger";
 import {
@@ -11,6 +12,7 @@ import {
   requestLogger,
   unknownEndpoint,
 } from "./utils/middleware/error_handlers";
+import { userExtractor } from "./utils/middleware/user_extractor";
 
 const app = express();
 
@@ -40,7 +42,8 @@ if (process.env.NODE_ENV === "test") {
 
 app.use("/api/login", loginRoute);
 app.use("/api/account", accountRoute);
-app.use("/api/marks", markRoute);
+app.use("/api/marks", userExtractor, markRoute);
+app.use("/api/users", usersRoute);
 
 app.get("/*", (_req, res) => {
   res.sendFile("/index.html", { root: "./dist" });

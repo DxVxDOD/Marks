@@ -1,12 +1,7 @@
-import type { ObjectId } from "mongodb";
+import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   username: {
     type: String,
     required: true,
@@ -39,19 +34,17 @@ const userSchema = new mongoose.Schema({
 
 userSchema.set("toJSON", {
   transform(_document, returnedObject) {
-    returnedObject.id = returnedObject._id.toString();
+    returnedObject.password = "";
     returnedObject._id = {} as ObjectId;
     returnedObject.__v = 0;
-    returnedObject.password = "";
   },
 });
 
 userSchema.set("toObject", {
   transform(_document, returnedObject) {
-    returnedObject.id = returnedObject._id.toString();
+    returnedObject.password = "";
     returnedObject._id = {} as ObjectId;
     returnedObject.__v = 0;
-    returnedObject.password = "";
   },
 });
 

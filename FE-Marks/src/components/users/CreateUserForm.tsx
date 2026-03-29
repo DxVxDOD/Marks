@@ -13,13 +13,13 @@ const CreateUserForm = () => {
   const { reset: resetName, ...name } = useForm("text");
   const { reset: resetEmail, ...email } = useForm("text");
   const navigate = useNavigate();
-  const [addNewUser, { }] = useAddNewUserMutation();
+  const [addNewUser] = useAddNewUserMutation();
   const { classes } = useStyle();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
 
-    navigate("/login");
+    // navigate("/login");
 
     const newUserObj: TNewUser = {
       username: username.value,

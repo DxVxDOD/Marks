@@ -7,21 +7,19 @@ import { ThemeProvider } from "@mui/material/styles";
 import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { Route, Routes } from "react-router-dom";
-import { TUserToFE } from "../../BE_Marks/src/types/user.ts";
 import Footer from "./components/Footer.tsx";
-import Home from "./components/Home.tsx";
 import HomeNoUser from "./components/HomeNoUser.tsx";
 import Menu from "./components/Menu.tsx";
 import LoginForm from "./components/login/LoginForm.tsx";
 import LoggedInMarks from "./components/marks/LoggedInMarks.tsx";
 import Mark from "./components/marks/Mark.tsx";
+import MarkForm from "./components/marks/MarksForm.tsx";
+import CreateUserForm from "./components/users/CreateUserForm.tsx";
 import { useAuth } from "./hooks/useAuth.tsx";
 import "./index.css";
 import { useAppDispatch } from "./redux/hook.ts";
 import { setCredentials } from "./redux/slices/auth.ts";
 import theme from "./theme/Theme.tsx";
-import CreateUserForm from "./components/users/CreateUserForm.tsx";
-import MarkForm from "./components/marks/MarksForm.tsx";
 
 const App = () => {
   const { user } = useAuth();
@@ -30,8 +28,7 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("logged_in_user");
     if (loggedUserJSON !== null) {
-      const loggedUser: TUserToFE = JSON.parse(loggedUserJSON);
-      dispatch(setCredentials({ user: loggedUser }));
+      dispatch(setCredentials({ user: JSON.parse(loggedUserJSON) }));
     }
   }, []);
 

@@ -7,10 +7,9 @@ loginRouter.post("/", async (req: Request, res: Response) => {
   try {
     const data = await login(req.body);
     res.status(200).json(data);
-  } catch (error) {
-    console.log("Something happened", error);
-
-    res.status(401).json({ error });
+  } catch (err) {
+    console.log("Something happened", err);
+    res.status(401).json({ error: "No no no" });
   }
 });
 

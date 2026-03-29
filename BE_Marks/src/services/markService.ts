@@ -6,9 +6,9 @@ import { stringParser } from "../utils/parsers/generalParsers";
 import { markParser, newMarkParser } from "../utils/parsers/markParser";
 import { wrapInPromise } from "../utils/promiseWrapper";
 
-export const getAllMarks = async () => {
+export const getAllMarks = async (user: TUser) => {
   const { data: allMarks, error: allMarksError } = await wrapInPromise(
-    Mark.find({}).populate("user", { username: 1, name: 1 }),
+    Mark.find({ user: user._id }).populate("user", { username: 1, name: 1 }),
   );
   if (allMarksError) {
     throw allMarksError;
