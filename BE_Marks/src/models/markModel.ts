@@ -1,12 +1,6 @@
-import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 
 const markSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
   title: {
     required: true,
     type: String,
@@ -24,12 +18,12 @@ const markSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  comments: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Comment",
-    },
-  ],
+  // comments: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: "Comment",
+  //   },
+  // ],
   createdAt: {
     required: true,
     type: Date,
@@ -37,21 +31,21 @@ const markSchema = new mongoose.Schema({
   },
 });
 
-markSchema.set("toJSON", {
-  transform(_document, returnedObject) {
-    returnedObject.id = returnedObject._id.toString();
-    returnedObject._id = {} as ObjectId;
-    returnedObject.__v = 0;
-  },
-});
+// markSchema.set("toJSON", {
+//   transform(_document, returnedObject) {
+//     // returnedObject.id = returnedObject._id.toString();
+//     // returnedObject._id = {} as ObjectId;
+//     returnedObject.__v = 0;
+//   },
+// });
 
-markSchema.set("toObject", {
-  transform(_document, returnedObject) {
-    returnedObject.id = returnedObject._id.toString();
-    returnedObject._id = {} as ObjectId;
-    returnedObject.__v = 0;
-  },
-});
+// markSchema.set("toObject", {
+//   transform(_document, returnedObject) {
+//     // returnedObject.id = returnedObject._id.toString();
+//     // returnedObject._id = {} as ObjectId;
+//     returnedObject.__v = 0;
+//   },
+// });
 
 const Mark = mongoose.model("Mark", markSchema);
 

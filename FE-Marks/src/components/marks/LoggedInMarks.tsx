@@ -17,12 +17,12 @@ import { TMark } from "../../types/mark.js";
 import Reel from "../features/Reel.tsx";
 
 const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
-  const { data: marks } = useGetAllMarksQuery();
+  const { data: marks, isSuccess } = useGetAllMarksQuery();
 
   const { classes } = useStyle();
   const tag = useAppSelector((state) => state.filterTag);
 
-  if (marks) {
+  if (isSuccess) {
     return (
       <Box component="section" sx={{ width: "100%" }}>
         <Reel />

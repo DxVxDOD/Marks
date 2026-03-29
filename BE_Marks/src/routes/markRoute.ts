@@ -11,9 +11,10 @@ import { userExtractor } from "../utils/middleware/user_extractor";
 
 const router = express.Router();
 
-router.get("/", async (_req: Request, res: Response) => {
+router.get("/", userExtractor, async (_req: Request, res: Response) => {
+  const user: TUser = res.locals.user;
   try {
-    const data = await getAllMarks();
+    const data = await getAllMarks(user);
     res.status(200).json(data);
   } catch (error) {
     res.status(400).json({ error });
