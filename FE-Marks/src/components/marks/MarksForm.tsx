@@ -25,7 +25,7 @@ const MarkForm = () => {
 
 		postMark(markObject);
 
-		navigate("/marks");
+		navigate("/");
 
 		resetTag();
 		resetTitle();

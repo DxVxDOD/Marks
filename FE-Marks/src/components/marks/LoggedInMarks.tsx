@@ -67,7 +67,7 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
 									})
 									.sort((a: TMark, b: TMark) => b.likes - a.likes)
 									.map((mark: TMark) => (
-										<Fragment key={mark.id}>
+										<Fragment key={`${mark.id}-${mark.title}`}>
 											<ListItemButton
 												aria-label="button to access marks"
 												sx={{
@@ -77,7 +77,6 @@ const LoggedInMarks = ({ user }: { user: TUserToFE }) => {
 												component={RouterLink}
 												to={`/marks/${mark.id}`}
 												state={mark}
-												key={mark.id}
 											>
 												<ListItemText key={mark.id}>
 													<Typography

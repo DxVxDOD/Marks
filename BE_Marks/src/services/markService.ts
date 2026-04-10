@@ -17,8 +17,6 @@ export const getAllMarks = async (user: TUser) => {
 		throw new Error("No marks returned");
 	}
 
-	console.log(allMarks.length);
-
 	return allMarks;
 };
 
